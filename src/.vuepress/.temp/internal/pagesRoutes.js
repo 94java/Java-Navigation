@@ -9,9 +9,9 @@ export const pagesRoutes = [
   ["v-fffb8e28","/guide/",{"title":"指南","i":"creative"},["/guide/index.html","/guide/README.md"]],
   ["v-e5db5942","/java/basic.html",{"title":""},["/java/basic","/java/basic.md"]],
   ["v-0177a387","/java/collection.html",{"title":"Java基础"},["/java/collection","/java/collection.md"]],
-  ["v-177e1f06","/guide/bar/baz.html",{"title":"Baz","i":"info"},["/guide/bar/baz","/guide/bar/baz.md"]],
-  ["v-5d5c2d30","/guide/bar/",{"title":"Bar 功能","i":"creative"},["/guide/bar/index.html","/guide/bar/README.md"]],
   ["v-0b6fc5f8","/guide/foo/ray.html",{"title":"Ray","i":"config"},["/guide/foo/ray","/guide/foo/ray.md"]],
   ["v-5d5821d6","/guide/foo/",{"title":"Foo 功能","i":"config"},["/guide/foo/index.html","/guide/foo/README.md"]],
+  ["v-177e1f06","/guide/bar/baz.html",{"title":"Baz","i":"info"},["/guide/bar/baz","/guide/bar/baz.md"]],
+  ["v-5d5c2d30","/guide/bar/",{"title":"Bar 功能","i":"creative"},["/guide/bar/index.html","/guide/bar/README.md"]],
   ["v-3706649a","/404.html",{"title":""},["/404"]],
 ]
