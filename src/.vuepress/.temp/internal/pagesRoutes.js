@@ -1,0 +1,17 @@
+export const pagesRoutes = [
+  ["v-8daa1a0e","/",{"title":"Java-Navigation","i":"home"},["/index.html","/README.md"]],
+  ["v-2e3eac9e","/slides.html",{"title":"幻灯片页","i":"slides"},["/slides","/slides.md"]],
+  ["v-4e65ec78","/demo/disable.html",{"title":"布局与功能禁用","i":"config"},["/demo/disable","/demo/disable.md"]],
+  ["v-c151bf32","/demo/encrypt.html",{"title":"密码加密的文章","i":"lock"},["/demo/encrypt","/demo/encrypt.md"]],
+  ["v-438ffe52","/demo/markdown.html",{"title":"Markdown 展示","i":"markdown"},["/demo/markdown","/demo/markdown.md"]],
+  ["v-6e19edb7","/demo/page.html",{"title":"页面配置","i":"page"},["/demo/page","/demo/page.md"]],
+  ["v-1473bf53","/demo/",{"title":"主要功能与配置演示","i":"discover"},["/demo/index.html","/demo/README.md"]],
+  ["v-fffb8e28","/guide/",{"title":"指南","i":"creative"},["/guide/index.html","/guide/README.md"]],
+  ["v-e5db5942","/java/basic.html",{"title":""},["/java/basic","/java/basic.md"]],
+  ["v-0177a387","/java/collection.html",{"title":"Java基础"},["/java/collection","/java/collection.md"]],
+  ["v-177e1f06","/guide/bar/baz.html",{"title":"Baz","i":"info"},["/guide/bar/baz","/guide/bar/baz.md"]],
+  ["v-5d5c2d30","/guide/bar/",{"title":"Bar 功能","i":"creative"},["/guide/bar/index.html","/guide/bar/README.md"]],
+  ["v-0b6fc5f8","/guide/foo/ray.html",{"title":"Ray","i":"config"},["/guide/foo/ray","/guide/foo/ray.md"]],
+  ["v-5d5821d6","/guide/foo/",{"title":"Foo 功能","i":"config"},["/guide/foo/index.html","/guide/foo/README.md"]],
+  ["v-3706649a","/404.html",{"title":""},["/404"]],
+]
