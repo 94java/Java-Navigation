@@ -15,9 +15,9 @@ export default hopeTheme({
 
   logo: "/logo.svg",
 
-  repo: "vuepress-theme-hope/vuepress-theme-hope",
+  repo: "HelloCode66/Java-Navigation",
 
-  docsDir: "demo/theme-docs/src",
+  docsDir: "src",
 
   pageInfo: ["Author", "Original", "Date", "Category", "Tag", "ReadingTime"],
 
@@ -38,9 +38,9 @@ export default hopeTheme({
 
       // sidebar
       sidebar: zhSidebar,
-
+      // toc: false,
       footer: "默认页脚",
-
+      headerDepth: 3,
       displayFooter: true,
 
       // page meta
@@ -49,7 +49,6 @@ export default hopeTheme({
       },
     },
   },
-
   encrypt: {
     config: {
       "/demo/encrypt.html": ["1234"],
@@ -64,11 +63,11 @@ export default hopeTheme({
       /**
        * Using Giscus
        */
-      // provider: "Giscus",
-      // repo: "vuepress-theme-hope/giscus-discussions",
-      // repoId: "R_kgDOG_Pt2A",
-      // category: "Announcements",
-      // categoryId: "DIC_kwDOG_Pt2M4COD69",
+      provider: "Giscus",
+      repo: "HelloCode66/Java-Navigation",
+      repoId: "R_kgDOIlB9ZQ",
+      category: "General",
+      categoryId: "DIC_kwDOIlB9Zc4CS-_q",
 
       /**
        * Using Twikoo
@@ -79,8 +78,8 @@ export default hopeTheme({
       /**
        * Using Waline
        */
-      provider: "Waline",
-      serverURL: "https://vuepress-theme-hope-comment.vercel.app",
+      // provider: "Waline",
+      // serverURL: "https://vuepress-theme-hope-comment.vercel.app",
     },
 
     // Disable features you don’t want here
@@ -116,6 +115,17 @@ export default hopeTheme({
                 tag: "Badge",
                 attrs: { type: "tip" },
                 content: "Recommended",
+              };
+          },
+        },
+        {
+          matcher: "",
+          replacer: ({ tag, attrs, content }) => {
+            if (tag === "em")
+              return {
+                tag: "span",
+                attrs: { ...attrs, style: "color: red" },
+                content,
               };
           },
         },

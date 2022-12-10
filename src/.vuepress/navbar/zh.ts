@@ -5,10 +5,10 @@ export const zhNavbar = navbar([
   {
     text: "Java",
     icon: "java",
-    prefix: "/java",
+    prefix: "/md/java",
     children: [
       {
-        text: "基础语法",
+        text: "基础",
         link: "/basic",
         activeMatch: "^/java/basic",
       },
@@ -18,12 +18,12 @@ export const zhNavbar = navbar([
         activeMatch: "^/java/collection"
       },
       {
-        text: "并发编程",
+        text: "并发",
         link: "/concurrency",
         activeMatch: "^/java/concurrency"
       },
       {
-        text: "IO操作",
+        text: "IO",
         link: "/io",
         activeMatch: "^/java/io"
       },
@@ -33,7 +33,7 @@ export const zhNavbar = navbar([
         activeMatch: "^/java/jvm"
       },
       {
-        text: "新版本特性",
+        text: "新特性",
         link: "/new",
         activeMatch: "^/java/new"
       },
@@ -152,16 +152,30 @@ export const zhNavbar = navbar([
     prefix: "/zh/guide/",
     children: [
       {
-        text: "Maven",
-        link: "/",
+        text: "部署",
+        children: [
+          {
+            text: "Linux",
+            link: "/",
+          },
+          {
+            text: "Docker",
+            link: "/",
+          },
+        ]
       },
       {
-        text: "Git",
-        link: "/",
-      },
-      {
-        text: "Linux",
-        link: "/",
+        text: "工具",
+        children: [
+          {
+            text: "Maven",
+            link: "/",
+          },
+          {
+            text: "Git",
+            link: "/",
+          },
+        ]
       },
       {
         text: "Web 容器",
@@ -199,6 +213,13 @@ export const zhNavbar = navbar([
     children: [
       { text: "...", link: "/" },
     ],
+  },
+  {
+    text: "面试",
+    link: "/zh/guide/README.md",
+    icon: "editor",
+    // 仅在 `/zh/guide/` 激活
+    activeMatch: "^/zh/guide/$",
   },
   {
     text: "项目",

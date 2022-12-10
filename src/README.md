@@ -1,7 +1,7 @@
 ---
 home: true
 icon: home
-title: Java-Navigation
+title: 首页
 heroImage: /logo.svg
 heroText: Java-Navigation
 tagline: 从自学角度出发，包含Java基础入门、web开发以及各种框架、中间件以及数据库和部署工具的全栈知识体系✨
@@ -30,6 +30,7 @@ features:
 copyright: Copyright © 2022- HelloCode.
 footer: <a href="http://beian.miit.gov.cn/" target="_blank">陕ICP备20011166号-3</a>
 ---
+
 
 ## 🎉微信公众号
 
