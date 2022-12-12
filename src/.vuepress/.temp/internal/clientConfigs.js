@@ -9,6 +9,8 @@ import clientConfig7 from 'E:/Java/project/Java-Navigation/node_modules/vuepress
 import clientConfig8 from 'E:/Java/project/Java-Navigation/src/.vuepress/.temp/md-enhance/config.js'
 import clientConfig9 from 'E:/Java/project/Java-Navigation/node_modules/vuepress-plugin-photo-swipe/lib/client/config.js'
 import clientConfig10 from 'E:/Java/project/Java-Navigation/src/.vuepress/.temp/theme-hope/config.js'
+import clientConfig11 from 'E:/Java/project/Java-Navigation/src/.vuepress/.temp/register-components/clientConfig.65e89ea5.js'
+import clientConfig12 from 'E:/Java/project/Java-Navigation/src/.vuepress/client.ts'
 
 export const clientConfigs = [
   clientConfig0,
@@ -22,4 +24,6 @@ export const clientConfigs = [
   clientConfig8,
   clientConfig9,
   clientConfig10,
+  clientConfig11,
+  clientConfig12,
 ]

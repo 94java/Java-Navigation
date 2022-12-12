@@ -1,5 +1,5 @@
 import {
-  computed,
+  computed2 as computed,
   defineComponent,
   getCurrentInstance,
   h,
@@ -15,9 +15,9 @@ import {
   unref,
   watch,
   watchEffect
-} from "./chunk-M4L6X7SD.js";
-import "./chunk-MQXBTJN7.js";
-import "./chunk-F4AF7QOS.js";
+} from "./chunk-W3H73K7W.js";
+import "./chunk-5FAFY5BW.js";
+import "./chunk-BHN6OJC3.js";
 
 // node_modules/@vue/devtools-api/lib/esm/env.js
 function getDevtoolsGlobalHook() {

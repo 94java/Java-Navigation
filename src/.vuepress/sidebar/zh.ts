@@ -9,4 +9,12 @@ export const zhSidebar = sidebar({
       children: "structure"
     }
   ],
+  "/md/spring/": [
+    {
+      text: "Spring",
+      icon: "guide",
+      collapsible: true,
+      children: "structure"
+    }
+  ],
 });

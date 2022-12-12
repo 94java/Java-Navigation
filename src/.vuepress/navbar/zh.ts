@@ -1,7 +1,7 @@
 import { navbar } from "vuepress-theme-hope";
 
 export const zhNavbar = navbar([
-  { text: "导航", icon: "discover", link: "/" },
+  { text: "导航", icon: "discover", link: "/md/quick_nav" },
   {
     text: "Java",
     icon: "java",
@@ -10,32 +10,37 @@ export const zhNavbar = navbar([
       {
         text: "基础",
         link: "/basic",
-        activeMatch: "^/java/basic",
+        activeMatch: "^/md/java/basic",
       },
       {
         text: "容器",
         link: "/collection",
-        activeMatch: "^/java/collection"
+        activeMatch: "^/md/java/collection"
       },
       {
         text: "并发",
         link: "/concurrency",
-        activeMatch: "^/java/concurrency"
+        activeMatch: "^/md/java/concurrency"
       },
       {
         text: "IO",
         link: "/io",
-        activeMatch: "^/java/io"
+        activeMatch: "^/md/java/io"
       },
       {
         text: "JVM",
         link: "/jvm",
-        activeMatch: "^/java/jvm"
+        activeMatch: "^/md/java/jvm"
       },
       {
         text: "新特性",
         link: "/new",
-        activeMatch: "^/java/new"
+        activeMatch: "^/md/java/new"
+      },
+      {
+        text: "JavaWEB",
+        link: "/javaweb",
+        activeMatch: "^/md/java/javaweb",
       },
     ]
   },
@@ -54,22 +59,22 @@ export const zhNavbar = navbar([
   {
     text: "Spring",
     icon: "emmet",
-    prefix: "/spring/",
+    prefix: "/md/spring",
     children: [
       {
         text: "SpringFramework",
         link: "/framework",
-        activeMatch: "^/java/framework",
+        activeMatch: "^/md/spring/framework",
       },
       {
         text: "SpringMVC",
-        link: "/network",
-        activeMatch: "^/java/network",
+        link: "/mvc",
+        activeMatch: "^/md/spring/mvc",
       },
       {
         text: "SpringBoot",
-        link: "/network",
-        activeMatch: "^/java/network",
+        link: "/boot",
+        activeMatch: "^/md/spring/boot",
       },
     ],
   },

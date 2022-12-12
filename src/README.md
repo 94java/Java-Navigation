@@ -4,10 +4,10 @@ icon: home
 title: 首页
 heroImage: /logo.svg
 heroText: Java-Navigation
-tagline: 从自学角度出发，记录自学所得，并不断完善、更新。包含：Java基础知识体系、web开发用到的前端知识以及常用的各种框架和中间件，涵盖计算机基础、数据库、部署工具以及代码风格和规范的全栈知识体系（含面试和实战项目推荐）✨
+tagline: 从自学角度出发，记录自学所得，并不断完善、更新。包含：Java基础知识、web开发用到的前端知识以及常用的各种框架和中间件，涵盖计算机基础、数据库、部署工具以及代码风格和规范的全栈知识体系（含面试和实战项目推荐）✨
 actions:
-  - text: 开发导航 🎡
-    link: /zh/demo/
+  - text: 开始阅读 🏹
+    link: /md/java/basic
     type: primary
 
   - text: 关于作者

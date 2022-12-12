@@ -1,6 +1,8 @@
 ---
 title: "基础"
 order: 2
+category:
+  - Java
 ---
 
 [[toc]]

@@ -1,0 +1,1 @@
+import{aP as a,M as r,N as t,O as e,a9 as c}from"./framework.308787e7.js";const s={},o=e("h1",{id:"学习资料",tabindex:"-1"},[e("a",{class:"header-anchor",href:"#学习资料","aria-hidden":"true"},"#"),c(" 学习资料")],-1),n=[o];function _(d,i){return r(),t("div",null,n)}const l=a(s,[["render",_],["__file","resource.html.vue"]]);export{l as default};

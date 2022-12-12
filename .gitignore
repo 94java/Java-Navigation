@@ -10,6 +10,6 @@
 # Vuepress Temp
 .temp/
 # Vuepress Output
-dist/
+# dist/
 # Build files
 packages/*/lib/

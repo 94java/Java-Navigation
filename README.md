@@ -1,6 +1,6 @@
 <div align="center">
     <p>
-        <a href="https://github.com/Snailclimb/JavaGuide" target="_blank">
+        <a href="https://github.com/HelloCode66/Java-Navigation" target="_blank">
             <img src="http://images.hellocode.top/logo.png" width="" />
         </a>
     </p>
@@ -18,6 +18,7 @@
         <a href="https://gitee.com/HelloCode88/Java-Navigation" target="_blank">Gitee</a>
     </p>  
 </div>
+
 👉 <a href="https://book.hellocode.top" target="_blank">Java-Navigation在线阅读</a>
 
 ✨ <a href="https://github.com/HelloCode66/Java-Navigation" target="_blank">GitHub仓库（推荐首选）</a>

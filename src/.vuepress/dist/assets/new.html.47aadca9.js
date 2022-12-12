@@ -1,0 +1,1 @@
+import{aP as a,M as t,N as c,O as e,a9 as n}from"./framework.308787e7.js";const r={},s=e("h1",{id:"新特性",tabindex:"-1"},[e("a",{class:"header-anchor",href:"#新特性","aria-hidden":"true"},"#"),n(" 新特性")],-1),o=[s];function _(d,i){return t(),c("div",null,o)}const l=a(r,[["render",_],["__file","new.html.vue"]]);export{l as default};

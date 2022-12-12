@@ -1,1 +1,1 @@
-export const sidebarData = {"/md/java/":["outline.md","basic.md","collection.md","concurrency.md","io.md","jvm.md","new.md","interview.md","resource.md"]};
+export const sidebarData = {"/md/java/":["outline.md","basic.md","collection.md","concurrency.md","io.md","jvm.md","new.md","javaweb.md","interview.md","resource.md"],"/md/spring/":["outline.md","framework.md","mvc.md","boot.md","interview.md","resource.md"]};
