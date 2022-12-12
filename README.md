@@ -21,6 +21,8 @@
 
 👉 <a href="https://book.hellocode.top" target="_blank">Java-Navigation在线阅读</a>
 
+👉 <a href="https://hellocode88.gitee.io/java-navigation/" target="_blank">在线阅读【备用】</a>
+
 ✨ <a href="https://github.com/HelloCode66/Java-Navigation" target="_blank">GitHub仓库（推荐首选）</a>
 
 🚂 <a href="https://gitee.com/HelloCode88/Java-Navigation" target="_blank">Gitee仓库（网速慢时推荐）</a>

@@ -168,7 +168,7 @@ public class UserController {
 
 ## 二、基本配置
 
-#### Controller加载控制
+### 1、Controller加载控制
 
 - SpringMVC的处理器对应的bean必须按照规范格式开发，为避免加入无效的bean可通过bean加载过滤器进行包含设定或排除设定，表现层bean标注通常设定为`@Controller`
 
@@ -187,7 +187,7 @@ public class UserController {
   - 过滤器类型为通过注解进行过滤
   - 过滤的注解名称为`Controller`
 
-#### 静态资源加载
+### 2、静态资源加载
 
 - 核心控制器拦截的是所有请求，需要对静态资源请求进行放行，通过配置放行资源实现
 
@@ -197,11 +197,12 @@ public class UserController {
   ```
 
 - 使用简化格式可以放行所有普通资源调用，无需一一枚举
+  
   `<mvc:default-servlet-handler />`
 
-#### 中文乱码处理
+### 3、中文乱码处理
 
-- SpringMVC提供专用的中文字符过滤器，用于处理乱码问题
+> SpringMVC提供专用的中文字符过滤器，用于处理乱码问题
 
 ```XML
 <filter>
@@ -218,7 +219,7 @@ public class UserController {
 </filter-mapping>
 ```
 
-#### 注解驱动
+### 4、注解驱动
 
 *使用注解形式转化SpringMVC核心配置文件为配置类*
 
@@ -359,30 +360,33 @@ public class ServletContainerInitConfig extends AbstractDispatcherServletInitial
 
 ## 三、请求
 
-#### 请求参数
+### 1、请求参数
 
 - SpringMVC将传递的参数封装到处理器方法的形参中，达到快速访问参数的目的
-  访问URL：`http://localhost/requestParam?name=hellocode`
-
+  
+访问URL：`http://localhost/requestParam?name=hellocode`
+  
   ```java
   @RequestMapping("/requestParam")
   public String requestParam(String name){
       System.out.println("name="+name);
       return "page.jsp";
   }
-  ```
+```
 
-- 请求参数类型
-  - 普通类型参数
-  - POJO类型参数
-  - 数组类型参数
-  - 集合类型参数
+**请求参数类型**
+
+- 普通类型参数
+- POJO类型参数
+- 数组类型参数
+- 集合类型参数
 
 **普通类型参数**
 
 - 参数名与处理器方法形参名保持一致
-  访问URL：`http://localhost/requestParam?name=hellocode&age=14`
-
+  
+访问URL：`http://localhost/requestParam?name=hellocode&age=14`
+  
   ```java
   @RequestMapping("/requestParam")
   public String requestParam(String name,String age){
@@ -401,131 +405,138 @@ public class ServletContainerInitConfig extends AbstractDispatcherServletInitial
 
 - 作用：绑定请求参数与对应处理方法形参间的关系
 
-- 范例
 
-  ```java
-  @RequestMapping("/requestParam")
-  public String requestParam(@RequestParam(
-      							name = "userName",
-      							required = true,
-      							defaultValue = "hellocode") String name){
-      System.out.println("name=" + name);
-      return "page.jsp";
-  }
-  ```
+范例
 
-  - 访问路径：`/requestParam/userName=hellocode`
+```java
+@RequestMapping("/requestParam")
+public String requestParam(@RequestParam(
+    name = "userName",
+    required = true,
+    defaultValue = "hellocode") String name){
+    System.out.println("name=" + name);
+    return "page.jsp";
+}
+```
+
+- 访问路径：`/requestParam/userName=hellocode`
 
 **POJO类型参数**
 
 - 当POJO中使用简单类型属性时，参数名称与POJO类属性名保持一致
-  访问URL：`http://localhost/requestParam?name=hellocode&age=14`
-
+  
+访问URL：`http://localhost/requestParam?name=hellocode&age=14`
+  
   ```java
   public class User{
       private String name;
       private Integer age;
   }
-  ```
-
+```
+  
   ```java
   @RequestMapping("/requestParam")
   public String requestParam(User user){
       System.out.println("name="+user.getName());
       return "page.jsp";
   }
-  ```
-
+```
+  
 - 当POJO类型属性与其他形参出现同名问题时，将被同时赋值
-  建议使用`@RequestParam`注解进行区分
-
+  
+建议使用`@RequestParam`注解进行区分
+  
   ```java
   @RequestMapping("/requestParam")
   public String requestParam(User user, String age){
       System.out.println("user.age=" + user.getAge() + ",age=" + age);
       return "page.jsp";
   }
-  ```
-
+```
+  
   ```java
   public class User{
       private String name;
       private Integer age;
   }
-  ```
-
+```
+  
   > 这时age既会给User中的age属性赋值，同时也会给方法的形参age赋值
 
 *复杂POJO类型参数*
 
 - 当POJO中出现对象属性时，参数名称与对象层次结构名称保持一致
+
   访问URL：`http://localhost/request?address.province=beijing`
 
 ![img](http://images.hellocode.top/9dacef404344457298390898ea1c6279.png)
 
 - 当POJO中出现集合，保存简单数据，使用多个相同名称的参数为其进行赋值
-  访问URL：`http://localhost/requestParam?nick=Jock1&nick=Jock2`
-
+  
+访问URL：`http://localhost/requestParam?nick=Jock1&nick=Jock2`
+  
   ```java
   public class User{
       private List<String> nick;
   }
-  ```
-
+```
+  
   ```java
   @RequestMapping("/requestParam")
   public String requestParam(User user){
       System.out.println("user.nick=" + user.getNick());
       return "page.jsp";
   }
-  ```
-
+```
+  
 - 当POJO中出现List，保存对象数据，参数名称与对象层次结构名称保持一致，使用数组格式描述集合中对象的位置
-  访问URL：`http://localhost/requestParam?addresses[0].province=bj&addresses[1].province=tj`
-
+  
+访问URL：`http://localhost/requestParam?addresses[0].province=bj&addresses[1].province=tj`
+  
   ```java
   public class User{
       private String name;
       private Integer age;
       private List<Address> addresses;
   }
-  ```
-
+```
+  
   ```java
   public class Address{
       private String province;
       private String city;
       private String address;
   }
-  ```
-
+```
+  
   ```java
   @RequestMapping("/requestParam")
   public String requestParam(User user){
       System.out.println("user.addresses=" + user.getAddress());
       return "page.jsp";
   }
-  ```
-
+```
+  
 - 当POJO中出现Map，保存对象数据，参数名称与对象层次结构名称保持一致，使用映射格式描述集合中对象的位置
-  访问URL：`http://localhost/requestParam?addressMap['home'].province=bj&addressMap['job'].province=tj`
-
+  
+访问URL：`http://localhost/requestParam?addressMap['home'].province=bj&addressMap['job'].province=tj`
+  
   ```java
   public class User{
       private String name;
       private Integer age;
       private Map<String,Address> addressMap;
   }
-  ```
-
+```
+  
   ```java
   public class Address{
       private String province;
       private String city;
       private String address;
   }
-  ```
-
+```
+  
   ```java
   @RequestMapping("/requestParam")
   public String requestParam(User user){
@@ -537,8 +548,9 @@ public class ServletContainerInitConfig extends AbstractDispatcherServletInitial
 **数组类型参数**
 
 - 请求参数名与处理器方法形参名保持一致，且请求参数数量>1个
-  访问URL：`http://localhost/requestParam?nick=Jock&nick=zahc`
-
+  
+访问URL：`http://localhost/requestParam?nick=Jock&nick=zahc`
+  
   ```java
   @RequestMapping("/requestParam")
   public String requestParam(String[] nick){
@@ -550,8 +562,9 @@ public class ServletContainerInitConfig extends AbstractDispatcherServletInitial
 **集合类型参数**
 
 - 保存简单型数据，请求参数名与处理器方法形参名保持一致，且请求参数数量>1个
-  访问URL：`http://localhost/requestParam?nick=Jock&nick=skaa`
-
+  
+访问URL：`http://localhost/requestParam?nick=Jock&nick=skaa`
+  
   ```java
   @RequestMapping("/requestParam")
   public String requestParam(@RequestParam("nick") List<String> nick){
@@ -564,9 +577,9 @@ public class ServletContainerInitConfig extends AbstractDispatcherServletInitial
 
 - 集合存储引用类型数据POJO使用异步调用的形式进行，此处了解即可
 
-#### 类型转换器
+### 2、类型转换器
 
-- SpringMVC对接收的数据进行自动类型转换，该工作通过Converter接口实现
+> SpringMVC对接收的数据进行自动类型转换，该工作通过Converter接口实现
 
 **标量转换器**
 
@@ -661,7 +674,7 @@ public class ServletContainerInitConfig extends AbstractDispatcherServletInitial
 
 **自定义类型转换器**
 
-- 自定义类型转换器，实现Converter接口，并制定转换前与转换后的类型
+> 自定义类型转换器，实现Converter接口，并制定转换前与转换后的类型
 
 ```xml
 <!--1.将自定义Converter注册为Bean，受SpringMVC管理-->
@@ -704,7 +717,7 @@ public class MyDateConverter implements Converter<String, Date> {
 <mvc:annotation-driven conversion-service="conversionService"/>
 ```
 
-#### 请求映射
+### 3、请求映射
 
 - 名称：`@RequestMapping`
 
@@ -769,20 +782,25 @@ public String requestParam15() {
 
 ## 四、响应
 
-- 页面
-  - HTML（页面）
-  - JSP（页面+数据）
-  - ......
-- 数据
-  - JSON数据
-  - XML数据
-  - 文本数据
-- 文件
-  - 数据流
+**页面**
+
+- HTML（页面）
+- JSP（页面+数据）
+- ......
+
+**数据**
+
+- JSON数据
+- XML数据
+- 文本数据
+
+**文件**
+
+- 数据流
 
 > 不论是页面、数据还是文件，最终传递的都是数据流
 
-#### 无数据跳转页面
+### 1、无数据跳转页面
 
 - 当处理器方法的返回值类型为String类型，即可通过具体的返回值设置访问的页面
 
@@ -855,7 +873,7 @@ public String requestParam15() {
   }
   ```
 
-#### 带数据跳转页面
+### 2、带数据跳转页面
 
 **方式一**：使用HttpServletRequest类型形参进行数据传递
 
@@ -904,7 +922,7 @@ public ModelAndView showPageAndData(ModelAndView modelAndView){
 - Model：仅封装数据
 - ModelAndView：封装数据并封装视图，包含Model和View两个对象
 
-#### 纯数据返回（JSON）
+### 3、纯数据返回（JSON）
 
 **方式一**：使用response对象完成数据返回
 
@@ -986,7 +1004,7 @@ public Book showData() throws JsonProcessingException{
   }
   ```
 
-#### Servlet相关接口
+### 4、Servlet相关接口
 
 **HttpServletRequest / HttpServletResponse / HttpSession**
 
