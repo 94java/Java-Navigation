@@ -7,7 +7,7 @@ const __dirname = getDirname(import.meta.url);
 
 export default defineUserConfig({
 
-  base: "/",
+  base: "/java-navigation/",
 
   locales: {
     "/": {
