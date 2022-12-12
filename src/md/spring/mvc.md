@@ -802,18 +802,18 @@ public String requestParam15() {
 
 ### 1、无数据跳转页面
 
-- 当处理器方法的返回值类型为String类型，即可通过具体的返回值设置访问的页面
+当处理器方法的返回值类型为String类型，即可通过具体的返回值设置访问的页面
 
-  ```java
-  @Controller
-  public class UserController{
-      @RequestMapping("/showPage")
-      public String showPage(){
-          System.out.println("user mvc controller is running ...");
-          return "page.jsp";
-      }
-  }
-  ```
+```java
+@Controller
+public class UserController{
+    @RequestMapping("/showPage")
+    public String showPage(){
+        System.out.println("user mvc controller is running ...");
+        return "page.jsp";
+    }
+}
+```
 
 **页面跳转方式**
 
@@ -1008,7 +1008,7 @@ public Book showData() throws JsonProcessingException{
 
 **HttpServletRequest / HttpServletResponse / HttpSession**
 
-- SpringMVC提供访问原始Servlet接口API的功能，通过形参声明即可
+> SpringMVC提供访问原始Servlet接口API的功能，通过形参声明即可
 
 ```java
 @RequestMapping("/servletApi")
@@ -1108,17 +1108,18 @@ public String servletApi(HttpServletRequest request, HttpServletResponse respons
 
 **注解式参数数据封装底层原理**
 
-- 数据的来源不同，对应的处理策略要进行区分
-  - Head
-  - Cookie
-  - Session
-- SpringMVC使用策略模式进行处理分发
-  - 顶层接口： HandlerMethodArgumentResolver
-  - 实现类： ……
+数据的来源不同，对应的处理策略要进行区分
+- Head
+- Cookie
+- Session
+
+SpringMVC使用策略模式进行处理分发
+- 顶层接口： HandlerMethodArgumentResolver
+- 实现类： ……
 
 ## 五、异步调用
 
-#### 发送异步请求
+### 1、发送异步请求
 
 **内容回顾**
 
@@ -1127,16 +1128,16 @@ public String servletApi(HttpServletRequest request, HttpServletResponse respons
 <script type="text/javascript" src="/js/jquery-3.3.1.min.js"></script>
 <script type="text/javascript">
     $(function(){
-    $("#testAjax").click(function(){ 		//为id="testAjax"的组件绑定点击事件
-        $.ajax({ 							//发送异步调用
-            type:"POST", 					//请求方式： POST请求
-            url:"ajaxController", 			//请求参数（也就是请求内容）
-            data:'ajax message', 			//请求参数（也就是请求内容）
-            dataType:"text", 				//响应正文类型
-            contentType:"application/text", //请求正文的MIME类型
+        $("#testAjax").click(function(){ 		//为id="testAjax"的组件绑定点击事件
+            $.ajax({ 							//发送异步调用
+                type:"POST", 					//请求方式： POST请求
+                url:"ajaxController", 			//请求参数（也就是请求内容）
+                data:'ajax message', 			//请求参数（也就是请求内容）
+                dataType:"text", 				//响应正文类型
+                contentType:"application/text", //请求正文的MIME类型
+            });
         });
     });
-});
 </script>
 ```
 
@@ -1170,14 +1171,13 @@ public String servletApi(HttpServletRequest request, HttpServletResponse respons
   ```
 
   ```java
-  
   @RequestMapping("/ajaxController")
   public String ajaxController(@RequestBody String message){
       System.out.println(message);
       return "page.jsp";
   }
   ```
-
+  
 - 注解添加到Pojo参数前方时，封装的异步提交数据按照Pojo的属性格式进行关系映射
 
   ```javascript
@@ -1227,7 +1227,7 @@ public String  ajaxListToController(@RequestBody List<User> userList){
 }
 ```
 
-#### 返回异步请求数据
+### 2、返回异步请求数据
 
 **异步请求响应**（回顾）
 
@@ -1316,7 +1316,7 @@ public List ajaxReturnJsonList(){
   }
   ```
 
-#### 跨域访问
+### 3、跨域访问
 
 - 当通过域名A下的操作访问域名B下的资源时，称为跨域访问
 - 跨域访问时，会出现无法访问的现象
@@ -1363,16 +1363,20 @@ public User cross(HttpServletRequest request){
 
 ## 六、拦截器
 
-#### 概念
+### 1、概念
+
+> 拦截器（Interceptor）是一种动态拦截方法调用的机制
 
 ![](http://images.hellocode.top/Yk9FxAhsD6ijnzc.png)
 
-- 拦截器（Interceptor）是一种动态拦截方法调用的机制
-- 作用（增强）
-  - 在指定方法调用前后执行预先设定后的代码
-  - 阻止原始方法的执行
-- 核心原理：AOP思想
-- 拦截器链：多个拦截器按照一定的顺序，对原始被调用功能进行增强
+**作用**（增强）
+
+- 在指定方法调用前后执行预先设定后的代码
+- 阻止原始方法的执行
+
+**核心原理**：AOP思想
+
+**拦截器链**：多个拦截器按照一定的顺序，对原始被调用功能进行增强
 
 ![](http://images.hellocode.top/1HpxjdrV4s8cDBR.png)
 
@@ -1382,7 +1386,7 @@ public User cross(HttpServletRequest request){
 
 - 拦截内容不同：Filter对所有访问进行增强，Interceptor仅针对SpringMVC的访问进行增强
 
-#### 自定义拦截器
+### 2、自定义拦截器
 
 **拦截器开发**
 
@@ -1426,7 +1430,7 @@ public User cross(HttpServletRequest request){
 
   ```xml
   <mvc:interceptors>
-      <mvx:interceptor>
+      <mvc:interceptor>
       	<mvc:mapping path="/showPage" />
           <bean class="top.hellocode.interceptor.MyInterceptor" />
       </mvx:interceptor>
@@ -1439,7 +1443,7 @@ public User cross(HttpServletRequest request){
 
 ![](http://images.hellocode.top/oezQ17y9ElhPxBS.png)
 
-#### 配置与方法参数
+### 3、配置与方法参数
 
 **方法参数**
 
@@ -1468,7 +1472,7 @@ public User cross(HttpServletRequest request){
 
 ![](http://images.hellocode.top/qJy7XrHl9U1R3pZ.png)
 
-#### 责任链模式
+### 4、责任链模式
 
 - 当配置多个拦截器时，形成拦截器链
 - 拦截器链的运行顺序参照配置的先后顺序
@@ -1481,22 +1485,28 @@ public User cross(HttpServletRequest request){
 
 - 责任链模式是一种行为模式
 - 特征：沿着一条预先设定的任务链顺序执行，每个结点具有独立的工作任务
-- 优势:
-  - 独立性:只关注当前节点的任务，对其他任务直接放行到下一节点
-  - 隔离性:具备链式传递特征，无需知晓整体链路结构，只需等待请求到达后进行处理即可
-  - 灵活性:可以任意修改链路结构动态新增或删减整体链路责任
-  - 解耦:将动态任务与原始任务解耦
-- 弊端:
-  - 链路过长时，处理效率低下
-  - 可能存在节点上的循环引用现象，造成死循环，导致系统崩溃
-- 拦截器链的运行顺序
-  - preHandler:与配置顺序相同，必定运行
-  - postHandler:与配置顺序相反，可能不运行
-  - afterCompletion:与配置顺序相反，可能不运行
+
+**优势**
+
+- 独立性:只关注当前节点的任务，对其他任务直接放行到下一节点
+- 隔离性:具备链式传递特征，无需知晓整体链路结构，只需等待请求到达后进行处理即可
+- 灵活性:可以任意修改链路结构动态新增或删减整体链路责任
+- 解耦:将动态任务与原始任务解耦
+
+**弊端**
+
+- 链路过长时，处理效率低下
+- 可能存在节点上的循环引用现象，造成死循环，导致系统崩溃
+
+**拦截器链的运行顺序**
+
+- preHandler:与配置顺序相同，必定运行
+- postHandler:与配置顺序相反，可能不运行
+- afterCompletion:与配置顺序相反，可能不运行
 
 ## 七、异常处理
 
-#### 异常处理
+### 1、非注解异常处理
 
 **HandlerExceptionResolver接口**（异常处理器）
 
@@ -1520,33 +1530,33 @@ public class ExceptionResolver implements HandlerExceptionResolver {
 }
 ```
 
-- 根据异常的种类不同，进行分门别类的管理，返回不同的信息
+根据异常的种类不同，进行分门别类的管理，返回不同的信息
 
-  ```java
-  public class ExceptionResolver implements HandlerExceptionResolver {
-      @Override
-      public ModelAndView resolveException(HttpServletRequest request,
-                                           HttpServletResponse response,
-                                           Object handler,
-                                           Exception ex) {
-          System.out.println("my exception is running ...."+ex);
-          ModelAndView modelAndView = new ModelAndView();
-          
-          if( ex instanceof NullPointerException){
-              modelAndView.addObject("msg","空指针异常");
-          }else if ( ex instanceof  ArithmeticException){
-              modelAndView.addObject("msg","算数运算异常");
-          }else{
-              modelAndView.addObject("msg","未知的异常");
-          }
-          
-          modelAndView.setViewName("error.jsp");
-          return modelAndView;
-      }
-  }
-  ```
+```java
+public class ExceptionResolver implements HandlerExceptionResolver {
+    @Override
+    public ModelAndView resolveException(HttpServletRequest request,
+                                         HttpServletResponse response,
+                                         Object handler,
+                                         Exception ex) {
+        System.out.println("my exception is running ...."+ex);
+        ModelAndView modelAndView = new ModelAndView();
+        
+        if( ex instanceof NullPointerException){
+            modelAndView.addObject("msg","空指针异常");
+        }else if ( ex instanceof  ArithmeticException){
+            modelAndView.addObject("msg","算数运算异常");
+        }else{
+            modelAndView.addObject("msg","未知的异常");
+        }
+        
+        modelAndView.setViewName("error.jsp");
+        return modelAndView;
+    }
+}
+```
 
-#### 注解异常处理
+### 2、注解异常处理
 
 **使用注解实现异常分类管理**
 
@@ -1611,7 +1621,7 @@ public class ExceptionResolver implements HandlerExceptionResolver {
 - 注解处理器可以拦截到入参类型转换异常
 - 非注解处理器无法拦截到入参类型转换异常
 
-#### 项目异常处理方案
+### 3、项目异常处理方案
 
 **异常分类**
 
@@ -1791,25 +1801,25 @@ public class UserController {
 
 ## 八、实用技术
 
-#### 文件上传下载
+### 1、文件上传下载
 
 ![](http://images.hellocode.top/iSjbkICsWUGYnAr.png)
 
 **MultipartResolver接口**
 
-- MultipartResolver接口定义了文件上传过程中的相关操作，并对通用性操作进行了封装
+> MultipartResolver接口定义了文件上传过程中的相关操作，并对通用性操作进行了封装
 
-  - MultipartResolver接口底层实现类CommonsMultipartResolver
-  - CommonsMultipartResolver并未自主实现文件上传下载对应的功能，而是调用了apache的文件上传下载组件
+- MultipartResolver接口底层实现类CommonsMultipartResolver
+- CommonsMultipartResolver并未自主实现文件上传下载对应的功能，而是调用了apache的文件上传下载组件
 
-  ```xml
-  <!--文件上传下载-->
-  <dependency>
-      <groupId>commons-fileupload</groupId>
-      <artifactId>commons-fileupload</artifactId>
-      <version>1.4</version>
-  </dependency>
-  ```
+```xml
+<!--文件上传下载-->
+<dependency>
+    <groupId>commons-fileupload</groupId>
+    <artifactId>commons-fileupload</artifactId>
+    <version>1.4</version>
+</dependency>
+```
 
 *SpringMVC配置*
 
@@ -1913,20 +1923,25 @@ public String fileupload(MultipartFile file,MultipartFile file1,MultipartFile fi
 }
 ```
 
-#### Restful
+### 2、Restful
 
 **Rest**
 
-- Rest(REpresentational State Transfer)：一种网络资源的访问风格，定义了网络资源的访问方式
-- 传统风格访问路径
-  - `http://localhost/user/get?id=1`
-  - `http://localhost/deleteUser?id=1`
-- Rest风格访问路径
-  - `http://localhost/user/1`
-- Restful是按照Rest风格访问网络资源
-- 优点
-  - 隐藏资源的访问行为，通过地址无法得知做的是何种操作
-  - 书写简化
+> Rest(REpresentational State Transfer)：一种网络资源的访问风格，定义了网络资源的访问方式
+>
+> Restful是按照Rest风格访问网络资源
+
+传统风格访问路径
+- `http://localhost/user/get?id=1`
+- `http://localhost/deleteUser?id=1`
+
+Rest风格访问路径
+
+- `http://localhost/user/1`
+
+优点
+- 隐藏资源的访问行为，通过地址无法得知做的是何种操作
+- 书写简化
 
 **Rest行为约定方式**
 
@@ -1939,11 +1954,10 @@ public String fileupload(MultipartFile file,MultipartFile file1,MultipartFile fi
 
 **Restful开发入门**
 
-SpringMVC支持Restful
-
 - 请求路径访问配置发生变化
-  - 控制器定义方式发生变化
-  - 页面调用方式发生变化
+
+- 控制器定义方式发生变化
+- 页面调用方式发生变化
 
 *Restful风格基本配置*
 
@@ -2039,11 +2053,11 @@ public class UserController {
 
 **postman**
 
-- 一款可以发送Restful风格请求的工具，方便开发调试，首次运行需要联网注册
+> 一款可以发送Restful风格请求的工具，方便开发调试，首次运行需要联网注册
 
 ![](http://images.hellocode.top/KfihaLkc5zHCZoM.png)
 
-#### 表单校验
+### 3、表单校验
 
 **表单校验分类**
 
@@ -2134,7 +2148,7 @@ public class UserController {
 
 **Hibernate框架**
 
-- 包含一套独立的校验框架hibernate-validator
+> 包含一套独立的校验框架hibernate-validator
 
 ```xml
 <dependency>
@@ -2158,16 +2172,17 @@ public class UserController {
 
 - 作用：设定对当前实体类类型参数进行校验
 
-- 范例
 
-  ```java
-  @RequestMapping("/addemployee")
-  public String addEmployee(@Valid Employee employee){
-      System.out.println(employee);
-  }
-  ```
+范例
 
-  > 注意：开启校验仅能对实体类类型参数进行，校验是对实体类类型参数中的属性进行校验
+```java
+@RequestMapping("/addemployee")
+public String addEmployee(@Valid Employee employee){
+    System.out.println(employee);
+}
+```
+
+> 注意：开启校验仅能对实体类类型参数进行，校验是对实体类类型参数中的属性进行校验
 
 **设定校验规则**
 
@@ -2179,18 +2194,19 @@ public class UserController {
 
 - 作用：设定当前属性校验规则
 
-- 范例
 
-  ```java
-  public class Employee{
-      @NotNull(message = "姓名不能为空")
-      private String name;		// 员工姓名
-  }
-  ```
+范例
 
-  > 每个校验规则所携带的参数不同，根据校验规则进行相应的调整
-  >
-  > 具体的校验规则查看对应的校验框架进行获取
+```java
+public class Employee{
+    @NotNull(message = "姓名不能为空")
+    private String name;		// 员工姓名
+}
+```
+
+> 每个校验规则所携带的参数不同，根据校验规则进行相应的调整
+>
+> 具体的校验规则查看对应的校验框架进行获取
 
 **获取校验信息**
 
@@ -2294,7 +2310,7 @@ public String addEmployee(@Valid Employee employee, Errors errors, Model model){
 
 同一个字段有多个约束条件，比如对于年龄的校验:
 
-if (age !=null && age >18 && age < 60)
+`if (age !=null && age >18 && age < 60)`
 
 ```java
 @NotNull(message = "请输入您的年龄")
@@ -2402,6 +2418,7 @@ private Integer age;//员工年龄
 | String s = "Jock"; | true     | true      | true      |
 
 **分组校验**
+
 根据业务不同需要调整是否参与校验，比如同一个模块，新增和修改时校验规则是不一致的
 
 - 新增用户：新增时用户名不能为空
@@ -2472,9 +2489,9 @@ private Integer age;//员工年龄
 
 ![](http://images.hellocode.top/jPc9OXoJDLwszgC.png)
 
-#### SSM整合
+### 1、配置文件
 
-**Part0：项目基础结构搭建**
+#### 1.1. 项目基础结构搭建
 
 - 创建项目，组织项目结构，创建包
 - 创建表与实体类
@@ -2541,9 +2558,7 @@ public interface StudentService {
 }
 ```
 
-
-
-**Part1+Part2：SSM整合**
+#### 1.2. SSM整合
 
 - 创建MyBatis映射文件
 - 创建Spring配置文件
@@ -2733,16 +2748,6 @@ jdbc.password=密码
 ```
 
 ```java
-package top.hellocode.service;
-
-import com.github.pagehelper.PageInfo;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import top.hellocode.domain.Student;
-
 /**
  * @author HelloCode
  * @site https://www.hellocode.top
@@ -2764,7 +2769,7 @@ public class StudentServiceTest {
 }
 ```
 
-**Part3：SpringMVC**
+#### 1.3. SpringMVC
 
 - web.xml加载SpringMVC
 - rest风格
@@ -2772,38 +2777,11 @@ public class StudentServiceTest {
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-  Licensed to the Apache Software Foundation (ASF) under one or more
-  contributor license agreements.  See the NOTICE file distributed with
-  this work for additional information regarding copyright ownership.
-  The ASF licenses this file to You under the Apache License, Version 2.0
-  (the "License"); you may not use this file except in compliance with
-  the License.  You may obtain a copy of the License at
-
-      http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License.
--->
-
-<!--
-  - This is the Cocoon web-app configurations file
-  -
-  - $Id$
-  -->
 <web-app version="2.4"
          xmlns="http://java.sun.com/xml/ns/j2ee"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
 
-  <!-- Servlet Filters ================================================ -->
-
-  <!--
-    - Declare a filter for multipart MIME handling
-    -->
   <!--加载spring核心配置文件-->
   <context-param>
     <param-name>contextConfigLocation</param-name>
@@ -2865,24 +2843,12 @@ public class StudentServiceTest {
 </beans>
 ```
 
-**Part4：Spring整合SpringMVC**
+#### 1.4. Spring整合SpringMVC
 
 - web.xml加载Spring环境
 - Controller调用Service
 
 ```java
-package top.hellocode.controller;
-
-import com.github.pagehelper.PageInfo;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-import top.hellocode.controller.results.Code;
-import top.hellocode.controller.results.Result;
-import top.hellocode.domain.Student;
-import top.hellocode.service.StudentService;
-
-import java.util.List;
-
 /**
  * @author HelloCode
  * @site https://www.hellocode.top
@@ -2951,7 +2917,7 @@ public class StudentController {
 }
 ```
 
-**Part5-1：表现层数据封装**
+#### 1.5. 表现层数据封装
 
 前端接收表现层返回的数据种类
 
@@ -2968,11 +2934,11 @@ public class StudentController {
 
 *返回数据状态设计*
 
-- 根据业务不同设计不同的状态码
-  - 404
-  - 500
-  - 200
-  - ......
+根据业务不同设计不同的状态码
+- 404
+- 500
+- 200
+- ......
 
 ```java
 package top.hellocode.controller.results;
@@ -3051,7 +3017,7 @@ public class Code {
 }
 ```
 
-**Part5-2：自定义异常**
+#### 1.6. 自定义异常
 
 - 设定自定义异常，封装程序执行过程中出现的问题，便于表现层进行统一的异常拦截并进行处理
   - BusinessException
@@ -3129,62 +3095,62 @@ public class ProjectExceptionAdvice {
 }
 ```
 
-#### 注解版SSM整合
+### 2、注解整合
 
-**web.xml**
+#### 2.1. web.xml
 
-- 同前期设置，添加加载spring核心配置文件,生成spring核心容器(主容器/父容器/根容器）
+同前期设置，添加加载spring核心配置文件,生成spring核心容器(主容器/父容器/根容器）
 
-  ```java
-  package top.hellocode.config;
-  
-  import org.springframework.web.context.WebApplicationContext;
-  import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
-  import org.springframework.web.filter.CharacterEncodingFilter;
-  import org.springframework.web.servlet.support.AbstractDispatcherServletInitializer;
-  
-  import javax.servlet.*;
-  import java.util.EnumSet;
-  
-  /**
-   * @author HelloCode
-   * @site https://www.hellocode.top
-   * @date 2022年07月23日 15:54
-   */
-  public class ServletContainerInitConfig extends AbstractDispatcherServletInitializer {
-      protected WebApplicationContext createServletApplicationContext() {
-          AnnotationConfigWebApplicationContext ctx = new AnnotationConfigWebApplicationContext();
-          ctx.register(SpringMVCConfig.class);
-          return ctx;
-      }
-  
-      protected String[] getServletMappings() {
-          return new String[]{"/"};
-      }
-  
-      protected WebApplicationContext createRootApplicationContext() {
-          AnnotationConfigWebApplicationContext ctx = new AnnotationConfigWebApplicationContext();
-          ctx.register(SpringConfig.class);
-          return ctx;
-      }
-  
-      @Override
-      public void onStartup(ServletContext servletContext) throws ServletException {
-          super.onStartup(servletContext);
-  
-          CharacterEncodingFilter filter = new CharacterEncodingFilter();
-          filter.setEncoding("UTF-8");
-          FilterRegistration.Dynamic registration = servletContext.addFilter("characterEncodingFilter", filter);
-          registration.addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST,DispatcherType.FORWARD,DispatcherType.INCLUDE),false,"/*");
-      }
-  }
-  ```
+```java
+package top.hellocode.config;
+
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
+import org.springframework.web.filter.CharacterEncodingFilter;
+import org.springframework.web.servlet.support.AbstractDispatcherServletInitializer;
+
+import javax.servlet.*;
+import java.util.EnumSet;
+
+/**
+ * @author HelloCode
+ * @site https://www.hellocode.top
+ * @date 2022年07月23日 15:54
+ */
+public class ServletContainerInitConfig extends AbstractDispatcherServletInitializer {
+    protected WebApplicationContext createServletApplicationContext() {
+        AnnotationConfigWebApplicationContext ctx = new AnnotationConfigWebApplicationContext();
+        ctx.register(SpringMVCConfig.class);
+        return ctx;
+    }
+
+    protected String[] getServletMappings() {
+        return new String[]{"/"};
+    }
+
+    protected WebApplicationContext createRootApplicationContext() {
+        AnnotationConfigWebApplicationContext ctx = new AnnotationConfigWebApplicationContext();
+        ctx.register(SpringConfig.class);
+        return ctx;
+    }
+
+    @Override
+    public void onStartup(ServletContext servletContext) throws ServletException {
+        super.onStartup(servletContext);
+
+        CharacterEncodingFilter filter = new CharacterEncodingFilter();
+        filter.setEncoding("UTF-8");
+        FilterRegistration.Dynamic registration = servletContext.addFilter("characterEncodingFilter", filter);
+        registration.addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST,DispatcherType.FORWARD,DispatcherType.INCLUDE),false,"/*");
+    }
+}
+```
 
 - 父容器：spring环境加载后形成的容器，包含spring环境下所有的bean
 - 子容器：当前springmvc环境加载后形成的容器，不包含spring环境下的bean
 - 子容器可以访问父容器中的资源，父容器不可用访问子容器中的资源
 
-**applicationContext.xml**
+#### 2.2. applicationContext.xml
 
 ```java
 //扫描组件，排除SpringMVC对应的bean，等同于<context:component-scan />
@@ -3206,7 +3172,7 @@ public class SpringConfig {
 }  
 ```
 
-**spring-mvc.xml**
+#### 2.3. spring-mvc.xml
 
 ```java
 @Configuration
@@ -3216,13 +3182,23 @@ public class SpringMvcConfig implements WebMvcConfigurer {
 }
 ```
 
-> *EnableWebMvc*
-> 支持ConversionService的配置，可以方便配置自定义类型转换器
-> 支持@NumberFormat注解格式化数字类型
-> 支持@DateTimeFormat注解格式化日期数据，日期包括Date,Calendar,JodaTime（JodaTime要导包）
-> 支持@Valid的参数校验(需要导入JSR-303规范)
-> 配合第三方jar包和SpringMVC提供的注解读写XML和JSON格式数据
+*EnableWebMvc*
+
+- 支持ConversionService的配置，可以方便配置自定义类型转换器
+- 支持@NumberFormat注解格式化数字类型
+- 支持@DateTimeFormat注解格式化日期数据，日期包括Date,Calendar,JodaTime（JodaTime要导包）
+- 支持@Valid的参数校验(需要导入JSR-303规范)
+- 配合第三方jar包和SpringMVC提供的注解读写XML和JSON格式数据
+
+#### 2.4. 其他文件
 
 **UserDao.xml**
 
-**jdbc.properties（保留）**
+- 可以通过mybatis注解形式代替该配置文件
+- 但是为了sql语句能够统一集中管理，继续采用xml配置文件形式
+
+**jdbc.properties**
+
+- 同样采用properties配置文件
+- 通过`${键}`获取配置文件内容
+- 便于数据库信息的修改

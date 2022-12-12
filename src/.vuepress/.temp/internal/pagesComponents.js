@@ -5,6 +5,12 @@ export const pagesComponents = {
   "v-8daa1a0e": defineAsyncComponent(() => import(/* webpackChunkName: "v-8daa1a0e" */"E:/Java/project/Java-Navigation/src/.vuepress/.temp/pages/index.html.vue")),
   // path: /md/quick_nav.html
   "v-ccd9a572": defineAsyncComponent(() => import(/* webpackChunkName: "v-ccd9a572" */"E:/Java/project/Java-Navigation/src/.vuepress/.temp/pages/md/quick_nav.html.vue")),
+  // path: /md/database/interview.html
+  "v-6c92944d": defineAsyncComponent(() => import(/* webpackChunkName: "v-6c92944d" */"E:/Java/project/Java-Navigation/src/.vuepress/.temp/pages/md/database/interview.html.vue")),
+  // path: /md/database/outline.html
+  "v-318d7f6c": defineAsyncComponent(() => import(/* webpackChunkName: "v-318d7f6c" */"E:/Java/project/Java-Navigation/src/.vuepress/.temp/pages/md/database/outline.html.vue")),
+  // path: /md/database/resource.html
+  "v-1c1a1a96": defineAsyncComponent(() => import(/* webpackChunkName: "v-1c1a1a96" */"E:/Java/project/Java-Navigation/src/.vuepress/.temp/pages/md/database/resource.html.vue")),
   // path: /md/java/basic.html
   "v-1e2c0c8e": defineAsyncComponent(() => import(/* webpackChunkName: "v-1e2c0c8e" */"E:/Java/project/Java-Navigation/src/.vuepress/.temp/pages/md/java/basic.html.vue")),
   // path: /md/java/collection.html

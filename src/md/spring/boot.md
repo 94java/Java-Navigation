@@ -9,29 +9,41 @@ category:
 
 ## 一、概述
 
-- SpringBoot提供了一种快速使用Spring的方式，基于约定优于配置的思想，可以让开发人员不必在配置与逻辑业务之间进行思维的切换，全身心投入到逻辑业务的代码编写中，从而大大提高了开发的效率，一定程度上缩短了项目周期，2014年4月，SpringBoot 1.0.0 发布。Spring的顶级项目之一(https://spring.io)
+> SpringBoot提供了一种快速使用Spring的方式，基于约定优于配置的思想，可以让开发人员不必在配置与逻辑业务之间进行思维的切换，全身心投入到逻辑业务的代码编写中，从而大大提高了开发的效率，一定程度上缩短了项目周期，2014年4月，SpringBoot 1.0.0 发布。Spring的顶级项目之一(https://spring.io)
 
 **Spring缺点**
 
 1. 配置繁琐
+   
    虽然Spring的组件代码是轻量级的，但它的配置却是重量级的。一开始，Spring用XML配置，而且是很多XML配置。Spring 2.5引入了基于注解的组件扫描，这消除了大量针对应用程序自身组件的显示XML配置。Spring 3.0引入了基于Java的配置，这是一种类型安全的可重构配置方式，可以代替XML
+   
    所有这些配置都代表了开发时的损耗。因为在思考Spring特性配置和解决业务问题之间需要进行思维切换，所以编写配置挤占了编写应用程序逻辑的时间。和所有框架一样，Spring实用，但它要求的回报也不少
+   
 2. 依赖繁琐
+
    项目的依赖管理也是一件耗时耗力的事情。在环境搭建时，需要分析要导入哪些库的坐标，而且还需要分析导入与之有依赖关系的其他库的坐标，一旦选错了依赖的版本，随之而来的不兼容问题就会严重阻碍项目的开发进度
 
 **SpringBoot功能**
 
 1. 自动配置
+   
    SpringBoot的自动配置是一个运行时（更准确的说，是应用程序启动时）的过程，考虑了众多因素，才决定Spring配置应该用哪个，不该用哪个。该过程是SpringBoot自动完成的
+   
 2. 起步依赖
+
    起步依赖本质上是一个Maven项目对象模型（Project Object Model, POM），定义了对其他库的*传递依赖*，这些东西加在一起即支持某项功能
+
    简单地说，起步依赖就是将具备某种功能的坐标打包到一起，并提供一些默认的功能
+
 3. 辅助功能
+
    提供了一些大型项目中常见的非功能性特性，如嵌入式服务器、安全、指标，监控检测、外部配置等
 
-*SpringBoot并不是对Spring功能上的增强，而是提供了一种快速使用Spring的方式*
+> SpringBoot并不是对Spring功能上的增强，而是提供了一种快速使用Spring的方式
 
 ## 二、快速入门
+
+### 1、手动构建
 
 **需求**
 
@@ -86,7 +98,7 @@ category:
 >
 > 使用SpringBoot和Spring构建的项目，业务代码编写方式完全一样
 
-#### 快速构建
+### 2、快速构建
 
 **需求**
 
@@ -107,8 +119,11 @@ category:
 **原理分析**
 
 1. spring-boot-starter-parent
+   
    定义了一些版本信息，通过maven父工程，将对应的依赖以及版本由dependencyManagement进行管理
+   
    在父工程预定义了经过测试无冲突的一些常用maven坐标及版本，子工程直接继承
+   
 2. spring-boot-starter-web
 
 **小结**
@@ -119,12 +134,14 @@ category:
 
 ## 四、配置
 
-#### 文件分类
+### 1、文件分类
 
 - SpringBoot是基于约定的，所以很多配置都有默认值，但如果想使用自己的配置替换默认配置的话，就可以使用application.properties或者application.yml（application.yaml）进行配置
 
 - properties
-  `server.port=8080`
+  
+
+`server.port=8080`
 
 - yml
 
@@ -139,12 +156,14 @@ category:
 - 默认配置文件名称：application
 
 - 加载优先级
+  
   properties  >  yml  >  yaml
+  
   如果三种配置文件都有相同的配置，将优先使用高优先级的配置
 
-#### yaml
+### 2、yaml
 
-- YAML全称是YAML Ain`t Markup Language。YAML是一种直观的能够被电脑识别的数据序列化格式，并且容易被人类阅读，容易和脚本语言交互，可以被支持YAML库的不同的编程语言导入，比如：C/C++，Ruby，Python，Java，Perl，C#，PHP等。YML文件是以*数据为核心*的，比传统的xml方式更加简洁
+> YAML全称是YAML Ain`t Markup Language。YAML是一种直观的能够被电脑识别的数据序列化格式，并且容易被人类阅读，容易和脚本语言交互，可以被支持YAML库的不同的编程语言导入，比如：C/C++，Ruby，Python，Java，Perl，C#，PHP等。YML文件是以*数据为核心*的，比传统的xml方式更加简洁
 
 - YAML文件的扩展名可以使用`.yml`或者`.yaml`
 
@@ -233,79 +252,95 @@ person:
   name: ${name}     # 引用上方定义的name值
 ```
 
-#### 读取配置内容
+### 3、读取配置内容
 
 1. `@Value`
+   
    ![image-20220905181220979](http://images.hellocode.top/image-20220905181220979.png)
+   
 2. Environment对象
+
    ![image-20220905181359454](http://images.hellocode.top/image-20220905181359454.png)
+
 3. `@ConfigurationProperties`
+
    ![image-20220905182518689](http://images.hellocode.top/image-20220905182518689.png)
+
    - 该注解可直接将对应的配置值封装到Java对象中，需要字段名称相同
    - 为了便于区分，一般会加上*prefix*前缀指定配置，如不指定，将查找配置文件中的纯数据，而不会进入到对象中
    - 需要给对应的Java类添加`@Component`和`@ConfigurationProperties`注解以及set方法
 
-#### profile
+### 4、profile
 
-我们在开发SpringBoot应用时，通常一套程序会被安装到不同环境，比如：开发、测试、生产等。其中数据库地址、服务器端口等等配置都不同，如果每次打包时，都需要修改配置文件，那么非常麻烦。profile功能就是来进行动态配置切换的
+> 我们在开发SpringBoot应用时，通常一套程序会被安装到不同环境，比如：开发、测试、生产等。其中数据库地址、服务器端口等等配置都不同，如果每次打包时，都需要修改配置文件，那么非常麻烦。profile功能就是来进行动态配置切换的
 
-1. profile配置方式
+**profile配置方式**
 
-   - 多profile文件方式
+多profile文件方式
 
-     - 创建多个配置文件，对应不同的环境
+- 创建多个配置文件，对应不同的环境
 
-     - 文件名称application-xxx，一般推荐application-dev（开发），application-test（测试），application-pro（生产）
+- 文件名称application-xxx，一般推荐application-dev（开发），application-test（测试），application-pro（生产）
 
-       ![image-20220905184543883](http://images.hellocode.top/image-20220905184543883.png)
+  ![image-20220905184543883](http://images.hellocode.top/image-20220905184543883.png)
 
-   - yml多文档方式
+yml多文档方式
 
-     - 对应上方多profile文件方式，yml多文档方式只需要创建一个yml配置文件
+- 对应上方多profile文件方式，yml多文档方式只需要创建一个yml配置文件
 
-     - 通过`---`将yml文档分为多个部分，对应不同的环境，通过`spring.profiles`指定对应区域名称
+- 通过`---`将yml文档分为多个部分，对应不同的环境，通过`spring.profiles`指定对应区域名称
 
-       ```yaml
-       spring:
-         profiles:
-           active: pro
-       
-       ---
-       server:
-         port: 8084
-       
-       spring:
-         profiles: dev
-       ---
-       server:
-         port: 8085
-       
-       spring:
-         profiles: test
-       
-       ---
-       server:
-         port: 8086
-       
-       spring:
-         profiles: pro
-       ```
+  ```yaml
+  spring:
+    profiles:
+      active: pro
+  
+  ---
+  server:
+    port: 8084
+  
+  spring:
+    profiles: dev
+  ---
+  server:
+    port: 8085
+  
+  spring:
+    profiles: test
+  
+  ---
+  server:
+    port: 8086
+  
+  spring:
+    profiles: pro
+  ```
 
-2. profile激活方式
+**profile激活方式**
 
-   - 配置文件
-     在application配置文件中参数：`spring.profiles.active=环境名称`
-     ![image-20220905184451250](http://images.hellocode.top/image-20220905184451250.png)
-   - 虚拟机参数(VM options)（`-D`开始）
-     `-Dspring.profiles.active=环境名称`
-     ![image-20220905184959770](http://images.hellocode.top/image-20220905184959770.png)
-   - 命令行参数（Program arguments）(`--`开始)
-     `--spring.profiles.active=环境名称`
-     ![image-20220905185234399](http://images.hellocode.top/image-20220905185234399.png)
-     或者cmd命令行启动
-     ![image-20220905190027880](http://images.hellocode.top/image-20220905190027880.png)
+- 配置文件
+  
+  在application配置文件中参数：`spring.profiles.active=环境名称`
+  
+  ![image-20220905184451250](http://images.hellocode.top/image-20220905184451250.png)
+  
+- 虚拟机参数(VM options)（`-D`开始）
+  
+  `-Dspring.profiles.active=环境名称`
+  
+  ![image-20220905184959770](http://images.hellocode.top/image-20220905184959770.png)
+  
+- 命令行参数（Program arguments）(`--`开始)
+  
+  `--spring.profiles.active=环境名称`
+  
+  ![image-20220905185234399](http://images.hellocode.top/image-20220905185234399.png)
+  
+  或者cmd命令行启动
+  
+  ![image-20220905190027880](http://images.hellocode.top/image-20220905190027880.png)
 
-#### 加载顺序
+### 5、加载顺序
 
 **内部配置加载顺序**
 
@@ -320,15 +355,15 @@ SpringBoot程序启动时，会从以下位置加载配置文件
 >
 > *上述路径下的配置文件均会加载，有冲突时默认高优先级*
 
+
+
 **外部配置加载顺序**
 
 通过官网查看外部属性加载顺序：[https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-external-config.html](https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-external-config.html)
 
 ## 五、整合其他框架
 
-#### Junit
-
-**需求**：SpringBoot整合Junit
+### 1、Junit
 
 **实现步骤**
 
@@ -337,26 +372,34 @@ SpringBoot程序启动时，会从以下位置加载配置文件
 3. 编写测试类
 4. 添加测试相关注解
    - `@RunWith(SpringRunner.class)`
+   
    - `@SpringBootTest(classes = 启动类.class)`
+     
      如果测试类和启动类在同一个包或者位于启动类子包，就不用写classes属性
 5. 编写测试方法
 
-> 新版spring-boot-starter-test不再集成junit，而是junit-jupiter
->
-> spring-boot-starter-test 2.5.5 版本只需要在类上加上@SpringBootTest即可，不需要再加@RunWith()注解了。
+**注意**
 
-#### Redis
+- 新版spring-boot-starter-test不再集成junit，而是junit-jupiter
 
-**需求**：SpringBoot整合Redis
+- spring-boot-starter-test 2.5.5 版本只需要在类上加上`@SpringBootTest`即可，不需要再加`@RunWith()`注解了
+
+### 2、Redis
 
 **实现步骤**
 
 1. 搭建SpringBoot工程
+
 2. 引入redis起步依赖
+
 3. 配置redis相关属性（默认ip：localhost，默认端口6379）
+   
    在application配置文件中输入redis，就会有相应的提示，进行配置即可
+   
    ![image-20220905202917965](http://images.hellocode.top/image-20220905202917965.png)
+   
 4. 引入RedisTemplate模板
+
 5. 编写测试方法，测试
 
 ```java
@@ -383,21 +426,20 @@ class SpringRedisApplicationTests {
 }
 ```
 
-#### MyBatis
-
-**需求**：SpringBoot整合MyBatis
+### 3、MyBatis
 
 **实现步骤**
 
 1. 搭建SpringBoot工程
 
 2. 引入mybatis起步依赖，添加mysql驱动
-   如果mysql为5.x版本，引入的起步依赖是最新版，需要单独指定mysql驱动的版本，测试5.1.32可用
-
-3. 编写DataSource和MyBatis相关配置
-   相关配置同样是application中配置，输入MyBatis就会有提示
-   可以配置别名、核心配置文件路径、映射配置文件路径等等
    
+3. 编写DataSource和MyBatis相关配置
+
+   相关配置同样是application中配置，输入MyBatis就会有提示
+
+   可以配置别名、核心配置文件路径、映射配置文件路径等等
+
    ```yaml
    # datasource
    spring:
@@ -411,7 +453,7 @@ class SpringRedisApplicationTests {
      mapper-locations:
      type-aliases-package: 
    ```
-   
+
 4. 定义表和实体类
 
 5. 编写dao和mapper文件/纯注解开发
@@ -426,15 +468,19 @@ class SpringRedisApplicationTests {
 
 6. 测试
 
-> SpringBoot版本低于2.4.3（不含），Mysql驱动版本大于8.0时，需要在url连接串中配置时区
->
-> `jdbc:mysql://localhost:3306/db1?serverTimezone=UTC`
->
-> 或在MySql数据库端配置时区解决此问题
+**注意**
+
+- 如果mysql为5.x版本，引入的起步依赖是最新版，需要单独指定mysql驱动的版本，测试5.1.32可用
+
+- SpringBoot版本低于2.4.3（不含），Mysql驱动版本大于8.0时，需要在url连接串中配置时区
+
+  `jdbc:mysql://localhost:3306/db1?serverTimezone=UTC`
+
+- 也可以在MySql数据库端配置时区解决此问题
 
 ## 六、高级原理分析
 
-#### 自动配置
+### 1、自动配置
 
 **Condition**
 
@@ -442,7 +488,7 @@ class SpringRedisApplicationTests {
 
 **需求**
 
-- 在Spring的IOC容器中有一个User的Bean，现要求：
+在Spring的IOC容器中有一个User的Bean，现要求：
 
 1. 导入Jedis坐标后，加载该bean，没导入，不加载
 
@@ -494,7 +540,6 @@ public class SpringConditionApplication {
         User user = (User) context.getBean("user");
         System.out.println(user);
     }
-
 }
 ```
 
@@ -550,17 +595,18 @@ public class ClassCondition implements Condition {
 }
 ```
 
-*小结*
+**自定义条件**
 
-- 自定义条件
-  1. 定义条件类：自定义类实现Condition接口，重写matches方法，在matches方法中进行逻辑判断，返回boolean值。matches方法两个参数：
-     - context：上下文对象，可以获取属性值，获取类加载器，获取BeanFactory等
-     - metadata：元数据对象，用于获取注解属性
-  2. 判断条件：在初始化bean时，使用`@Conditional(条件类.class)`注解
-- SpringBoot提供的常用条件注解
-  - ConditionalOnProperty：判断配置文件中是否有对应属性和值才初始化bean
-  - ConditionalOnClass：判断环境中是否有对应字节码文件才初始化bean
-  - ConditionalOnMissingBean：判断环境中没有对应的Bean才初始化Bean
+1. 定义条件类：自定义类实现Condition接口，重写matches方法，在matches方法中进行逻辑判断，返回boolean值。matches方法两个参数：
+   - context：上下文对象，可以获取属性值，获取类加载器，获取BeanFactory等
+   - metadata：元数据对象，用于获取注解属性
+2. 判断条件：在初始化bean时，使用`@Conditional(条件类.class)`注解
+
+**SpringBoot提供的常用条件注解**
+
+- ConditionalOnProperty：判断配置文件中是否有对应属性和值才初始化bean
+- ConditionalOnClass：判断环境中是否有对应字节码文件才初始化bean
+- ConditionalOnMissingBean：判断环境中没有对应的Bean才初始化Bean
 
 **切换内置web服务器**
 
@@ -581,10 +627,10 @@ SpringBoot内置了四种服务器
 
 ![image-20220906125256675](http://images.hellocode.top/image-20220906125256675.png)
 
-- SpringBoot工程无法直接获取到jar包中定义的bean
-  - 可以通过使用`@ComponentScan`注解扫描对应的包，实现bean加载
-  - 使用`@Import`注解，加载类。这些类都会被Spring创建，并放入IOC容器
-  - 自定义注解封装`@Import`，实现bean的加载
+SpringBoot工程无法直接获取到jar包中定义的bean
+- 可以通过使用`@ComponentScan`注解扫描对应的包，实现bean加载
+- 使用`@Import`注解，加载类。这些类都会被Spring创建，并放入IOC容器
+- 自定义注解封装`@Import`，实现bean的加载
 
 **@Import注解**
 
@@ -821,7 +867,7 @@ SpringBoot内置了四种服务器
    }
    ```
 
-#### 监听机制
+### 2、监听机制
 
 **Java监听机制**
 
@@ -835,21 +881,17 @@ Java中的事件监听机制定义了以下几个角色
 
 **SpringBoot监听机制**
 
-SpringBoot 在项目启动时，会对几个监听器进行回调，我们可以实现这些监听器接口，在项目启动时完成
-一些操作。
+SpringBoot 在项目启动时，会对几个监听器进行回调，我们可以实现这些监听器接口，在项目启动时完成一些操作
+
 `ApplicationContextInitializer、 SpringApplicationRunListener、 CommandLineRunner、 ApplicationRunner`
 
 - 实现 `CommandLineRunner、 ApplicationRunner`监听只需要将对应的实现类加入到Spring容器中，就会在项目启动后执行在实现类中重写后的run方法，可以完成一些缓存的预热操作
-
 - `ApplicationContextInitializer、 SpringApplicationRunListener`需要在`META-INF/spring.factories`中配置后才能执行，会在spring容器初始化前执行，做一些参数的校验
-
   - 配置方式：`接口全路径名=实现类全路径名`
-
   - `org.springframework.context.ApplicationContextInitializer=实现类全路径名`
-
   - `org.springframework.boot.SpringApplicationRunListener=实现类全路径名`
 
-#### 启动流程
+### 3、启动流程
 
 ![image](http://images.hellocode.top/005OV8mQgy1gro036ub0qj31ve0s14lu.jpg)
 
@@ -857,7 +899,7 @@ SpringBoot 在项目启动时，会对几个监听器进行回调，我们可以
 
 > SpringBoot自带监控功能**Actuator**，可以帮助实现对程序内部运行情况的监控，比如监控状况、bean的加载情况、配置属性、日志信息等
 
-#### 使用步骤
+### 1、使用步骤
 
 1. 导入依赖坐标（也可以在初始化项目过程通过idea在OPS分类手动勾选）
 
@@ -872,12 +914,16 @@ SpringBoot 在项目启动时，会对几个监听器进行回调，我们可以
 2. 访问http://localhost:8080/actuator
 
 - 开启健康检查的完整信息需要在application配置文件手动开启（项目上线需要关闭，防止信息泄露）
+  
   `management.endpoint.health.show-details=always`
+  
   健康检查除了监控本地磁盘，还可以监控数据库、redis等信息
+  
 - 开启所有的监控endpoint
+  
   `management.endpoints.web.exposure.include=*`
 
-#### 图形化界面
+### 2、图形化界面
 
 **Spring Boot Admin**
 
@@ -926,20 +972,21 @@ SpringBoot 在项目启动时，会对几个监听器进行回调，我们可以
 
 SpringBoot项目开发完毕后，支持两种方式部署到服务器：
 
-1. jar包（官方推荐）
-   将jar包放到安装了jdk的linux服务器上，通过`java -jar jar包文件`启动即可
+**jar包（官方推荐）**
 
-2. war包
+- 将jar包放到安装了jdk的linux服务器上，通过`java -jar jar包文件`启动即可
 
-   1. 在pom文件中修改打包方式为war包
+**war包**
 
-   2. 让SpringBoot启动类继承SpringBootServletInitializer类并覆写configure方法
+1. 在pom文件中修改打包方式为war包
 
-      ```java
-      protected SpringApplicationBuilder configure(SpringApplicationBuilder builder){
-          return builder.sources(SpringBoot启动类.class);
-      }
-      ```
+2. 让SpringBoot启动类继承SpringBootServletInitializer类并覆写configure方法
 
-   3. 打包
-   4. 将war包放到服务器的tomcat下的webapp目录下，启动tomcat即可（虚拟目录会发生变化）
+ ```java
+ protected SpringApplicationBuilder configure(SpringApplicationBuilder builder){
+     return builder.sources(SpringBoot启动类.class);
+ }
+ ```
+
+3. 打包
+4. 将war包放到服务器的tomcat下的webapp目录下，启动tomcat即可（虚拟目录会发生变化）

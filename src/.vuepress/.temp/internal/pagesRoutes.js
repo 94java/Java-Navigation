@@ -1,6 +1,9 @@
 export const pagesRoutes = [
   ["v-8daa1a0e","/",{"title":"首页","i":"home"},["/index.html","/README.md"]],
   ["v-ccd9a572","/md/quick_nav.html",{"title":"快速导航","i":"navigation"},["/md/quick_nav","/md/quick_nav.md"]],
+  ["v-6c92944d","/md/database/interview.html",{"title":"面试宝典"},["/md/database/interview","/md/database/interview.md"]],
+  ["v-318d7f6c","/md/database/outline.html",{"title":"大纲"},["/md/database/outline","/md/database/outline.md"]],
+  ["v-1c1a1a96","/md/database/resource.html",{"title":"学习资料"},["/md/database/resource","/md/database/resource.md"]],
   ["v-1e2c0c8e","/md/java/basic.html",{"title":"基础"},["/md/java/basic","/md/java/basic.md"]],
   ["v-4a0be56d","/md/java/collection.html",{"title":"容器"},["/md/java/collection","/md/java/collection.md"]],
   ["v-226c62f4","/md/java/concurrency.html",{"title":"并发"},["/md/java/concurrency","/md/java/concurrency.md"]],

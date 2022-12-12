@@ -5,8 +5,8 @@
         </a>
     </p>
     <p>
-      <img src="https://gitee.com/hellocode88/Java-Navigation/badge/star.svg?theme=dark" alt="ee_stars" />
-      <img src="https://gitee.com/hellocode88/Java-Navigation/badge/fork.svg?theme=dark" alt="ee_forks" />
+      <img src="https://gitee.com/java-navigation/Java-Navigation/badge/star.svg?theme=dark" alt="ee_stars" />
+      <img src="https://gitee.com/java-navigation/Java-Navigation/badge/fork.svg?theme=dark" alt="ee_forks" />
     </p>
     <p>
         <img src="https://badgen.net/github/stars/HelloCode66/Java-Navigation?icon=github&color=4ab8a1" alt="stars" />
@@ -15,17 +15,17 @@
     </p>
     <p>
         <a href="https://github.com/HelloCode66/Java-Navigation" target="_blank">Github</a> |
-        <a href="https://gitee.com/HelloCode88/Java-Navigation" target="_blank">Gitee</a>
+        <a href="https://gitee.com/java-navigation/Java-Navigation" target="_blank">Gitee</a>
     </p>  
 </div>
 
 👉 <a href="https://book.hellocode.top" target="_blank">Java-Navigation在线阅读</a>
 
-👉 <a href="https://hellocode88.gitee.io/java-navigation/" target="_blank">在线阅读【备用】</a>
+👉 <a href="https://java-navigation.gitee.io" target="_blank">在线阅读【备用】</a>
 
 ✨ <a href="https://github.com/HelloCode66/Java-Navigation" target="_blank">GitHub仓库（推荐首选）</a>
 
-🚂 <a href="https://gitee.com/HelloCode88/Java-Navigation" target="_blank">Gitee仓库（网速慢时推荐）</a>
+🚂 <a href="https://gitee.com/java-navigation/Java-Navigation" target="_blank">Gitee仓库（网速慢时推荐）</a>
 
 ## :coffee: Java
 

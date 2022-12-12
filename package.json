@@ -7,7 +7,8 @@
   "scripts": {
     "docs:build": "vuepress build src",
     "docs:clean-dev": "vuepress dev src --clean-cache",
-    "docs:dev": "vuepress dev src"
+    "docs:dev": "vuepress dev src",
+    "deploy": "bash deploy.sh"
   },
   "devDependencies": {
     "@vuepress/client": "2.0.0-beta.53",
