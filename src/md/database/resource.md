@@ -1,6 +1,6 @@
 ---
 title: "学习资料"
-order: 10
+order: 9
 category:
   - 数据库
 ---

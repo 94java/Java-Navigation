@@ -3,11 +3,9 @@ import { zhNavbar } from "./navbar/index.js";
 import { zhSidebar } from "./sidebar/index.js";
 
 export default hopeTheme({
-  hostname: "https://vuepress-theme-hope-docs-demo.netlify.app",
-
   author: {
     name: "HelloCode.",
-    url: "https://book.hellocode.top",
+    url: "https://java-navigation.gitee.io/",
   },
   //at.alicdn.com/t/c/font_3814677_gm483q7t7z7.css
 
@@ -24,7 +22,6 @@ export default hopeTheme({
   themeColor: {
     blue: "#096dd9",
     red: "#f26d6d",
-    green: "#3eaf7c",
     orange: "#fb9b5f",
   },
   fullscreen: true,
@@ -91,7 +88,6 @@ export default hopeTheme({
       container: true,
       demo: true,
       echarts: true,
-      figure: true,
       flowchart: true,
       gfm: true,
       imageLazyload: true,
@@ -135,7 +131,11 @@ export default hopeTheme({
       tabs: true,
       vPre: true,
       vuePlayground: true,
+
     },
+    copyright: {
+      author: "HelloCode."
+    }
 
     // uncomment these if you want a pwa
     // pwa: {

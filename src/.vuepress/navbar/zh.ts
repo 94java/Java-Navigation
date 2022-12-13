@@ -7,40 +7,30 @@ export const zhNavbar = navbar([
     icon: "java",
     prefix: "/md/java",
     children: [
-      {
-        text: "基础",
-        link: "/basic",
-        activeMatch: "^/md/java/basic",
-      },
+      { text: "基础", link: "/basic" },
       {
         text: "容器",
         link: "/collection",
-        activeMatch: "^/md/java/collection"
       },
       {
         text: "并发",
         link: "/concurrency",
-        activeMatch: "^/md/java/concurrency"
       },
       {
         text: "IO",
         link: "/io",
-        activeMatch: "^/md/java/io"
       },
       {
         text: "JVM",
         link: "/jvm",
-        activeMatch: "^/md/java/jvm"
       },
       {
         text: "新特性",
         link: "/new",
-        activeMatch: "^/md/java/new"
       },
       {
         text: "JavaWEB",
         link: "/javaweb",
-        activeMatch: "^/md/java/javaweb",
       },
     ]
   },
@@ -62,35 +52,32 @@ export const zhNavbar = navbar([
     prefix: "/md/spring",
     children: [
       {
-        text: "SpringFramework",
+        text: "Framework",
         link: "/framework",
-        activeMatch: "^/md/spring/framework",
       },
       {
-        text: "SpringMVC",
+        text: "MVC",
         link: "/mvc",
-        activeMatch: "^/md/spring/mvc",
       },
       {
-        text: "SpringBoot",
+        text: "Boot",
         link: "/boot",
-        activeMatch: "^/md/spring/boot",
       },
     ],
   },
   {
     text: "数据库",
     icon: "mysql",
-    prefix: "/zh/guide/",
+    prefix: "/md/database",
     children: [
       {
         text: "基础知识",
         children: [
           {
-            text: "数据库原理", link: "/",
+            text: "数据库原理", link: "/base",
           },
           {
-            text: "SQL语法", link: "/",
+            text: "SQL语法", link: "/sql",
           },
         ]
       },
@@ -98,7 +85,7 @@ export const zhNavbar = navbar([
         text: "SQL数据库",
         children: [
           {
-            text: "MySQL", link: "/",
+            text: "MySQL", link: "/mysql",
           },
         ]
       },
@@ -106,13 +93,13 @@ export const zhNavbar = navbar([
         text: "NoSQL数据库",
         children: [
           {
-            text: "Redis", link: "/",
+            text: "Redis", link: "/redis",
           },
           {
-            text: "MongoDB", link: "/",
+            text: "MongoDB", link: "/mongodb",
           },
           {
-            text: "ElasticSearch", link: "/",
+            text: "ElasticSearch", link: "/elasticsearch",
           },
         ]
       },
@@ -121,19 +108,19 @@ export const zhNavbar = navbar([
   {
     text: "框架|中间件",
     icon: "repair",
-    prefix: "/zh/guide/",
+    prefix: "/md/frame",
     children: [
       {
         text: "常用框架",
         children: [
           {
-            text: "MyBatis", link: "/",
+            text: "MyBatis", link: "/mybatis",
           },
           {
-            text: "MyBatis-Plus", link: "/",
+            text: "MyBatis-Plus", link: "/mybatis_plus",
           },
           {
-            text: "Dubbo", link: "/",
+            text: "Dubbo", link: "/dubbo",
           },
         ]
       },
@@ -141,10 +128,10 @@ export const zhNavbar = navbar([
         text: "中间件",
         children: [
           {
-            text: "Zookeeper", link: "/",
+            text: "Zookeeper", link: "/zookeeper",
           },
           {
-            text: "RabbitMQ", link: "/",
+            text: "RabbitMQ", link: "/rabbitmq",
           },
         ]
       },
@@ -154,18 +141,18 @@ export const zhNavbar = navbar([
   {
     text: "工具|部署",
     icon: "relation",
-    prefix: "/zh/guide/",
+    prefix: "/md/tool",
     children: [
       {
         text: "部署",
         children: [
           {
             text: "Linux",
-            link: "/",
+            link: "/linux",
           },
           {
             text: "Docker",
-            link: "/",
+            link: "/docker",
           },
         ]
       },
@@ -174,11 +161,11 @@ export const zhNavbar = navbar([
         children: [
           {
             text: "Maven",
-            link: "/",
+            link: "/maven",
           },
           {
             text: "Git",
-            link: "/",
+            link: "/git",
           },
         ]
       },
@@ -186,10 +173,10 @@ export const zhNavbar = navbar([
         text: "Web 容器",
         children: [
           {
-            text: "Tomcat", link: "/",
+            text: "Tomcat", link: "/tomcat",
           },
           {
-            text: "Nginx", link: "/",
+            text: "Nginx", link: "/nginx",
           },
         ]
       }

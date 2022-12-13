@@ -222,7 +222,7 @@ category:
 
 > 作用：可以发布任意目录下的项目
 
-1. 编辑==server.xml== 配置文件，找到`<Host>`标签
+1. 编辑*server.xml* 配置文件，找到`<Host>`标签
 
 2. 加入以下内容
    
@@ -237,7 +237,7 @@ category:
 
 > 作用：可以指定访问路径的名称
 
-1. 编辑==server.xml== 配置文件，找到`<Engine>`标签
+1. 编辑*server.xml* 配置文件，找到`<Engine>`标签
 2. 加入以下内容
    ![image-20220212125002395](http://images.hellocode.top/tomcat%E9%85%8D%E7%BD%AE%E8%99%9A%E6%8B%9F%E4%B8%BB%E6%9C%BA.png)
 
@@ -317,16 +317,17 @@ POST
 
 1. 响应行：请求方式 HTTP/版本号 状态码 状态描述
    
-==常见状态码==
-   
-   | 状态码  | 说明                                 |
-   | ------- | ------------------------------------ |
-   | 200     | 一切OK                               |
-   | 302/307 | 请求重定向，两次请求，地址栏发生变化 |
-   | 304     | 请求资源未发生变化，使用缓存         |
-   | 404     | 请求资源未找到                       |
+
+*常见状态码*
+
+| 状态码  | 说明                                 |
+| ------- | ------------------------------------ |
+| 200     | 一切OK                               |
+| 302/307 | 请求重定向，两次请求，地址栏发生变化 |
+| 304     | 请求资源未发生变化，使用缓存         |
+| 404     | 请求资源未找到                       |
 | 500     | 服务器错误                           |
-   
+
 2. 响应头
 
    | 名称                   | 说明                                       |
@@ -1693,7 +1694,7 @@ protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws Se
 
 生成的Java 文件目录
 
-- 继承自 HttpJspBase类，而HttpJspBase继承自 HttpServlet(==JSP本质上就是一个 Servlet==)
+- 继承自 HttpJspBase类，而HttpJspBase继承自 HttpServlet(*JSP本质上就是一个 Servlet*)
 - jsp显示页面本质上就是通过获取输出流对象并通过write写出
 
 ### 3、语法
@@ -2492,3 +2493,2017 @@ public class listener02 implements ServletContextAttributeListener {
 
 - HttpSessionBindingListener
 - HttpSessionActivationListener
+
+## 十五、JDBC
+
+> JDBC(Java DataBase Connectivity java数据库连接) 是一种用于执行SQL语句的Java API，可以为多种关系型数据库提供统一访问，它是由一组用Java语言编写的类和接口组成的
+
+本质：其实就是Java官方提供的一套规范（接口）。用于帮助开发人员快速实现不同关系型数据库的连接
+
+### 1、快速入门
+
+1. 导入jar包
+2. 注册驱动
+3. 获取数据库连接
+4. 获取执行者对象
+5. 执行sql语句并返回结果
+6. 处理结果
+7. 释放资源
+
+```java
+package study.jdbc;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+
+public class Demo01 {
+    public static void main(String[] args) throws Exception {
+        // 导入jar包
+        // 注册驱动
+        Class.forName("com.mysql.jdbc.Driver");
+        
+        // 获取连接
+        Connection con = DriverManager.getConnection("jdbc:mysql://192.168.23.129:3306/db2","root","密码");
+        
+        // 获取执行者对象
+        Statement stat = con.createStatement();
+        
+        // 执行sql语句，并接收结果
+        String sql = "SELECT * FROM user";
+        ResultSet rs = stat.executeQuery(sql);
+        
+        // 处理结果
+        while(rs.next()){
+            System.out.println(rs.getInt("id") + "\t" + rs.getString("name"));
+        }
+        
+        // 释放资源
+        con.close();
+        stat.close();
+        rs.close();
+    }
+}
+```
+
+### 2、功能类详解
+
+#### 2.1. DriverManager 驱动管理对象
+
+**注册驱动**
+
+- 注册给定的驱动程序：`static void registerDriver(Driver driver);`
+- 在代码中使用：`Class.forName("com.mysql.jdbc.Driver");`即可完成驱动注册
+- 在com.mysql.jdbc.Driver类中存在静态代码块
+
+```java
+static{
+    try{
+        DriverManager.registerDriver(new Driver());
+    }catch(SQL Exception E){
+        throw new RuntimeException("Can't register driver!");
+    }
+}
+```
+
+> 我们不需要通过DriverManager调用静态方法registerDriver()，因为只要Driver类被使用，就会执行其静态代码块完成注册驱动
+> mysql 5之后可以省略注册驱动的步骤。在jar包中，存在一个java.sql.Driver配置文件，文件中指定了 com.mysql.jdbc.Driver
+
+**获取数据库连接**
+
+- 获取数据库连接对象：`static Connection getConnection(String url,String user,String password);`
+
+- 连接成功返回Connection对象，连接失败则会报错
+
+*参数说明*
+
+- url：指定连接的路径。语法：`jdbc:mysql://ip地址(域名):端口号/数据库名称`
+- user：用户名
+- password：密码
+
+#### 2.2. Connection 数据库连接对象
+
+**获取执行者对象**
+
+获取普通执行者对象：`Statement createStatement();`
+
+获取预编译执行者对象：`PreparedStatement prepareStatement(String sql);`
+
+**管理事务**
+
+开启事务：`setAutoCommit(boolean autoCommit);`    参数为false，则开启事务
+
+提交事务：`commit();`
+
+回滚事务：`rollback();`
+
+**释放资源**
+
+立即将数据库连接对象释放：`void close();`
+
+#### 2.3. Statement 执行者对象
+
+1. 执行DML语句：`int executeUpdate(String sql);`
+   
+   返回值int：返回影响的行数
+   
+   参数sql：可以执行insert、update、delete语句
+   
+2. 执行DQL语句：`ResultSet executeQuery(String sql);`
+
+   返回值ResultSet：封装查询的结果
+
+   参数sql：可以执行select语句
+
+3. 释放资源
+
+   立即将执行者对象释放：`void close();`
+
+#### 2.4. ResultSet 结果集对象
+
+1. 判断结果集中是否还有数据：`boolean next();`
+   
+   有数据返回true，并将索引向下移动一行
+   
+   没有数据返回false
+   
+2. 获取结果集中的数据：`XXX getXXX("列名");`
+
+   XXX代表数据类型（要获取某列数据，就指这一列的数据类型）
+
+   例如：`String getString("name");`     `int getInt("age");`
+
+3. 释放资源
+
+   立即将结果集对象释放：`void close();`
+
+### 3、案例
+
+> 使用 JDBC 技术完成对student 表的 CRUD 操作
+
+#### 3.1. 数据准备
+
+**创建数据库和数据表**
+
+```sql
+-- 创建db11数据库
+CREATE DATABASE db11;
+
+-- 使用db11数据库
+USE db11;
+
+-- 创建student表
+CREATE TABLE student(
+	sid INT PRIMARY KEY AUTO_INCREMENT,	-- 学生id
+	NAME VARCHAR(20),			-- 学生姓名
+	age INT,				-- 学生年龄
+	birthday DATE 				-- 学生生日
+);
+
+-- 添加数据
+INSERT INTO student VALUES (NULL, '张三', 23, '1999-09-23'), (NULL, '李四', 24, '1998-08-10'),
+(NULL, '王五', 25, '1996-06-06'), (NULL, '赵六', 26, '1994-10-20');
+```
+
+**创建Student类**
+
+![](http://images.hellocode.top/JDBC%E6%A1%88%E4%BE%8B.png)
+
+```java
+package study.jdbc.Demo.domain;
+
+import java.util.Date;
+
+public class Student {
+    private Integer sid;
+    private String name;
+    private Integer age;
+    private Date birthday;
+
+    public Student() {
+    }
+
+    public Student(Integer sid, String name, Integer age, Date birthday) {
+        this.sid = sid;
+        this.name = name;
+        this.age = age;
+        this.birthday = birthday;
+    }
+
+    public Integer getSid() {
+        return sid;
+    }
+
+    public void setSid(Integer sid) {
+        this.sid = sid;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Integer getAge() {
+        return age;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
+    }
+
+    public Date getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
+    }
+
+    @Override
+    public String toString() {
+        return "Student{" +
+                "sid=" + sid +
+                ", name='" + name + '\'' +
+                ", age=" + age +
+                ", birthday=" + birthday +
+                '}';
+    }
+}
+```
+
+> 注意：
+> 自定义类的功能是为了封装表中每列数据，成员变量和列要保持一致
+> 所有基本数据类型需要使用对应的包装类，以免表中null值无法赋值
+
+#### 3.2. 需求实现
+
+1. 查询所有学生信息
+2. 根据id查询学生信息
+3. 新增学生信息
+4. 修改学生信息
+5. 删除学生信息
+
+#### 3.3. 代码展示
+
+**查询所有学生信息**
+
+```java
+/*
+	查询所有学生信息
+*/
+@Override
+public ArrayList<Student> findAll() {
+	Connection con = null;
+	Statement stat = null;
+	ResultSet res = null;
+	ArrayList<Student> list = new ArrayList<>();
+
+	try{
+		// 1.注册驱动
+		Class.forName("com.mysql.jdbc.Driver");
+
+		// 2.获取数据库连接
+		con = DriverManager.getConnection("jdbc:mysql://192.168.23.129:3306/db11", "root", "密码");
+
+		// 3.获取执行者对象
+		stat = con.createStatement();
+
+		// 4.执行sql语句，并接收返回的结果集
+		String sql = "SELECT * FROM student";
+		res = stat.executeQuery(sql);
+
+		// 5.处理结果集
+		while(res.next()){
+			Integer sid = res.getInt("sid");
+			String name = res.getString("name");
+			Integer age = res.getInt("age");
+			Date birthday = res.getDate("birthday");
+			list.add(new Student(sid,name,age,birthday));
+		}
+
+	}catch(Exception e){
+		e.printStackTrace();
+	}finally {
+		// 6.释放资源
+		if(con != null) {
+			try {
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		if(stat != null) {
+			try {
+				stat.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		if(res != null) {
+			try {
+				res.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	// 将集合对象返回
+	return list;
+}
+```
+
+**根据id查询学生信息**
+
+```java
+/*
+	根据id查询学生信息
+*/
+@Override
+public Student findById(Integer id) {
+	Connection con = null;
+	Statement stat = null;
+	ResultSet res = null;
+	Student stu = new Student();
+
+	try{
+		// 1.注册驱动
+		Class.forName("com.mysql.jdbc.Driver");
+
+		// 2.获取数据库连接
+		con = DriverManager.getConnection("jdbc:mysql://192.168.23.129:3306/db11", "root", "密码");
+
+		// 3.获取执行者对象
+		stat = con.createStatement();
+
+		// 4.执行sql语句，并接收返回的结果集
+		String sql = "SELECT * FROM student WHERE sid = " + id;
+		res = stat.executeQuery(sql);
+
+		// 5.处理结果集
+		while(res.next()){
+			Integer sid = res.getInt("sid");
+			String name = res.getString("name");
+			Integer age = res.getInt("age");
+			Date birthday = res.getDate("birthday");
+			// 封装学生对象
+            stu.setSid(sid);
+            stu.setName(name);
+            stu.setAge(age);
+            stu.setBirthday(birthday);
+		}
+
+	}catch(Exception e){
+		e.printStackTrace();
+	}finally {
+		// 6.释放资源
+		if(con != null) {
+			try {
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		if(stat != null) {
+			try {
+				stat.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		if(res != null) {
+			try {
+				res.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	// 将对象返回
+    return stu;
+}
+```
+
+**新增学生信息**
+
+```java
+/*
+	添加学生信息
+*/
+@Override
+public int insert(Student stu) {
+	Connection con = null;
+	Statement stat = null;
+	int result = 0;
+
+	try{
+		// 1.注册驱动
+		Class.forName("com.mysql.jdbc.Driver");
+
+		// 2.获取数据库连接
+		con = DriverManager.getConnection("jdbc:mysql://192.168.23.129:3306/db11", "root", "密码");
+
+		// 3.获取执行者对象
+		stat = con.createStatement();
+
+		// 4.执行sql语句，并接收返回的结果集
+		Date d = stu.getBirthday();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String birthday = sdf.format(d);
+        String sql = "INSERT INTO student VALUES ('"+stu.getSid()+"','"+stu.getName()+"','"+stu.getAge()+"','"+birthday+"')";
+        result = stat.executeUpdate(sql);
+
+		// 5.处理结果集
+
+	}catch(Exception e){
+		e.printStackTrace();
+	}finally {
+		// 6.释放资源
+		if(con != null) {
+			try {
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		if(stat != null) {
+			try {
+				stat.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	// 将结果返回
+    return result;
+}
+```
+
+**修改学生信息**
+
+```java
+/*
+	修改学生信息
+*/
+@Override
+public int update(Student stu) {
+	Connection con = null;
+	Statement stat = null;
+	int result = 0;
+
+	try{
+		// 1.注册驱动
+		Class.forName("com.mysql.jdbc.Driver");
+
+		// 2.获取数据库连接
+		con = DriverManager.getConnection("jdbc:mysql://192.168.23.129:3306/db11", "root", "密码");
+
+		// 3.获取执行者对象
+		stat = con.createStatement();
+
+		// 4.执行sql语句，并接收返回的结果集
+		Date d = stu.getBirthday();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String birthday = sdf.format(d);
+        String sql = "UPDATE student SET sid='"+stu.getSid()+"',name='"+stu.getName()+"',age='"+stu.getAge()+"',birthday='"+birthday+"' WHERE sid='"+stu.getSid()+"'";
+        result = stat.executeUpdate(sql);
+
+		// 5.处理结果集
+
+	}catch(Exception e){
+		e.printStackTrace();
+	}finally {
+		// 6.释放资源
+		if(con != null) {
+			try {
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		if(stat != null) {
+			try {
+				stat.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	// 将结果返回
+    return result;
+}
+```
+
+**删除学生信息**
+
+```java
+/*
+	删除学生信息
+*/
+@Override
+public int delete(Integer id) {
+	Connection con = null;
+	Statement stat = null;
+	int result = 0;
+
+	try{
+		// 1.注册驱动
+		Class.forName("com.mysql.jdbc.Driver");
+
+		// 2.获取数据库连接
+		con = DriverManager.getConnection("jdbc:mysql://192.168.23.129:3306/db11", "root", "密码");
+
+		// 3.获取执行者对象
+		stat = con.createStatement();
+
+		// 4.执行sql语句，并接收返回的结果集
+        String sql = "DELETE FROM student WHERE sid='"+id+"'";
+        result = stat.executeUpdate(sql);
+
+		// 5.处理结果集
+
+	}catch(Exception e){
+		e.printStackTrace();
+	}finally {
+		// 6.释放资源
+		if(con != null) {
+			try {
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		if(stat != null) {
+			try {
+				stat.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	// 将结果返回
+    return result;
+}
+```
+
+### 4、工具类
+
+**编写配置文件**
+
+在src目录下创建config.properties 配置文件
+
+```properties
+driverClass=com.mysql.jdbc.Driver
+url=jdbc:mysql://localhost:3006/db4
+username=root
+password=密码
+```
+
+**编写JDBC 工具类**
+
+```java
+package study.jdbc.Demo.utils;
+
+import com.mysql.jdbc.Driver;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.sql.*;
+import java.util.Properties;
+
+public class JDBCUtils {
+    // 1. 私有构造方法
+    private JDBCUtils(){}
+    
+    // 2. 声明所需要的配置变量
+    private static String driverClass;
+    private static String url;
+    private static String username;
+    private static String password;
+    private static Connection con;
+    
+    // 3. 提供静态代码块。读取配置文件的信息为变量赋值，注册驱动
+    static {
+        try {
+            // 读取配置文件的信息为变量赋值
+            InputStream is = JDBCUtils.class.getClassLoader().getResourceAsStream("config.properties");
+            Properties prop = new Properties();
+            prop.load(is);
+            
+            driverClass = prop.getProperty("driverClass");
+            url = prop.getProperty("url");
+            username = prop.getProperty("username");
+            password = prop.getProperty("password");
+
+            // 注册驱动
+            Class.forName(driverClass);
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    // 4. 提供获取数据库连接方法
+    public static Connection getConnection(){
+        try {
+            con = DriverManager.getConnection(url, username, password);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return con;
+    }
+    // 5. 提供释放资源的方法
+    public static void close(Connection con, Statement stat, ResultSet rs){
+        if(con != null){
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        if(stat != null){
+            try {
+                stat.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        if(rs != null){
+            try {
+                rs.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static void close(Connection con, Statement stat){
+        if(con != null){
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        if(stat != null){
+            try {
+                stat.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+}
+```
+
+### 5、注入攻击
+
+什么是SQL注入攻击?
+
+就是利用SQL语句的漏洞来对系统进行攻击
+
+```java
+/*
+        使用Statement的登录方法，有注入攻击
+     */
+@Override
+public User findByLoginNameAndPassword(String loginName, String password) {
+	//定义必要信息
+	Connection conn = null;
+    Statement st = null;
+    ResultSet rs = null;
+    User user = null;
+    try {
+        //1.获取连接
+		conn = JDBCUtils.getConnection();
+		//2.定义SQL语句
+		String sql = "SELECT * FROM user WHERE loginname='"+loginName+"' AND password='"+password+"'";
+		System.out.println(sql);
+		//3.获取操作对象，执行sql语句，获取结果集
+		st = conn.createStatement();
+		rs = st.executeQuery(sql);
+		//4.获取结果集
+		if (rs.next()) {
+			//5.封装
+            user = new User();
+            user.setUid(rs.getString("uid"));
+            user.setUcode(rs.getString("ucode"));
+            user.setUsername(rs.getString("username"));
+            user.setPassword(rs.getString("password"));
+            user.setGender(rs.getString("gender"));
+            user.setDutydate(rs.getDate("dutydate"));
+            user.setBirthday(rs.getDate("birthday"));
+            user.setLoginname(rs.getString("loginname"));
+        }
+        //6.返回
+		return user;
+	}catch (Exception e){
+		throw new RuntimeException(e);
+	}finally {
+        JDBCUtils.close(conn,st,rs);
+    }
+}
+```
+
+> 在上面代码中，登录时账户随便输入，密码输入bbb' or '1' = '1 就会直接登录成功
+>
+> 执行者对象会执行`SELECT * FROM user WHERE loginname='aaa' AND password='bbb' or '1' = '1'`语句
+
+**SQL注入攻击的原理**
+
+- 按照正常道理来说，我们在密码处输入的内容，都应该认为是密码的组成
+- 但是现在Statement对象在执行sql语句时，将密码的一部分内容当作查询条件来执行了
+
+**SQL注入攻击的解决**
+
+- PreparedStatement 预编译执行者对象
+
+  - 在执行sql语句之前，将sql语句进行提前编译。明确sql语句的格式后，就不会改变了。剩余的内容都会认为是参数
+  - SQL语句中的参数使用`?`作为占位符
+
+- 为`?`占位符赋值的方法：`setXxx(参数1,参数2);`
+
+  - Xxx代表：数据类型
+- 参数1：? 的位置编号(编号从1开始)
+  - 参数2：? 的实际参数
+
+  ```java
+String sql = "SELECT * FROM user WHERE loginname=? AND password=?";
+  PreparedStatement st = conn.prepareStatement(sql);
+  st.setString(1,loginName);
+  st.setString(2,password);
+  
+  rs = st.executeQuery();
+  ```
+  
+- 执行SQL 语句
+
+  - 执行 insert、update、delete 语句：`int executeUpdate();`
+  - 执行select 语句：`ResultSet executeQuery();`
+
+### 6、事务管理
+
+**管理事务的功能类：Connection**
+
+- 开启事务：`setAutoCommit(boolean autoCommit);` 
+
+  参数为false，则开启事务
+
+- 提交事务：`commit();`
+
+- 回滚事务：`rollback();`
+
+**演示批量添加数据并在业务层管理事务**
+
+```java
+@Override
+public void batchAdd(List<User> users) {
+    //获取数据库连接对象
+	Connection con = JDBCUtils.getConnection();
+	try {
+		//开启事务
+		con.setAutoCommit(false);
+
+		for (User user : users) {
+			//1.创建ID,并把UUID中的-替换
+			String uid = UUID.randomUUID().toString().replace("-", "").toUpperCase();
+			//2.给user的uid赋值
+			user.setUid(uid);
+			//3.生成员工编号
+			user.setUcode(uid);
+
+			//出现异常
+			//int n = 1 / 0;
+
+			//4.保存
+				userDao.save(con,user);
+		}
+
+		//提交事务
+		con.commit();
+
+	}catch (Exception e){
+		//回滚事务
+		try {
+            con.rollback();
+        } catch (SQLException e1) {
+            e1.printStackTrace();
+        }
+        e.printStackTrace();
+    } finally {
+        //释放资源
+        JDBCUtils.close(con,null);
+	}
+}
+```
+
+### 7、连接池
+
+>  数据库连接是一种关键的、有限的、昂贵的资源，这一点在多用户的网页应用体现的尤为突出
+>
+>  对数据库连接的管理能显著影响到整个应用程序的性能指标，数据库连接池正是针对这个问题提出来的
+
+数据库连接池负责分配、管理和释放数据库连接，它允许应用程序重复使用一个现有的数据库连接，而不是再重新建立一个。这项技术能明显提高对数据库操作的性能
+
+#### 7.1. 自定义数据库连接池
+
+**DataSource**
+
+- javax.sql.DataSource 接口：数据源（数据库连接池）。Java官方提供的数据库连接池规范（接口）
+- 如果想完成数据库连接池技术，就必须实现DataSource 接口
+- 核心功能：获取数据库连接对象：`Connection getConnection();`
+
+**自定义数据库连接池**
+
+1. 定义一个类，实现DataSource 接口
+2. 定义一个容器，用于保存多个 Connection 连接对象
+3. 定义静态代码块，通过 JDBC 工具类获取10个连接保存到容器中
+4. 重写 getConnection方法，从容器中获取一个连接并返回
+5. 定义 getSize方法，用于获取容器的大小并返回
+
+```java
+package jdbc.demo01;
+
+/*
+*   自定义数据库连接池
+* */
+
+import jdbc.utils.JDBCUtils;
+
+import javax.sql.DataSource;
+import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.SQLFeatureNotSupportedException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.logging.Logger;
+
+public class MyDataSource implements DataSource {
+    // 1.准备容器。保存多个连接对象（通过Collections的方法获取一个线程安全的集合对象）
+    private static List<Connection> pool = Collections.synchronizedList(new ArrayList<>());
+    
+    // 2. 定义静态代码块，通过工具类获取10个连接对象
+    static {
+        for(int i = 1; i <= 10; i++){
+            Connection con = JDBCUtils.getConnection();
+            pool.add(con);
+        }
+    }
+    
+    // 3. 重写getConnection方法，获取连接对象
+    @Override
+    public Connection getConnection() throws SQLException {
+        if(pool.size() > 0){
+            Connection con = pool.remove(0);
+            return con;
+        }else{
+            throw new RuntimeException("连接数量已用尽");
+        }
+    }
+    
+    // 4. 定义getSize方法，获取连接池容器的大小
+    public int getSize(){
+        return pool.size();
+    }
+    
+    
+    @Override
+    public Connection getConnection(String username, String password) throws SQLException {
+        return null;
+    }
+
+    @Override
+    public <T> T unwrap(Class<T> iface) throws SQLException {
+        return null;
+    }
+
+    @Override
+    public boolean isWrapperFor(Class<?> iface) throws SQLException {
+        return false;
+    }
+
+    @Override
+    public PrintWriter getLogWriter() throws SQLException {
+        return null;
+    }
+
+    @Override
+    public void setLogWriter(PrintWriter out) throws SQLException {
+
+    }
+
+    @Override
+    public void setLoginTimeout(int seconds) throws SQLException {
+
+    }
+
+    @Override
+    public int getLoginTimeout() throws SQLException {
+        return 0;
+    }
+
+    @Override
+    public Logger getParentLogger() throws SQLFeatureNotSupportedException {
+        return null;
+    }
+}
+```
+
+**测试**
+
+```java
+package jdbc.demo01;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+public class MyDataSourceTest {
+    public static void main(String[] args) throws SQLException {
+        // 1. 创建连接池对象
+        MyDataSource dataSource = new MyDataSource();
+
+        // 2.通过连接池对象获取连接对象
+        Connection con = dataSource.getConnection();
+
+        // 3. 查询学生表全部信息
+        String sql = "SELECT * FROM student";
+        PreparedStatement ps = con.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+        while(rs.next()){
+            System.out.println(rs.getInt("sid") + "\t" + rs.getString("name") + "\t" + rs.getInt("age") + "\t" + rs.getDate("birthday"));
+        }
+
+        // 释放资源
+        rs.close();
+        ps.close();
+        // 用完还是关闭连接了，仍存在问题
+        con.close();
+    }
+}
+```
+
+#### 7.2. 归还连接
+
+**归还数据库连接的方式**
+
+- 继承方式
+- 装饰设计模式
+- 适配器设计模式
+- 动态代理方式
+
+**继承方式**（行不通）
+
+- 通过打印连接对象，发现DriverManager 获取的连接实现类是JDBC4Connection
+- 那我们就可以自定义一个类，继承JDBC4Connection 这个类，重写close()方法，完成连接对象的归还
+
+- 实现步骤
+
+  1. 定义一个类，继承JDBC4Connection
+  2. 定义Connection 连接对象和连接池容器对象的成员变量
+  3. 通过有参构造方法完成对成员变量的赋值
+  4. 重写close方法，将连接对象添加到池中
+
+- 继承方式归还数据库连接存在问题
+
+  > 通过查看JDBC 工具类获取连接的方法发现：我们虽然自定义了一个子类，完成了归还连接的操作。但是DriverManager 获取的还是 JDBC4Connection 这个对象，并不是我们的子类对象，而我们又不能整体去修改驱动包中类的功能，所以继承方式行不通
+
+**装饰设计模式**
+
+1. 装饰设计模式归还数据库连接的思想
+
+   - 我们可以自定义一个类，实现Connection 接口。这样就具备了和 JDBC4Connection 相同的行为了
+   - 重写 close()方法，完成连接的归还。其余功能还调用mysql 驱动包实现类原有的方法即可
+
+2. 实现步骤
+
+   1. 定义一个类，实现Connection接口
+   2. 定义 Connection 连接对象和连接池容器对象的成员变量
+   3. 通过有参构造方法完成对成员变量的赋值
+   4. 重写 close() 方法，将连接对象添加到池中
+   5. 剩余方法，只需要调用mysql 驱动包的连接对象完成即可
+   6. 在自定义的连接池中，将获取的连接对象通过自定义连接对象进行包装
+
+   ```java
+   package jdbc.demo02;
+   
+   import java.sql.*;
+   import java.util.List;
+   import java.util.Map;
+   import java.util.Properties;
+   import java.util.concurrent.Executor;
+   
+   public class MyConnection2 implements Connection {
+       private Connection con;
+       List<Connection> pool;
+   
+       public MyConnection2(Connection con, List<Connection> pool){
+           this.con = con;
+           this.pool = pool;
+       }
+   
+       @Override
+       public void close() throws SQLException {
+           pool.add(con);
+       }
+   
+       @Override
+       public Statement createStatement() throws SQLException {
+           return con.createStatement();
+       }
+   
+       @Override
+       public PreparedStatement prepareStatement(String sql) throws SQLException {
+           return con.prepareStatement(sql);
+       }
+   
+       @Override
+       public void commit() throws SQLException {
+           con.commit();
+       }
+   
+       @Override
+       public void rollback() throws SQLException {
+           con.rollback();
+       }
+   
+     
+       @Override
+       public void rollback(Savepoint savepoint) throws SQLException {
+           con.rollback(savepoint);
+       }
+   
+       @Override
+       public Statement createStatement(int resultSetType, int resultSetConcurrency, int resultSetHoldability) throws SQLException {
+           return con.createStatement(resultSetType,resultSetConcurrency,resultSetHoldability);
+       }
+   
+       @Override
+       public PreparedStatement prepareStatement(String sql, int resultSetType, int resultSetConcurrency, int resultSetHoldability) throws SQLException {
+           return con.prepareStatement(sql,resultSetType,resultSetConcurrency,resultSetHoldability);
+       }
+   
+      
+   ....................................................
+     
+   
+       @Override
+       public boolean isWrapperFor(Class<?> iface) throws SQLException {
+           return con.isWrapperFor(iface);
+       }
+   }
+   ```
+   
+   ```java
+   // 重写getConnection方法，获取连接对象
+   @Override
+   public Connection getConnection() throws SQLException {
+   	if(pool.size() > 0){
+   		Connection con = pool.remove(0);
+   		// 通过自定义的连接对原有的对象进行包装
+   		MyConnection2 myCon = new MyConnection2(con,pool);
+   		return myCon;
+   	}else{
+   		throw new RuntimeException("连接数量已用尽");
+   	}
+   }
+   ```
+
+> 实现Connection 接口后，有大量的方法需要在自定义类中进行重写，行不通
+
+**适配器设计模式**
+
+1. 思想
+   - 可以提供一个适配器类，实现Connection 接口，将所有的方法进行实现（除了close方法）
+   - 自定义连接类只需要继承这个适配器类，重写需要改进的close()方法即可
+2. 步骤
+   1. 定义一个适配器类，实现Connection 接口
+   2. 定义 Connection 连接对象的成员变量
+   3. 通过有参构造方法完成对成员变量的赋值
+   4. 重写所有方法（除了close），调用mysql 驱动包的连接对象完成即可
+   5. 定义一个连接类，继承适配器类
+   6. 定义 Connection 连接对象和连接池容器对象的成员变量，并通过有参构造进行赋值
+   7. 重写 close()方法，完成归还连接
+   8. 在自定义连接池中，将获取的连接对象通过自定义连接对象进行包装
+
+```java
+public class MyConnection3 extends MyAdapter{
+    private Connection con;
+    private List<Connection> pool;
+    
+    public MyConnection3(Connection con, List<Connection> pool){
+        super(con);
+        this.con = con;
+        this.pool = pool;
+    }
+    
+    @Override
+    public void close() throws SQLException {
+        pool.add(con);
+    }
+}
+```
+
+- 存在的问题
+  
+  自定义连接类虽然很简洁了，但适配器还是我们自己编写的，也比较麻烦
+
+#### 7.3. 动态代理
+
+- 动态代理：在不改变目标对象方法的情况下对方法进行增强
+
+- 组成
+
+  - 被代理的对象：真实的对象
+  - 代理对象：内存中的一个对象
+
+- 要求：代理对象必须和被代理对象实现相同的接口
+
+
+**实现**：`Proxy.newProxyInstance()`
+
+- 类加载器：和被代理对象使用相同的类加载器（`对象.getClass().getClassLoader()`）
+- 接口类型的Class数组:和被代理对象使用相同接口(`new Class[]{接口名.class}`)
+- 代理规则：完成代理增强的功能（匿名内部类方式`new InvocationHandler(){}`）
+
+> 代理规则这个内部类中需要重写一个抽象方法：`invoke`
+> invoke方法三个参数，第一个参数proxy不用管
+> 第二个method方法对象，用来表示被代理对象中的每个方法（被代理对象的每个方法在执行前都会先经过invoke方法）
+> 第三个参数args表示被代理对象对应的形参
+
+**动态代理方式归还数据库连接**
+
+1. 思想
+   - 我们可以通过 Proxy 来完成对Connection 实现类对象的代理
+   - 代理过程中判断如果执行的是close方法，就将连接归还池中。如果是其他方法则调用连接对象原来的功能即可
+2. 步骤
+   1. 定义一个类，实现 DataSource 接口
+   2. 定义一个容器，用于保存多个 Connection 连接对象
+   3. 定义静态代码块，通过 JDBC 工具类获取10个连接保存到容器中
+   4. 重写 getConnection 方法，从容器中获取一个连接
+   5. 通过 Proxy 代理，如果是close 方法，就将连接归还池中。如果是其他方法则调用原有功能
+   6. 定义 getSize方法，用于获取容器的大小并返回
+
+```java
+/*
+    *   动态代理方式
+*/
+
+@Override
+public Connection getConnection() throws SQLException {
+	if(pool.size() > 0){
+		Connection con = pool.remove(0);
+
+		Connection proxyCon = (Connection) Proxy.newProxyInstance(con.getClass().getClassLoader(), new Class[]{Connection.class}, new InvocationHandler() {
+		/*
+		*   执行Connection实现类连接对象所有方法都会经过invoke
+		* */
+
+			@Override
+			public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+				if(method.getName().equals("close")){
+					pool.add(con);
+                    return null;
+                }else{
+                    return method.invoke(con,args);
+                }
+            }
+        });
+        return proxyCon;
+    }else{
+        throw new RuntimeException("连接数量已用尽");
+    }
+}
+```
+
+- 存在的问题
+  
+  我们自己写的连接池技术不够完善，功能也不够强大
+
+#### 7.4. 开源数据库连接池
+
+**C3P0 数据库连接池**
+
+使用步骤
+- 导入jar包
+- 导入配置文件到src目录下
+- 创建 C3P0 连接池对象
+- 获取数据库连接进行使用
+
+> 注意： C3P0的配置文件会自动加载，但是必须叫 c3p0-config.xml 或 c3p0-config.properties
+
+```xml
+<!--配置文件-->
+<c3p0-config>
+  <!-- 使用默认的配置读取连接池对象 -->
+  <default-config>
+  	<!--  连接参数 -->
+    <property name="driverClass">com.mysql.jdbc.Driver</property>
+    <property name="jdbcUrl">jdbc:mysql://192.168.23.129:3306/db11</property>
+    <property name="user">root</property>
+    <property name="password">lh密码</property>
+    
+    <!-- 连接池参数 -->
+    <!--初始化连接数量-->
+    <property name="initialPoolSize">5</property>
+    <!--最大的连接数量-->
+    <property name="maxPoolSize">10</property>
+    <!--超时时间-->
+    <property name="checkoutTimeout">3000</property>
+  </default-config>
+
+  <named-config name="otherc3p0"> 
+    <!--  连接参数 -->
+    <property name="driverClass">com.mysql.jdbc.Driver</property>
+    <property name="jdbcUrl">jdbc:mysql://localhost:3306/db15</property>
+    <property name="user">root</property>
+    <property name="password">itheima</property>
+    
+    <!-- 连接池参数 -->
+    <property name="initialPoolSize">5</property>
+    <property name="maxPoolSize">8</property>
+    <property name="checkoutTimeout">1000</property>
+  </named-config>
+</c3p0-config>
+```
+
+```java
+public class C3P0Test1 {
+    public static void main(String[] args) throws SQLException {
+        // 创建c3p0数据库连接池对象
+        DataSource dataSource = new ComboPooledDataSource();
+
+        // 通过连接池对象获取数据库连接
+        Connection con = dataSource.getConnection();
+
+        // 执行操作
+        String sql = "SELECT * FROM student";
+        PreparedStatement ps = con.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+        while(rs.next()){
+            System.out.println(rs.getInt("sid") + "\t" + rs.getString("name") + "\t" + rs.getInt("age") + "\t" + rs.getDate("birthday"));
+        }
+
+        // 释放资源
+        rs.close();
+        ps.close();
+        con.close();
+    }
+}
+```
+
+**Druid 数据库连接池**
+
+步骤
+- 导入jar包
+- 编写配置文件，放在src 目录下
+- 通过 Properties 集合加载配置文件
+- 通过 Druid 连接池工厂类获取数据库连接池对象
+- 获取数据库连接进行使用
+
+> 注意：Druid 不会自动加载配置文件，需要手动加载，但是文件的名称可以自定义
+
+```properties
+# Druid配置文件
+driverClassName=com.mysql.jdbc.Driver
+url=jdbc:mysql://127.0.0.1:3306/db3
+username=root
+password=root
+# 初始化连接数量
+initialSize=5
+# 最大连接数量
+maxActive=10
+# 超时时间
+maxWait=3000
+```
+
+```java
+package jdbc.demo04;
+
+import com.alibaba.druid.pool.DruidDataSourceFactory;
+
+import javax.sql.DataSource;
+import java.io.IOException;
+import java.io.InputStream;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.Properties;
+
+public class DruidTest1 {
+    public static void main(String[] args) throws Exception {
+        // 获取配置文件的流对象
+        InputStream is = DruidTest1.class.getClassLoader().getResourceAsStream("druid.properties");
+
+        // 加载配置文件
+        Properties prop = new Properties();
+        prop.load(is);
+
+        // 获取数据库连接池对象
+        DataSource dataSource = DruidDataSourceFactory.createDataSource(prop);
+
+        // 获取数据库连接
+        Connection con = dataSource.getConnection();
+
+        // 执行操作
+        String sql = "SELECT * FROM student";
+        PreparedStatement ps = con.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+        while(rs.next()){
+            System.out.println(rs.getInt("sid") + "\t" + rs.getString("name") + "\t" + rs.getInt("age") + "\t" + rs.getDate("birthday"));
+        }
+
+        // 释放资源
+        rs.close();
+        ps.close();
+        con.close();
+    }
+}
+```
+
+#### 7.5. 连接池的工具类
+
+1. 私有化构造方法（不让其他人创建对象）
+2. 声明数据源变量
+3. 提供静态代码块。完成配置文件的加载以及获取数据库连接池对象
+4. 提供获取数据库连接的方法
+5. 提供获取数据库连接池对象的方法
+6. 释放资源
+
+```java
+package jdbc.utils;
+
+/*
+*   数据库连接池工具类
+**/
+
+
+
+import com.alibaba.druid.pool.DruidDataSourceFactory;
+
+import javax.sql.DataSource;
+import java.io.InputStream;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Properties;
+
+public class DataSourceUtils {
+    // 1. 私有化构造方法（不让其他人创建对象）
+    private DataSourceUtils(){}
+    // 2.声明数据源变量
+    private static DataSource dataSource;
+    // 3. 提供静态代码块。完成配置文件的加载以及获取数据库连接池对象
+    static {
+        try{
+            // 完成配置文件的加载
+            InputStream is = DataSourceUtils.class.getClassLoader().getResourceAsStream("druid.properties");
+
+            Properties prop = new Properties();
+            prop.load(is);
+
+            // 获取数据库连接池对象
+            dataSource = DruidDataSourceFactory.createDataSource(prop);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+    // 4.提供获取数据库连接的方法
+    public static Connection getConnection(){
+        Connection con = null;
+        try {
+            con = dataSource.getConnection();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return con;
+    }
+
+    // 5. 提供获取数据库连接池对象的方法
+    public static DataSource getDataSource(){
+        return dataSource;
+    }
+
+    // 6. 释放资源
+    public static void close(Connection con, Statement stat, ResultSet rs){
+        if(con != null){
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        if(stat != null){
+            try {
+                stat.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        if(rs != null){
+            try {
+                rs.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    public static void close(Connection con, Statement stat){
+        if(con != null){
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        if(stat != null){
+            try {
+                stat.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+}
+```
+
+```java
+/*
+	测试类
+*/
+package jdbc.demo04;
+
+import jdbc.utils.DataSourceUtils;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
+public class DruidTest2 {
+    public static void main(String[] args) throws Exception{
+        // 通过连接池工具类获取数据库连接
+        Connection con = DataSourceUtils.getConnection();
+        // 执行操作
+        String sql = "SELECT * FROM student";
+        PreparedStatement ps = con.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+        while(rs.next()){
+            System.out.println(rs.getInt("sid") + "\t" + rs.getString("name") + "\t" + rs.getInt("age") + "\t" + rs.getDate("birthday"));
+        }
+        DataSourceUtils.close(con,ps,rs);
+    }
+}
+```
+
+### 8、框架
+
+> 在之前的JDBC网页版案例中，定义必要的信息、获取数据库连接、释放资源都是重复的代码，我们最终的核心功能仅仅只是执行一条sql语句，所以我们可以抽取出一个 KDBC 模板类，来封装一些方法（update、query），专门帮我们执行增删改查的sql语句。将之前那些重复的操作，都抽取到模板类中的方法里，就能大大简化使用步骤
+
+#### 8.1. 源信息
+
+**DataBaseMetaData**：数据库的源信息（了解）
+
+- java.sql.DataBaseMetaData封装了整个数据库的综合信息
+  - `String getDatabaseProductName()`：获取数据库产品的名称
+  - `int getDatabaseProductVersion()`：获取数据库产品的版本号
+
+**ParameterMetaData**：参数的源信息
+
+- java.sql.ParameterMetaData封装的是预编译执行者对象中每个参数的类型和属性，这个对象可以通过预编译执行者对象中的`getParameterMetaData()`方法来获取
+- 核心功能：`int getParameterCount()`用于获取sql语句中参数的个数
+
+**ResultSetMetaData**：结果集的源信息
+
+- java.sql.ResultSetMetaData：封装的是结果集对象中列的类型和属性，这个对象可以通过结果集对象中的`getMetaData()`方法来获取
+
+- 核心功能
+  
+  `int getColumnCount()`用于获取列的总数
+  
+  `String getColumnName(int i)`用于获取列名
+
+#### 8.2. update方法
+
+**用于执行增删改功能的update()方法**
+
+1. 定义所需成员变量（数据源、数据库连接、执行者、结果集）
+2. 定义有参构造，为数据源对象赋值
+3. 定义update()方法，参数：sql语句、sql语句所需参数
+4. 定义int类型变量，用于接收sql 语句执行后影响的行数
+5. 通过数据源获取一个数据库连接
+6. 通过数据库连接对象获取执行者对象并对sql语句预编译
+
+```java
+package jdbc.demo05;
+
+import jdbc.utils.DataSourceUtils;
+
+import javax.sql.DataSource;
+import java.sql.*;
+
+/*
+*   JDBC框架类
+* */
+public class JDBCTemplate {
+    // 1. 定义所需成员变量（数据源、数据库连接、执行者、结果集）
+    private DataSource dataSource;
+    private Connection con;
+    private PreparedStatement pst;
+    private ResultSet rs;
+
+    // 2. 定义有参构造，为数据源对象赋值
+    public JDBCTemplate(DataSource dataSource){
+        this.dataSource = dataSource;
+    }
+
+    // 3. 定义update()方法，参数：sql语句、sql语句所需参数
+    public int update(String sql, Object...objs){
+        // 4. 定义int类型变量，用于接收sql 语句执行后影响的行数
+        int result = 0;
+        try {
+            // 5. 通过数据源获取一个数据库连接
+            con = dataSource.getConnection();
+            // 6. 通过数据库连接对象获取执行者对象并对sql语句预编译
+            pst = con.prepareStatement(sql);
+            // 7.通过执行者对象获取参数源信息对象
+            ParameterMetaData parameterMetaData = pst.getParameterMetaData();
+            // 8.通过源信息对象获取sql语句中的参数个数
+            int count = parameterMetaData.getParameterCount();
+
+            // 9.判断参数数量是否一致
+            if(count != objs.length){
+                throw new RuntimeException("参数个数不匹配");
+            }
+            // 10.为sql语句中问号占位符赋值
+            for(int i = 0; i < objs.length; i++){
+                pst.setObject(i+1,objs[i]);
+            }
+            // 11.执行sql语句并接收结果
+            result = pst.executeUpdate();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally {
+            // 12.释放资源
+            DataSourceUtils.close(con,pst);
+        }
+        // 13.返回结果
+        return result;
+    }
+}
+```
+
+**测试**
+
+```java
+package jdbc.demo05;
+
+/*
+*       模拟dao层
+* */
+
+import jdbc.utils.DataSourceUtils;
+import org.junit.Test;
+
+public class JDBCTemplateTest1 {
+    private JDBCTemplate template = new JDBCTemplate(DataSourceUtils.getDataSource());
+
+    @Test
+    public void delete(){
+        // 删除数据测试
+        String sql = "DELETE FROM student WHERE name=?";
+        int result = template.update(sql, "周七");
+        if(result != 0){
+            System.out.println("删除成功");
+        }else{
+            System.out.println("删除失败");
+        }
+    }
+
+    @Test
+    public void update(){
+        // 修改数据测试
+        String sql = "UPDATE student SET age=? WHERE name=?";
+        Object[] params = {37,"周七"};
+        int result = template.update(sql, params);
+        if(result != 0){
+            System.out.println("修改成功");
+        }else{
+            System.out.println("修改失败");
+        }
+    }
+
+    @Test
+    public void insert(){
+        // 新增数据测试
+        String sql = "INSERT INTO student VALUES (?,?,?,?)";
+        Object[] params = {null,"周七",27,"1997-07-07"};
+        int result = template.update(sql, params);
+        if(result != 0){
+            System.out.println("添加成功");
+        }else{
+            System.out.println("添加失败");
+        }
+    }
+}
+```
+
+#### 8.3. 查询功能
+
+**方法介绍**
+
+- 查询一条记录并封装对象的方法：`queryForObject()`
+- 查询多条记录并封装集合的方法：`queryForList()`
+- 查询聚合函数并返回单条数据的方法：`queryForScalar()`
+
+**实体类的编写**
+
+- 定义一个类，提供一些成员变量
+  
+注意：成员变量的数据类型和名称要和表中的列保持一致
+  
+  ```java
+  private Integer sid;
+  private String name;
+  private Integer age;
+  private Date birthday;
+  // 其他就是标准类中的构造、get、set方法以及toString方法
+  ```
+
+**处理结果集的接口**
+
+1. 定义泛型接口 `ResultSetHandler<T>`
+2. 定义用于处理结果集的泛型方法：`<T> T handler(ResultSet rs)`
+
+> 注意：此接口仅用于为不同处理结果集的方式提供规范，具体的实现类还需要自行编写
+
+**处理结果集的接口实现类BeanHandler**
+
+
+1. 定义一个类，实现ResultSetHandler接口
+2. 定义Class对象类型变量
+3. 通过有参构造为变量赋值
+4. 重写handler方法。用于将一条记录封装到自定义对象中
+5. 声明自定义对象类型
+6. 创建传递参数的对象，为自定义对象赋值
+7. 判断结果集中是否有数据
+8. 通过结果集对象获取结果集源信息的对象
+9. 通过结果集源信息对象获取列数
+10. 通过循环遍历列数
+11. 通过结果集源信息对象获取列名
+12. 通过列名获取该列的数据
+13. 创建属性描述器对象，将获取到的值通过该对象的set方法进行赋值
+14. 返回封装好的对象
+
+```java
+package jdbc.demo05.handler;
+
+/*
+    实现类1：用于将查询到的一条记录，封装为Student对象并返回
+
+*/
+
+import java.beans.PropertyDescriptor;
+import java.lang.reflect.Method;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+
+// 1. 定义一个类，实现ResultSetHandler接口
+public class BeanHandler<T> implements ResultSetHandler<T>{
+    // 2. 定义Class对象类型变量
+    private Class<T> beanClass;
+
+    // 3. 通过有参构造为变量赋值
+    public BeanHandler(Class<T> beanClass){
+        this.beanClass = beanClass;
+    }
+    // 4. 重写handler方法。用于将一条记录封装到自定义对象中
+    @Override
+    public T handler(ResultSet rs) {
+        // 5. 声明自定义对象类型
+        T bean = null;
+        try {
+            // 6. 创建传递参数的对象，为自定义对象赋值
+            bean = beanClass.newInstance();
+            
+            // 7. 判断结果集中是否有数据
+            if(rs.next()){
+                // 8. 通过结果集对象获取结果集源信息的对象
+                ResultSetMetaData metaData = rs.getMetaData();
+                // 9. 通过结果集源信息对象获取列数
+                int count = metaData.getColumnCount();
+
+                // 10. 通过循环遍历列数
+                for(int i = 1; i <= count; i++){
+                    // 11. 通过结果集源信息对象获取列名
+                    String columnName = metaData.getColumnName(i);
+
+                    // 12. 通过列名获取该列的数据
+                    Object value = rs.getObject(columnName);
+
+                    // 13. 创建属性描述器对象，将获取到的值通过该对象的set方法进行赋值
+                    PropertyDescriptor pd = new PropertyDescriptor(columnName.toLowerCase(),beanClass);
+                    // 获取set方法
+                    Method writeMethod = pd.getWriteMethod();
+                    // 执行set方法，给成员变量赋值
+                    writeMethod.invoke(bean,value);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        // 14. 返回封装好的对象
+        return bean;
+    }
+}
+```
+
+用于查询一条记录并封装对象的方法 queryForObject()
+
+```java
+/*
+*   执行查询的方法：将一条记录封装成一个自定义类型对象并返回
+* */
+public <T> T queryForObject(String sql, ResultSetHandler<T> rsh, Object...objs){
+    T obj = null;
+    try {
+        // 通过数据源获取一个数据库连接
+        con = dataSource.getConnection();
+        // 通过数据库连接对象获取执行者对象并对sql语句预编译
+        pst = con.prepareStatement(sql);
+        // 通过执行者对象获取参数源信息对象
+        ParameterMetaData parameterMetaData = pst.getParameterMetaData();
+        // 通过源信息对象获取sql语句中的参数个数
+        int count = parameterMetaData.getParameterCount();
+
+        // 判断参数数量是否一致
+        if(count != objs.length){
+            throw new RuntimeException("参数个数不匹配");
+        }
+        // 为sql语句中问号占位符赋值
+        for(int i = 0; i < objs.length; i++){
+            pst.setObject(i+1,objs[i]);
+        }
+        // 执行sql语句并接收结果
+        rs = pst.executeQuery();
+        // 通过BeanHandler 方式对结果处理
+        obj = rsh.handler(rs);
+    } catch (Exception e) {
+        e.printStackTrace();
+    }finally {
+        // 释放资源
+        DataSourceUtils.close(con,pst);
+    }
+    // 返回结果
+    return obj;
+}
+```
+
+```java
+@Test
+public void queryForObject(){
+    // 查询数据测试
+    String sql = "SELECT * FROM student WHERE sid=?";
+    Student stu = template.queryForObject(sql, new BeanHandler<>(Student.class), 1);
+    System.out.println(stu);
+}
+```
+
+**处理结果集的接口实现类BeanListHandler**
+
+1. 定义`BeaanListHandler<T>` 类实现 `ResultSetHandler<T>`接口
+2. 定义class 对象类型的变量
+3. 定义有参构造为变量赋值
+4. 重写handler方法，用于将结果集中的所有记录封装到集合中并返回
+5. 创建List集合对象
+6. 遍历结果集对象
+7. 创建传递参数的对象
+8. 通过结果集对象获取结果集的源信息对象
+9. 通过结果集源信息对象获取列数
+10. 通过循环遍历列数
+11. 通过结果集源信息获取列名
+12. 通过列名获取该列的数据
+13. 创建属性描述器对象，将获取到的值通过对象的set方法进行赋值
+14. 将封装好的对象添加到集合中
+15. 返回集合对象
+
+```java
+package jdbc.demo05.handler;
+
+/*
+    实现类２：用于将查询到的一条记录，封装为Student对象并添加到集合返回
+*/
+
+import java.beans.PropertyDescriptor;
+import java.lang.reflect.Method;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.util.ArrayList;
+import java.util.List;
+
+// 1. 定义一个类，实现ResultSetHandler接口
+public class BeanListHandler<T> implements ResultSetHandler<T>{
+    // 2. 定义Class对象类型变量
+    private Class<T> beanClass;
+
+    // 3. 通过有参构造为变量赋值
+    public BeanListHandler(Class<T> beanClass){
+        this.beanClass = beanClass;
+    }
+    // 4. 重写handler方法。用于将多条记录封装到自定义对象中并添加到集合返回
+    @Override
+    public List<T> handler(ResultSet rs) {
+        // 5. 声明集合对象类型
+        List<T> list = new ArrayList<>();
+        try {
+            // 6. 判断结果集中是否有数据
+            while(rs.next()){
+                // 7. 创建传递参数的对象，为自定义对象赋值
+                T bean = beanClass.newInstance();
+                // 8. 通过结果集对象获取结果集源信息的对象
+                ResultSetMetaData metaData = rs.getMetaData();
+                // 9. 通过结果集源信息对象获取列数
+                int count = metaData.getColumnCount();
+
+                // 10. 通过循环遍历列数
+                for(int i = 1; i <= count; i++){
+                    // 11. 通过结果集源信息对象获取列名
+                    String columnName = metaData.getColumnName(i);
+
+                    // 12. 通过列名获取该列的数据
+                    Object value = rs.getObject(columnName);
+
+                    // 13. 创建属性描述器对象，将获取到的值通过该对象的set方法进行赋值
+                    PropertyDescriptor pd = new PropertyDescriptor(columnName.toLowerCase(),beanClass);
+                    // 获取set方法
+                    Method writeMethod = pd.getWriteMethod();
+                    // 执行set方法，给成员变量赋值
+                    writeMethod.invoke(bean,value);
+                }
+                // 将对象保存到集合中
+                list.add(bean);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        // 14. 返回封装好的对象
+        return list;
+    }
+}
+```
+
+queryForList实现和测试
+
+```java
+/*
+*   执行查询的方法：将多条记录封装成一个自定义类型对象并添加到集合返回
+* */
+public <T> List<T> queryForList(String sql, ResultSetHandler<T> rsh, Object...objs){
+    List<T> list = new ArrayList<>();
+    try {
+        // 通过数据源获取一个数据库连接
+        con = dataSource.getConnection();
+        // 通过数据库连接对象获取执行者对象并对sql语句预编译
+        pst = con.prepareStatement(sql);
+        // 通过执行者对象获取参数源信息对象
+        ParameterMetaData parameterMetaData = pst.getParameterMetaData();
+        // 通过源信息对象获取sql语句中的参数个数
+        int count = parameterMetaData.getParameterCount();
+
+        // 判断参数数量是否一致
+        if(count != objs.length){
+            throw new RuntimeException("参数个数不匹配");
+        }
+        // 为sql语句中问号占位符赋值
+        for(int i = 0; i < objs.length; i++){
+            pst.setObject(i+1,objs[i]);
+        }
+        // 执行sql语句并接收结果
+        rs = pst.executeQuery();
+        // 通过BeanListHandler 方式对结果处理
+        list = rsh.handler(rs);
+    } catch (Exception e) {
+        e.printStackTrace();
+    }finally {
+        // 释放资源
+        DataSourceUtils.close(con,pst);
+    }
+    // 返回结果
+    return list;
+}
+```
+
+```java
+@Test
+public void queryForList(){
+    // 查询数据测试
+    String sql = "SELECT * FROM student";
+    List<Student> list= template.queryForList(sql, new BeanListHandler<>(Student.class));
+    for(Student stu : list){
+        System.out.println(stu);
+    }
+}
+```
+
+**处理结果集的接口实现类ScalarHandler**
+
+1. 定义`ScalarHandler<T>` 类实现`ResultSetHandler<T>`接口
+2. 重写handler方法，用于返回一个聚合函数的查询结果
+3. 定义Long类型变量
+4. 判断结果集对象是否有数据
+5. 通过结果集对象获取结果集源信息对象
+6. 通过结果集源信息对象获取第一列的列名
+7. 通过列名获取该列的数据
+8. 将结果返回
+
+```java
+package jdbc.demo05.handler;
+
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+
+// 1.定义ScalarHandler<T> 类实现ResultSetHandler<T>接口
+public class ScalarHandler<T> implements ResultSetHandler<T>{
+    // 2.重写handler方法，用于返回一个聚合函数的查询结果
+    @Override
+    public Long handler(ResultSet rs) {
+        // 3.定义Long类型变量
+        Long value = null;
+
+        try {
+            // 4.判断结果集对象是否有数据
+            if(rs.next()){
+                // 5.通过结果集对象获取结果集源信息对象
+                ResultSetMetaData metaData = rs.getMetaData();
+                // 6. 获取第一列的列名
+                String columnName = metaData.getColumnName(1);
+                // 7.根据列名获取该列的值
+                value = rs.getLong(columnName);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        // 8.返回结果
+        return value;
+    }
+}
+```
+
+queryForScalar实现和测试
+
+```java
+/*
+*   执行查询的方法：将聚合函数的查询结果返回
+* */
+public Long queryForScalar(String sql, ResultSetHandler<Long> rsh, Object...objs){
+    Long value = null;
+    try {
+        // 通过数据源获取一个数据库连接
+        con = dataSource.getConnection();
+        // 通过数据库连接对象获取执行者对象并对sql语句预编译
+        pst = con.prepareStatement(sql);
+        // 通过执行者对象获取参数源信息对象
+        ParameterMetaData parameterMetaData = pst.getParameterMetaData();
+        // 通过源信息对象获取sql语句中的参数个数
+        int count = parameterMetaData.getParameterCount();
+
+        // 判断参数数量是否一致
+        if(count != objs.length){
+            throw new RuntimeException("参数个数不匹配");
+        }
+        // 为sql语句中问号占位符赋值
+        for(int i = 0; i < objs.length; i++){
+            pst.setObject(i+1,objs[i]);
+        }
+        // 执行sql语句并接收结果
+        rs = pst.executeQuery();
+        // 通过ScalarHandler 方式对结果处理
+        value = rsh.handler(rs);
+    } catch (Exception e) {
+        e.printStackTrace();
+    }finally {
+        // 释放资源
+        DataSourceUtils.close(con,pst);
+    }
+    // 返回结果
+    return value;
+}
+```
+
+```java
+@Test
+public void queryForScalar(){
+	// 查询聚合函数测试
+	String sql = "SELECT COUNT(*) FROM student";
+    Long value = template.queryForScalar(sql, new ScalarHandler<Long>());
+    System.out.println(value);
+}
+```

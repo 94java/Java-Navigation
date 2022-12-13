@@ -1,0 +1,1 @@
+import{_ as t}from"./_plugin-vue_export-helper.cdc0426e.js";import{o as a,c as o,a as e,b as r}from"./app.69e51fc3.js";const c={},n=e("h1",{id:"新特性",tabindex:"-1"},[e("a",{class:"header-anchor",href:"#新特性","aria-hidden":"true"},"#"),r(" 新特性")],-1),s=[n];function _(d,i){return a(),o("div",null,s)}const f=t(c,[["render",_],["__file","new.html.vue"]]);export{f as default};

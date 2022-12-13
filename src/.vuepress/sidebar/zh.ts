@@ -17,4 +17,28 @@ export const zhSidebar = sidebar({
       children: "structure"
     }
   ],
+  "/md/database/": [
+    {
+      text: "数据库",
+      icon: "guide",
+      collapsible: true,
+      children: "structure"
+    }
+  ],
+  "/md/frame/": [
+    {
+      text: "框架 | 中间件",
+      icon: "guide",
+      collapsible: true,
+      children: "structure"
+    }
+  ],
+  "/md/tool/": [
+    {
+      text: "工具 | 部署",
+      icon: "guide",
+      collapsible: true,
+      children: "structure"
+    }
+  ],
 });

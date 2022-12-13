@@ -7,8 +7,6 @@ import FontIcon from "E:/Java/project/Java-Navigation/node_modules/vuepress-plug
 import BackToTop from "E:/Java/project/Java-Navigation/node_modules/vuepress-plugin-components/lib/client/components/BackToTop.js";
 
 
-import "E:/Java/project/Java-Navigation/node_modules/vuepress-plugin-components/lib/client/styles/sr-only.scss";
-
 export default defineClientConfig({
   enhance: ({ app }) => {
     app.component("Badge", Badge);

@@ -31,6 +31,9 @@ copyright: Copyright © 2022- HelloCode.
 footer: <a href="http://beian.miit.gov.cn/" target="_blank">陕ICP备20011166号-3</a>
 ---
 
+::: tip 善用Ctrl + k 或者点击右上角搜索按钮可以获得更好的阅读体验
+:::
+
 ::: info
 
 目前学习路线推荐程序员鱼皮制定的[Java学习一条龙](https://yupi.icu/%E6%98%9F%E7%90%83%E8%B5%84%E6%96%99/%E5%AD%A6%E4%B9%A0%E8%B7%AF%E7%BA%BF.html#java-%E5%AD%A6%E4%B9%A0%E8%B7%AF%E7%BA%BF)，后续随着本站内容的完善，会针对本站内容做出相应的学习路线~

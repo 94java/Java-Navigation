@@ -4,10 +4,10 @@ import CodeTabs from "E:/Java/project/Java-Navigation/node_modules/vuepress-plug
 import "E:/Java/project/Java-Navigation/node_modules/vuepress-plugin-md-enhance/lib/client/styles/container/index.scss";
 import CodeDemo from "E:/Java/project/Java-Navigation/node_modules/vuepress-plugin-md-enhance/lib/client/components/CodeDemo.js";
 import ECharts from "E:/Java/project/Java-Navigation/node_modules/vuepress-plugin-md-enhance/lib/client/components/ECharts.js";
-import "E:/Java/project/Java-Navigation/node_modules/vuepress-plugin-md-enhance/lib/client/styles/figure.scss";
 import FlowChart from "E:/Java/project/Java-Navigation/node_modules/vuepress-plugin-md-enhance/lib/client/components/FlowChart.js";
 import "E:/Java/project/Java-Navigation/node_modules/vuepress-plugin-md-enhance/lib/client/styles/footnote.scss";
 import "E:/Java/project/Java-Navigation/node_modules/vuepress-plugin-md-enhance/lib/client/styles/image-mark.scss";
+import "E:/Java/project/Java-Navigation/node_modules/vuepress-plugin-md-enhance/lib/client/styles/image-title.scss";
 import Mermaid from "E:/Java/project/Java-Navigation/node_modules/vuepress-plugin-md-enhance/lib/client/components/Mermaid.js";
 import Presentation from "E:/Java/project/Java-Navigation/node_modules/vuepress-plugin-md-enhance/lib/client/components/Presentation.js";
 import Playground from "E:/Java/project/Java-Navigation/node_modules/vuepress-plugin-md-enhance/lib/client/components/Playground.js";

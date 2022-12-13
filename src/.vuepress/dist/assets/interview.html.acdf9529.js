@@ -1,1 +1,0 @@
-import{aP as t,M as a,N as r,O as e,a9 as c}from"./framework.308787e7.js";const n={},s=e("h1",{id:"面试宝典",tabindex:"-1"},[e("a",{class:"header-anchor",href:"#面试宝典","aria-hidden":"true"},"#"),c(" 面试宝典")],-1),o=[s];function i(_,d){return a(),r("div",null,o)}const l=t(n,[["render",i],["__file","interview.html.vue"]]);export{l as default};

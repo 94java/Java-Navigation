@@ -6,11 +6,13 @@ import clientConfig4 from 'E:/Java/project/Java-Navigation/node_modules/@vuepres
 import clientConfig5 from 'E:/Java/project/Java-Navigation/node_modules/@vuepress/plugin-theme-data/lib/client/config.js'
 import clientConfig6 from 'E:/Java/project/Java-Navigation/node_modules/vuepress-plugin-comment2/lib/client/config.js'
 import clientConfig7 from 'E:/Java/project/Java-Navigation/node_modules/vuepress-plugin-copy-code2/lib/client/config.js'
-import clientConfig8 from 'E:/Java/project/Java-Navigation/src/.vuepress/.temp/md-enhance/config.js'
-import clientConfig9 from 'E:/Java/project/Java-Navigation/node_modules/vuepress-plugin-photo-swipe/lib/client/config.js'
-import clientConfig10 from 'E:/Java/project/Java-Navigation/src/.vuepress/.temp/theme-hope/config.js'
-import clientConfig11 from 'E:/Java/project/Java-Navigation/src/.vuepress/.temp/register-components/clientConfig.65e89ea5.js'
-import clientConfig12 from 'E:/Java/project/Java-Navigation/src/.vuepress/client.ts'
+import clientConfig8 from 'E:/Java/project/Java-Navigation/node_modules/vuepress-plugin-copyright2/lib/client/config.js'
+import clientConfig9 from 'E:/Java/project/Java-Navigation/src/.vuepress/.temp/md-enhance/config.js'
+import clientConfig10 from 'E:/Java/project/Java-Navigation/node_modules/vuepress-plugin-photo-swipe/lib/client/config.js'
+import clientConfig11 from 'E:/Java/project/Java-Navigation/src/.vuepress/.temp/theme-hope/config.js'
+import clientConfig12 from 'E:/Java/project/Java-Navigation/src/.vuepress/.temp/register-components/clientConfig.65e89ea5.js'
+import clientConfig13 from 'E:/Java/project/Java-Navigation/node_modules/vuepress-plugin-search-pro/lib/client/config.js'
+import clientConfig14 from 'E:/Java/project/Java-Navigation/src/.vuepress/client.ts'
 
 export const clientConfigs = [
   clientConfig0,
@@ -26,4 +28,6 @@ export const clientConfigs = [
   clientConfig10,
   clientConfig11,
   clientConfig12,
+  clientConfig13,
+  clientConfig14,
 ]

@@ -1,1 +1,0 @@
-import{aP as a,M as t,N as c,O as e,a9 as r}from"./framework.308787e7.js";const s={},o=e("h1",{id:"jvm",tabindex:"-1"},[e("a",{class:"header-anchor",href:"#jvm","aria-hidden":"true"},"#"),r(" JVM")],-1),n=[o];function _(d,i){return t(),c("div",null,n)}const l=a(s,[["render",_],["__file","jvm.html.vue"]]);export{l as default};
