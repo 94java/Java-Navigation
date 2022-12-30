@@ -1,0 +1,1 @@
+const e=JSON.parse('{"key":"v-89786450","path":"/md/front/vue.html","title":"Vue","lang":"zh-CN","frontmatter":{"title":"Vue","order":11,"category":["前端"]},"excerpt":"","headers":[],"git":{"createdTime":null,"updatedTime":null,"contributors":[]},"readingTime":{"minutes":0.03,"words":8},"copyright":"著作权归HelloCode.所有","filePathRelative":"md/front/vue.md"}');export{e as data};

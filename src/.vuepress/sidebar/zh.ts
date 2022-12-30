@@ -41,4 +41,20 @@ export const zhSidebar = sidebar({
       children: "structure"
     }
   ],
+  "/md/front/": [
+    {
+      text: "前端",
+      icon: "guide",
+      collapsible: true,
+      children: "structure"
+    }
+  ],
+  "/md/common/": [
+    {
+      text: "计算机基础",
+      icon: "guide",
+      collapsible: true,
+      children: "structure"
+    }
+  ],
 });

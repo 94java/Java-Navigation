@@ -1,0 +1,1 @@
+const e=JSON.parse('{"key":"v-973a2ed8","path":"/md/front/ajax.html","title":"Ajax","lang":"zh-CN","frontmatter":{"title":"Ajax","order":8,"category":["前端"]},"excerpt":"","headers":[],"git":{"createdTime":null,"updatedTime":null,"contributors":[]},"readingTime":{"minutes":0.03,"words":8},"copyright":"著作权归HelloCode.所有","filePathRelative":"md/front/ajax.md"}');export{e as data};

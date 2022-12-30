@@ -7,7 +7,7 @@ category:
 
 # Zookeeper
 
-### 概述
+## 一、概述
 
 - Zookeeper是Apache Hadoop项目下的一个子项目，是一个树形目录服务
 - Zookeeper翻译过来就是 动物管理员，他是用来管理Hadoop（大象）、Hive（蜜蜂）、Pig（小猪）的管理员。简称zk
@@ -19,9 +19,9 @@ category:
 
 > 安装与启动参看Dubbo注册中心部分
 
-### 命令操作
+## 二、命令操作
 
-#### 数据模型
+### 1、数据模型
 
 - Zookeeper是一个树形目录服务，其数据模型和Unix的文件系统目录树很类似，拥有一个层次化结构
 - 这里面的每一个节点都被称为：ZNode，每个节点上都会保存自己的数据和节点信息
@@ -36,20 +36,20 @@ category:
 - PERSISTENT_SEQUENTIAL 持久化顺序节点：-s
 - EPHEMERAL_SEQUENTIAL 临时顺序节点：-es
 
-#### 服务端
+### 2、服务端
 
 - 启动ZooKeeper服务：`./zkServer.sh start`
 - 查看ZooKeeper服务状态：`./zkServer.sh status`
 - 停止ZooKeeper服务：`./zkServer.sh stop`
 - 重启ZooKeeper服务：`./zkServer.sh restart`
 
-#### 客户端
+### 3、客户端
 
 **基本CRUD**
 
 - 连接ZooKeeper服务端：`./zkCli.sh -server ip:2181`（连接本机的话不需要`-server ip:端口`）
 - 断开连接：`quit`
-- 查看指定目录下的子节点：`ls /`    `ls /dubbo/config`
+- 查看指定目录下的子节点：`ls /` 、`ls /dubbo/config`
 - 查看命令帮助：`help`
 - 创建节点：`create /节点名 [节点数据]`
 - 获取数据：`get /节点名`
@@ -76,9 +76,9 @@ category:
   - dataLength：节点存储的数据长度
   - numChildrean：当前节点的子节点个数
 
-### JavaAPI操作
+## 三、JavaAPI操作
 
-#### Curator
+### 1、Curator
 
 **简介**
 
@@ -157,11 +157,11 @@ category:
 @Test
 public void testConnect(){
     /*
-            connectString 连接字符串。zk server 地址和端口（多个用逗号隔开） "192.168.23.129:2181，192.131.34.168:2181"
-            sessionTimeoutMs 会话超时时间  单位ms
-            connectionTimeoutMs 连接超时时间 单位ms
-            retryPolicy 重试策略
-         */
+    connectString 连接字符串。zk server 地址和端口（多个用逗号隔开） "192.168.23.129:2181，192.131.34.168:2181"
+    sessionTimeoutMs 会话超时时间  单位ms
+    connectionTimeoutMs 连接超时时间 单位ms
+    retryPolicy 重试策略
+    */
     // 第一种方式
     RetryPolicy retryPolicy = new ExponentialBackoffRetry(3000,10);
     // CuratorFramework client = CuratorFrameworkFactory.newClient("192.168.23.129:2181",
@@ -185,20 +185,8 @@ public class CuratorTest {
     private CuratorFramework client;
     @Before
     public void testConnect(){
-        /*
-            connectString 连接字符串。zk server 地址和端口（多个用逗号隔开） "192.168.23.129:2181，192.131.34.168:2181"
-            sessionTimeoutMs 会话超时时间  单位ms
-            connectionTimeoutMs 连接超时时间 单位ms
-            retryPolicy 重试策略
-         */
-        // 第一种方式
+        // 建立连接
         RetryPolicy retryPolicy = new ExponentialBackoffRetry(3000,10);
-//        CuratorFramework client = CuratorFrameworkFactory.newClient("192.168.23.129:2181",
-//                60 * 1000, 15 * 1000, retryPolicy);
-//        // 开启连接
-//        client.start();
-
-        // 第二种方式
         client = CuratorFrameworkFactory.builder().connectString("192.168.23.129:2181")
                 .sessionTimeoutMs(60 * 1000).connectionTimeoutMs(15 * 1000).retryPolicy(retryPolicy).namespace("hellocode").build();
         client.start();
@@ -344,7 +332,7 @@ public void testDelete4() throws Exception {
 }
 ```
 
-#### Watch监听
+### 2、Watch监听
 
 - ZooKeeper允许用户在指定节点上注册一些Watcher，并且在一些特定事件触发的时候，ZooKeeper服务端会将事件通知到感兴趣的客户端上去，该机制是ZooKeeper实现分布式协调服务的重要特性
 - ZooKeeper中引入了Watcher机制来实现了发布/订阅功能，能够让多个订阅者同时监听某一个对象，当一个对象自身状态变化时，会通知所有订阅者
@@ -352,7 +340,7 @@ public void testDelete4() throws Exception {
 - Curator引入了Cache来实现对ZooKeeper服务端事件的监听
 - ZooKeeper提供了三种Watcher
   - NodeCache：只是监听某一个特定的节点
-  - PathChildrenCache”监控一个ZNode的子节点
+  - PathChildrenCache：监控一个ZNode的子节点
   - TreeCache：可以监控整个树上的所有节点，类似于PathChildrenCache和NodeCache的组合
 
 **NodeCache**
@@ -420,9 +408,9 @@ public void testTreeCache() throws Exception {
 }
 ```
 
-### 分布式锁
+## 四、分布式锁
 
-#### 概述
+### 1、概述
 
 - 在我们进行单机应用开发，涉及并发同步的时候，我们往往采用synchronized或者Lock的方式来解决多线程间的代码同步问题，这时多线程的运行都是在同一个JVM之下，没有任何问题
 - 但当我们的应用是分布式集群工作的情况下，属于多JVM下的工作环境，跨JVM之间已经无法通过多线程的锁解决同步问题
@@ -432,18 +420,18 @@ public void testTreeCache() throws Exception {
 
 ![](http://images.hellocode.top/301303.jpg)
 
-#### 原理
+### 2、原理
 
-- 核心思想：当客户端要获取锁，则创建节点，使用完锁，则删除该节点
+> 核心思想：当客户端要获取锁，则创建节点，使用完锁，则删除该节点
 
-![](http://images.hellocode.top/src=http%253A%252F%252Fimg.jbzj.com%252Ffile_images%252Farticle%252F202203%252F2022030114250511.jpg&refer=http%253A%252F%252Fimg.jbzj.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto)
+![](http://images.hellocode.top/1.webp)
 
 1. 客户端获取锁时，在lock节点下创建*临时顺序*节点
 2. 然后获取/lock下面的所有子节点，客户端获取到所有的子节点之后，如果发现自己创建的子节点序号最小，那么就认为该客户端获取到了锁。使用完锁后，将该节点删除
 3. 如果发现自己创建的节点并非lock所有子节点中最小的，说明自己还没有获取到锁，此时客户端需要找到比自己小的那个节点，同时对其注册事件监听器，监听删除事件
 4. 如果发现比自己小的那个节点被删除，则客户端的Watcher会收到相应的通知，此时再次判断自己创建的节点是否是lock子节点中序号最小的，如果是则获取到了锁，如果不是则重复以上步骤继续获取到比自己小的一个节点并注册监听
 
-#### 售票案例
+### 3、售票案例
 
 **Curator实现分布式锁API**
 
@@ -530,11 +518,9 @@ public class LockTest {
 }
 ```
 
-### 集群
+## 五、集群
 
-![](http://images.hellocode.top/src=http%253A%252F%252Fimg.136.la%252F20210627%252Fe9b027270c974bb2b658a772d0996b91.jpg&refer=http%253A%252F%252Fimg.136.la&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto)
-
-#### 搭建
+### 1、搭建
 
 **要求**
 
@@ -550,9 +536,10 @@ public class LockTest {
    echo 3 > /usr/local/zookeeper-cluster/zookeeper-3/data/myid
    ```
 
-2. 在每一个zookeeper的zoo.cfg配置客户端访问端口（clientPort）和集群服务器IP列表。
-   集群服务器IP列表如下
-
+2. 在每一个zookeeper的zoo.cfg配置客户端访问端口（clientPort）和集群服务器IP列表
+   
+集群服务器IP列表如下
+   
    ```shell
    vim /usr/local/zookeeper-cluster/zookeeper-1/conf/zoo.cfg
    vim /usr/local/zookeeper-cluster/zookeeper-2/conf/zoo.cfg
@@ -561,8 +548,8 @@ public class LockTest {
    server.1=192.168.23.129:2881:3881
    server.2=192.168.23.129:2882:3882
    server.3=192.168.23.129:2883:3883
-   ```
-
+```
+   
    > server.服务器id=服务器IP地址:服务器之间通信端口（默认2881）:服务器之间投票选举端口（默认3881）
    >
    > 真实环境搭建集群时的2881和3881就直接使用默认值即可
@@ -585,14 +572,14 @@ public class LockTest {
 /usr/local/zookeeper-cluster/zookeeper-3/bin/zkServer.sh status
 ```
 
-#### 故障测试
+### 2、故障测试
 
 - 3个节点的集群，1个从服务器挂掉，集群正常
 - 3个节点的集群，2个从服务器都挂掉，主服务器也无法运行。因为可运行的机器没有超过集群总数量的半数
 - 3个节点的集群，2个从服务器都挂掉，再重启一个从服务器，主服务器恢复运行，集群恢复正常
 - 当主服务器挂掉，将在正常的从服务器中重新进行选举，选举出新的leader
 
-#### 集群角色
+### 3、集群角色
 
 在ZooKeeper集群服务中有三个角色：
 
@@ -605,4 +592,4 @@ public class LockTest {
 - Observer 观察者
   1. 处理客户端非事务请求，转发事务请求给Leader服务器
 
-![](https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fupload-images.jianshu.io%2Fupload_images%2F23658401-fb65e57231e7fd7e.png&refer=http%3A%2F%2Fupload-images.jianshu.io&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1663408476&t=a73050c45e50805e1de58f271cfcf0c9)
+![](http://images.hellocode.top/2.webp)

@@ -7,7 +7,7 @@ category:
 
 # RabbitMQ
 
-### 基本概念
+## 一、基本概念
 
 **MQ概述**
 
@@ -35,10 +35,15 @@ category:
 *劣势*
 
 - 系统可用性降低
+  
   系统引入的外部依赖越多，系统稳定性越差。一旦MQ宕机，就会对业务造成影响。就需要保证MQ的高可用
+  
 - 系统复杂度提高
+  
   MQ的加入大大增加了系统的复杂度，以前系统间是同步的远程调用，现在通过MQ进行异步调用。需要考虑消息是否被重复消费，如何处理丢失的消息，如何保证消息的顺序性
+  
 - 一致性问题
+  
   A系统处理完业务，通过MQ给B、C、D三个系统发消息数据，如果B系统、C系统处理成功，D系统处理失败。如何保证消息数据处理的一致性
 
 **使用MQ需要满足的条件**
@@ -53,9 +58,9 @@ category:
 
 ![img](http://images.hellocode.top/2140587-20201016115946384-1900840176.png)
 
-### 快速入门
+## 二、快速入门
 
-#### 概述
+### 1、概述
 
 **AMQP**，即*Advanced Message Queuing Protocol*（高级消息队列协议），是一个网络协议，是应用层协议的一个开放标准，为面向消息的中间件设计。基于此协议的客户端与消息中间件可传递消息，并不受客户端/中间件不同产品，不同开发语言等条件的限制。2006年，AMQP规范发布。*类别HTTP*
 
@@ -69,21 +74,21 @@ RabbitMQ基础架构如下图：
 
 **RabbitMQ中的相关概念**
 
-*Broker*：接收和分发消息的应用，RabbitMQ Server就是 Message Broker
+- Broker：接收和分发消息的应用，RabbitMQ Server就是 Message Broker
 
-*Virtual host*：出于多租户和安全因素设计的，把 AMQP 的基本组件划分到一个虚拟的分组中，类似于网络中的 namespace 概念。当多个不同的用户使用同一个 RabbitMQ server 提供的服务时，可以划分出多个vhost，每个用户在自己的 vhost 创建 exchange／queue 等
+- Virtual host：出于多租户和安全因素设计的，把 AMQP 的基本组件划分到一个虚拟的分组中，类似于网络中的 namespace 概念。当多个不同的用户使用同一个 RabbitMQ server 提供的服务时，可以划分出多个vhost，每个用户在自己的 vhost 创建 exchange／queue 等
 
-*Connection*：publisher／consumer 和 broker 之间的 TCP 连接
+- Connection：publisher／consumer 和 broker 之间的 TCP 连接
 
-*Channel*：如果每一次访问 RabbitMQ 都建立一个 Connection，在消息量大的时候建立 TCP Connection的开销将是巨大的，效率也较低。Channel 是在 connection 内部建立的逻辑连接，如果应用程序支持多线程，通常每个thread创建单独的 channel 进行通讯，AMQP method 包含了channel id 帮助客户端和message broker 识别 channel，所以 channel 之间是完全隔离的。Channel 作为轻量级的 Connection 极大减少了操作系统建立 TCP connection 的开销
+- Channel：如果每一次访问 RabbitMQ 都建立一个 Connection，在消息量大的时候建立 TCP Connection的开销将是巨大的，效率也较低。Channel 是在 connection 内部建立的逻辑连接，如果应用程序支持多线程，通常每个thread创建单独的 channel 进行通讯，AMQP method 包含了channel id 帮助客户端和message broker 识别 channel，所以 channel 之间是完全隔离的。Channel 作为轻量级的 Connection 极大减少了操作系统建立 TCP connection 的开销
 
-*Exchange*：message 到达 broker 的第一站，根据分发规则，匹配查询表中的 routing key，分发消息到queue 中去。常用的类型有：direct (point-to-point), topic (publish-subscribe) and fanout (multicast)
+- Exchange：message 到达 broker 的第一站，根据分发规则，匹配查询表中的 routing key，分发消息到queue 中去。常用的类型有：direct (point-to-point), topic (publish-subscribe) and fanout (multicast)
 
-*Queue*：消息最终被送到这里等待 consumer 取走
+- Queue：消息最终被送到这里等待 consumer 取走
 
-*Binding*：exchange 和 queue 之间的虚拟连接，binding 中可以包含 routing key。Binding 信息被保存到 exchange 中的查询表中，用于 message 的分发依据
+- Binding：exchange 和 queue 之间的虚拟连接，binding 中可以包含 routing key。Binding 信息被保存到 exchange 中的查询表中，用于 message 的分发依据
 
-**RabbitMQ提供了6种工作模式：**简单模式、work queues、Publish/Subscribe发布与订阅模式、Routing路由模式、Topics主题模式、RPC远程调用模式（远程调用，不太算MQ，暂不介绍）
+**RabbitMQ提供了6种工作模式：** 简单模式、work queues、Publish/Subscribe发布与订阅模式、Routing路由模式、Topics主题模式、RPC远程调用模式（远程调用，不太算MQ，暂不介绍）
 
 官网对应模式介绍：https://www.rabbitmq.com/getstarted.html
 
@@ -95,7 +100,7 @@ RabbitMQ基础架构如下图：
 - JMS是JavaEE规范中的一种，类比JDBC
 - 很多的消息中间件都实现了JMS规范，例如：ActiveMQ。RabbitMQ官方没有提供JMS的实现包，但是开源社区有
 
-#### 安装与配置
+### 2、安装与配置
 
 - RabbitMQ官方地址：http://www.rabbitmq.com
 
@@ -108,10 +113,13 @@ yum install build-essential openssl openssl-devel unixODBC unixODBC-devel make g
 ```
 
 2. *安装Erlang*
-   上传
-
+   
+上传
+   
    erlang-18.3-1.el7.centos.x86_64.rpm
+   
    socat-1.7.3.2-5.el7.lux.x86_64.rpm
+   
    rabbitmq-server-3.6.5-1.noarch.rpm
 
 ```sh
@@ -143,25 +151,25 @@ rabbitmqctl  set_user_tags  用户名 administrator
 
 *角色说明*：
 
-1、 超级管理员(administrator)
+-  超级管理员(administrator)
 
-可登陆管理控制台，可查看所有的信息，并且可以对用户，策略(policy)进行操作。
+   可登陆管理控制台，可查看所有的信息，并且可以对用户，策略(policy)进行操作。
 
-2、 监控者(monitoring)
+- 监控者(monitoring)
 
-可登陆管理控制台，同时可以查看rabbitmq节点的相关信息(进程数，内存使用情况，磁盘使用情况等)
+  可登陆管理控制台，同时可以查看rabbitmq节点的相关信息(进程数，内存使用情况，磁盘使用情况等)
 
-3、 策略制定者(policymaker)
+- 策略制定者(policymaker)
 
-可登陆管理控制台, 同时可以对policy进行管理。但无法查看节点的相关信息(上图红框标识的部分)。
+  可登陆管理控制台, 同时可以对policy进行管理。但无法查看节点的相关信息(上图红框标识的部分)。
 
-4、 普通管理者(management)
+- 普通管理者(management)
 
-仅可登陆管理控制台，无法看到节点信息，也无法对策略进行管理。
+  仅可登陆管理控制台，无法看到节点信息，也无法对策略进行管理。
 
-5、 其他
+- 其他
 
-无法登陆管理控制台，通常就是普通的生产者和消费者。
+  无法登陆管理控制台，通常就是普通的生产者和消费者。
 
 
 5. *启动*
@@ -184,7 +192,7 @@ cp rabbitmq.config.example /etc/rabbitmq/rabbitmq.config
    - RabbitMQ在安装好后，可以访问`http://ip地址:15672` ；使用自定义的用户名密码进行登录
    - 虚拟机及用户的添加通过图形化界面操作即可
 
-#### 入门程序
+### 3、入门程序
 
 需求：使用简单模式完成消息传递
 
@@ -220,8 +228,6 @@ cp rabbitmq.config.example /etc/rabbitmq/rabbitmq.config
        </plugins>
    </build>
    ```
-
-   
 
 3. 编写生产者发送消息
    1. 创建连接工厂
@@ -330,9 +336,9 @@ cp rabbitmq.config.example /etc/rabbitmq/rabbitmq.config
    
 5. 测试
 
-### 工作模式
+## 三、工作模式
 
-#### Work queues工作队列模式
+### 1、Work queues工作队列模式
 
 ![img](http://images.hellocode.top/python-two.png)
 
@@ -410,16 +416,22 @@ public class Work_queues1 {
 
 > 两个消费者，10条消息。消费者1消费1 3 5 7 9，消费者2消费2 4 6 8 10
 
-#### Pub/Sub订阅模式
+### 2、Pub/Sub订阅模式
 
 ![img](http://images.hellocode.top/python-three-overall.png)
 
-在订阅模式中，多了一个Exchange角色，而且过程略有变化：
+在订阅模式中，多了一个Exchange角色，而且过程略有变化
 
 - P：生产者，也就是要发送消息的程序，但是不再发送到队列中，而是发送给X（交换机）
+
 - C：消费者，消息的接收者，会一直等待消息到来
+
 - Queue：消息队列，接收消息、缓存消息
-- Exchange：交换机（X）。一方面，接收生产者发送的消息。另一方面，知道如何处理消息，例如递交给某个特别队列、递交给所有队列、或是将消息丢弃。到底如何操作，取决于Exchange的类型。Exchange有常见以下3种类型：
+
+- Exchange：交换机（X）。一方面，接收生产者发送的消息。另一方面，知道如何处理消息，例如递交给某个特别队列、递交给所有队列、或是将消息丢弃。到底如何操作，取决于Exchange的类型
+  
+  Exchange有常见以下3种类型
+  
   - Fanout：广播，将消息交给所有绑定到交换机的队列
   - Direct：定向，把消息交给符合指定routing key的队列
   - Topic：通配符，把消息交给符合routing pattern（路由模式）的队列
@@ -527,7 +539,7 @@ public class PubSub1 {
 }
 ```
 
-#### Routing路由模式
+### 3、Routing路由模式
 
 - 队列与交换机的绑定，不能是任意绑定了，而是要指定一个RoutingKey（路由key）
 - 消息的发送方在向Exchange发送消息时，也必须指定消息的RoutingKey
@@ -629,12 +641,14 @@ public class RoutingKey1 {
 
 > **Routing** 模式要求队列在绑定交换机时要指定**routing key**，消息会转发到符合routing key的队列
 
-#### Topics通配符模式
+### 4、Topics通配符模式
 
 ![img](http://images.hellocode.top/python-five.png)
 
 - 交换机类型：topic
+
 - 通配符：`*`代表一个单词，`#`代表0个或多个（.分隔，#可以代表任意多个.分隔的单词）
+  
   注意层级关系，*一层，#任意多层
 
 ```java
@@ -723,22 +737,31 @@ public class Topic1 {
 
 > Topic主题模式可以实现Pub/Sub发布与订阅模式和Routing路由模式的功能，只是Topic在配置routing key的时候可以使用通配符，显得更加灵活
 
-#### 总结
+### 5、总结
 
 1. 简单模式 HelloWorld
+   
    一个生产者、一个消费者，不需要设置交换机（使用默认的交换机）
+   
 2. 工作队列模式 Work Queue
+
    一个生产者、多个消费者（竞争关系），不需要设置交换机（使用默认的交换机）
+
 3. 发布订阅模式 Publish/Subscribe
+
    需要设置类型为fanout的交换机，并且交换机和队列进行绑定，当发送消息到交换机后，交换机会将消息发送到绑定的队列
+
 4. 路由模式 Routing
+
    需要设置类型为 direct的交换机，交换机和队列进行绑定，并且指定routing key，当发送消息到交换机后，交换机会根据routing key将消息发送到对应的队列
+
 5. 通配符模式 Topic
+
    需要设置类型为 topic 的交换机，交换机和队列进行绑定，并且指定通配符方式的 routing key，当发送消息到交换机后，交换机会根据routing key将消息发送到对应的队列
 
-### Spring整合
+## 四、Spring整合
 
-#### Spring
+### 1、Spring
 
 **生产者**
 
@@ -981,7 +1004,7 @@ public class ConsumerTest {
 }
 ```
 
-#### SpringBoot
+### 2、SpringBoot
 
 **生产者**
 
@@ -1086,18 +1109,16 @@ public class RabbitMQListener {
 - 生产端直接注入RabbitTemplate完成消息发送
 - 消费端直接使用`@RabbitListener`完成消息接收
 
-### 高级特性
+## 五、高级特性
 
-#### 消息可靠投递
+### 1、消息可靠投递
 
 在使用RabbitMQ的时候，作为消息发送方希望杜绝任何消息丢失或者投递失败的场景。RabbitMQ为我们提供了两种方式来控制消息的投递可靠性模式
 
 - confirm 确认模式
 - return 退回模式
 
-rabbitmq整个消息投递的路径为：
-
-producer--->rabbitmq broker--->exchange--->queue--->consumer
+rabbitmq整个消息投递的路径为：producer--->rabbitmq broker--->exchange--->queue--->consumer
 
 - 消息从producer到exchange会返回一个confirmCallback，不论成功与否都会执行，返回boolean
 - 消息从exchange-->queue投递失败则会返回一个returnCallback
@@ -1194,7 +1215,7 @@ public class ProducerTest {
 
 **return退回模式**
 
-1. 开启回退模式：publisher-returns="true"
+1. 开启回退模式：`publisher-returns="true"`
 2. 设置ReturnCallBack
 3. 设置Exchange处理消息的模式
    - 如果消息没有路由到Queue，则丢弃消息（默认）
@@ -1231,19 +1252,21 @@ public void testReturn(){
 }
 ```
 
-> return退回模式只有交换机接收消息失败才有机会执行回调函数
->
-> 默认丢弃消息，这将不会执行回调函数，只有使用`rabbitTemplate.setMandatory(true);`设置交换机处理失败消息的模式为退回消息发送方，才会执行回调函数
+- return退回模式只有交换机接收消息失败才有机会执行回调函数
+
+- 默认丢弃消息，这将不会执行回调函数，只有使用`rabbitTemplate.setMandatory(true);`设置交换机处理失败消息的模式为退回消息发送方，才会执行回调函数
+
+
 
 > 在RabbitMQ中也提供了事务机制，但是性能较差，只需要了解即可
->
-> 使用channel下列方法，完成事务控制：
->
-> - `txSelect()`：用于将当前channel设置成transaction模式
-> - `txCommit()`：用于提交事务
-> - `txRollback()`：用于回滚事务
 
-#### Consumer Ack
+使用channel下列方法，完成事务控制：
+
+- `txSelect()`：用于将当前channel设置成transaction模式
+- `txCommit()`：用于提交事务
+- `txRollback()`：用于回滚事务
+
+### 2、Consumer Ack
 
 > ack指Acknowledge，确认。表示消费端收到消息后的确认方式
 
@@ -1338,7 +1361,7 @@ public class ConsumerTest {
 }
 ```
 
-#### 消费端限流
+### 3、消费端限流
 
 ![image-20210219023003482](http://images.hellocode.top/2115723-20210309020755148-205864159.png)
 
@@ -1376,7 +1399,7 @@ public class QosListener implements ChannelAwareMessageListener {
 }
 ```
 
-#### TTL
+### 4、TTL
 
 - TTL全称Time To Live（存活时间/过期时间）
 - 当消息到达存活时间后，还没有被消费，会被自动清除
@@ -1404,6 +1427,7 @@ public class QosListener implements ChannelAwareMessageListener {
    key值`x-message-ttl`是配置ttl的固定属性，过期时间单位为毫秒，因为是number类型，所以需要指定type
 
 2. 发送消息
+   
    `rabbitTemplate.convertAndSend("test_exchange_ttl", "ttl.run", "hello ttl.....");`
 
 > 队列过期后，会将队列中的所有消息全部移除
@@ -1435,7 +1459,7 @@ public class QosListener implements ChannelAwareMessageListener {
 
 > 消息过期后，只有消息在队列的顶端（快被消费），才会判断其是否过期（移除掉），提高效率
 
-#### 死信队列
+### 5、死信队列
 
 死信队列，英文缩写：DLX。Dead Letter Exchange（死信交换机），当消息称为Dead message后，可以被重新发送到另一个交换机，这个交换机就是DLX
 
@@ -1511,7 +1535,7 @@ public void testDlx(){
    2. 消费者拒绝接收消费消息，并且不重回队列
    3. 原队列存在消息过期设置，消息达到超时时间未被消费
 
-#### 延迟队列
+### 6、延迟队列
 
 > 延迟队列，即消息进入队列后不会立即被消费，只有到达指定时间后，才会被消费（需要重点掌握）
 
@@ -1534,13 +1558,13 @@ public void testDlx(){
 
 ![在这里插入图片描述](http://images.hellocode.top/20210610152606193.png)
 
-#### 日志与监控
+### 7、日志与监控
 
 > 这部分了解即可
 
-RabbitMQ默认日志存放路径：`/var/log/rabbitmq/rabbit@xxx.log`
+- RabbitMQ默认日志存放路径：`/var/log/rabbitmq/rabbit@xxx.log`
 
-还有一些信息可以在可视化界面15672界面查看
+- 还有一些信息可以在可视化界面15672界面查看
 
 **rabbitmqctl管理和监控**
 
@@ -1554,9 +1578,13 @@ RabbitMQ默认日志存放路径：`/var/log/rabbitmq/rabbit@xxx.log`
 - 查看单个队列的内存使用：`rabbitmqctl list_queues name memory`
 - 查看准备就绪的队列：`rabbitmqctl list_queues name messages_ready`
 
-#### 消息追踪
+### 8、消息追踪
 
-在使用任何消息中间件的过程中，难免会出现某条消息异常丢失的情况。对于RabbitMQ而言，可能是因为生产者或消费者与RabbitMQ断开了连接，而他们与RabbitMQ又采用了不同的确认机制；也有可能是因为交换器与队列之间不同的转发策略；甚至是交换器并没有与任何队列进行绑定，生产者又不感知或者没有采取相应的措施；另外RabbitMQ本身的集群策略也可能导致消息的丢失。这个时候就需要有一个较好的机制跟踪记录消息的投递过程，以此协助开发和运维人员进行问题的定位
+- 在使用任何消息中间件的过程中，难免会出现某条消息异常丢失的情况。
+
+- 对于RabbitMQ而言，可能是因为生产者或消费者与RabbitMQ断开了连接，而他们与RabbitMQ又采用了不同的确认机制；也有可能是因为交换器与队列之间不同的转发策略；甚至是交换器并没有与任何队列进行绑定，生产者又不感知或者没有采取相应的措施；另外RabbitMQ本身的集群策略也可能导致消息的丢失。
+
+- 这个时候就需要有一个较好的机制跟踪记录消息的投递过程，以此协助开发和运维人员进行问题的定位
 
 在RabbitMQ中可以使用Firehose和rabbitmq_tracing插件功能来实现消息跟踪
 
@@ -1571,20 +1599,21 @@ firehose的机制是将生产者投递给rabbitmq的消息,rabbitmq投递给消�
 - `rabbitmqctl trace_off`:关闭Firehose命令
 
 **消息追踪-rabbitmqq_tracing**
+
 rabbitmq_tracing和Firehose在实现上如出一辙，只不过rabbitmq_tracing的方式比Firehose多了一层GUI的包装，更容易使用和管理
 
 启用插件:`rabbitmq-plugins enable rabbitmq_tracing`
 
 > 开发阶段排错会方便一些，但是生产环境需要慎用，会影响性能
 
-### 应用问题
+## 六、应用问题
 
 1. 消息可靠性保障
    - 消息补偿机制
 2. 消息幂等性保障
    - 乐观锁解决方案
 
-#### 消息补偿
+### 1、消息补偿
 
 **需求**：100%确保消息发送成功
 
@@ -1592,7 +1621,7 @@ rabbitmq_tracing和Firehose在实现上如出一辙，只不过rabbitmq_tracing�
 
 ![img](http://images.hellocode.top/20200409102835144.png)
 
-#### 幂等性保障
+### 2、幂等性保障
 
 幂等性指一次和多次请求某一个资源，对于资源本身应该具有同样的结果。也就是说，其任意多次执行对资源本身所产生的影响均与一次执行的影响相同
 
@@ -1602,18 +1631,18 @@ rabbitmq_tracing和Firehose在实现上如出一辙，只不过rabbitmq_tracing�
 
 ![img](http://images.hellocode.top/20200409102904789.png)
 
-### 集群搭建
+## 七、集群搭建
 
 一般来说，如果只是为了学习RabbitMQ或者验证业务工程的正确性那么在本地环境或者测试环境上使用其单实例部署就可以了，但是出于MQ中间件本身的可靠性、并发性、吞吐量和消息堆积能力等问题的考虑，在生产环境上一般都会考虑使用RabbitMQ的集群方案。
 
-#### 集群方案的原理
+### 1、集群方案的原理
 
 RabbitMQ这款消息队列中间件产品本身是基于Erlang编写，Erlang语言天生具备分布式特性（通过同步Erlang集群各节点的magic cookie来实现）。因此，RabbitMQ天然支持Clustering。这使得RabbitMQ本身不需要像ActiveMQ、Kafka那样通过ZooKeeper分别来实现HA方案和保存集群的元数据。集群是保证可靠性的一种方式，同时可以通过水平扩展以达到增加消息吞吐量能力的目的。
 
 ![](http://images.hellocode.top/1566073768274.png)
 
 
-#### 单机多实例部署
+### 2、单机多实例部署
 
 由于某些因素的限制，有时候你不得不在一台机器上去搭建一个rabbitmq集群，这个有点类似zookeeper的单机版。真实生成环境还是要配成多机集群的。有关怎么配置多机集群的可以参考其他的资料，这里主要论述如何在单机中配置多个rabbitmq实例。
 
@@ -1663,51 +1692,43 @@ rabbitmqctl -n rabbit2 start_app
 >
 > 要解决此问题，需要镜像队列来处理
 
-#### 集群管理
+### 3、集群管理
 
-`rabbitmqctl join_cluster {cluster_node} [–ram]`
-将节点加入指定集群中。在这个命令执行前需要停止RabbitMQ应用并重置节点。
+- `rabbitmqctl join_cluster {cluster_node} [–ram]`：将节点加入指定集群中。在这个命令执行前需要停止RabbitMQ应用并重置节点。
 
-`rabbitmqctl cluster_status`
-显示集群的状态。
+- `rabbitmqctl cluster_status`：显示集群的状态。
 
-`rabbitmqctl change_cluster_node_type {disc|ram}`
-修改集群节点的类型。在这个命令执行前需要停止RabbitMQ应用。
+- `rabbitmqctl change_cluster_node_type {disc|ram}`：修改集群节点的类型。在这个命令执行前需要停止RabbitMQ应用。
 
-`rabbitmqctl forget_cluster_node [–offline]`
-将节点从集群中删除，允许离线执行。
+- `rabbitmqctl forget_cluster_node [–offline]`：将节点从集群中删除，允许离线执行。
 
-`rabbitmqctl update_cluster_nodes {clusternode}`
+- `rabbitmqctl update_cluster_nodes {clusternode}`：在集群中的节点应用启动前咨询clusternode节点的最新信息，并更新相应的集群信息。这个和join_cluster不同，它不加入集群。考虑这样一种情况，节点A和节点B都在集群中，当节点A离线了，节点C又和节点B组成了一个集群，然后节点B又离开了集群，当A醒来的时候，它会尝试联系节点B，但是这样会失败，因为节点B已经不在集群中了。
 
-在集群中的节点应用启动前咨询clusternode节点的最新信息，并更新相应的集群信息。这个和join_cluster不同，它不加入集群。考虑这样一种情况，节点A和节点B都在集群中，当节点A离线了，节点C又和节点B组成了一个集群，然后节点B又离开了集群，当A醒来的时候，它会尝试联系节点B，但是这样会失败，因为节点B已经不在集群中了。
+- `rabbitmqctl cancel_sync_queue [-p vhost] {queue}`：取消队列queue同步镜像的操作。
 
-`rabbitmqctl cancel_sync_queue [-p vhost] {queue}`
-取消队列queue同步镜像的操作。
+- `rabbitmqctl set_cluster_name {name}`：设置集群名称。集群名称在客户端连接时会通报给客户端。Federation和Shovel插件也会有用到集群名称的地方。集群名称默认是集群中第一个节点的名称，通过这个命令可以重新设置。
 
-`rabbitmqctl set_cluster_name {name}`
-设置集群名称。集群名称在客户端连接时会通报给客户端。Federation和Shovel插件也会有用到集群名称的地方。集群名称默认是集群中第一个节点的名称，通过这个命令可以重新设置。
+### 4、RabbitMQ镜像集群配置
 
-#### RabbitMQ镜像集群配置
+上面已经完成RabbitMQ默认集群模式，但并不保证队列的高可用性，尽管交换机、绑定这些可以复制到集群里的任何一个节点，但是队列内容不会复制。虽然该模式解决一项目组节点压力，但队列节点宕机直接导致该队列无法应用，只能等待重启，所以要想在队列节点宕机或故障也能正常应用，就要复制队列内容到集群里的每个节点，必须要创建镜像队列。
 
-> 上面已经完成RabbitMQ默认集群模式，但并不保证队列的高可用性，尽管交换机、绑定这些可以复制到集群里的任何一个节点，但是队列内容不会复制。虽然该模式解决一项目组节点压力，但队列节点宕机直接导致该队列无法应用，只能等待重启，所以要想在队列节点宕机或故障也能正常应用，就要复制队列内容到集群里的每个节点，必须要创建镜像队列。
->
 > 镜像队列是基于普通的集群模式的，然后再添加一些策略，所以你还是得先配置普通集群，然后才能设置镜像队列，我们就以上面的集群接着做。
 
 *设置的镜像队列可以通过开启的网页的管理端Admin->Policies，也可以通过命令*
 
-> `rabbitmqctl set_policy my_ha "^" '{"ha-mode":"all"}'`
+`rabbitmqctl set_policy my_ha "^" '{"ha-mode":"all"}'`
 
 ![](http://images.hellocode.top/1566072300852.png)
 
-> - Name:策略名称
-> - Pattern：匹配的规则，如果是匹配所有的队列，是`^`
-> - Definition:使用ha-mode模式中的all，也就是同步所有匹配的队列。问号链接帮助文档。
+- Name:策略名称
+- Pattern：匹配的规则，如果是匹配所有的队列，是`^`
+- Definition:使用ha-mode模式中的all，也就是同步所有匹配的队列。问号链接帮助文档。
 
-#### 负载均衡-HAProxy
+### 5、负载均衡-HAProxy
 
 HAProxy提供高可用性、负载均衡以及基于TCP和HTTP应用的代理，支持虚拟主机，它是免费、快速并且可靠的一种解决方案,包括Twitter，Reddit，StackOverflow，GitHub在内的多家知名互联网公司在使用。HAProxy实现了一种事件驱动、单一进程模型，此模型支持非常大的并发连接数。
 
-##### 安装HAProxy
+#### 5.1. 安装HAProxy
 
 ```shell
 # 下载依赖包
@@ -1733,7 +1754,7 @@ vim /etc/haproxy/haproxy.cfg
 ```
 
 
-##### 配置HAProxy
+#### 5.2. 配置HAProxy
 
 配置文件路径：/etc/haproxy/haproxy.cfg
 

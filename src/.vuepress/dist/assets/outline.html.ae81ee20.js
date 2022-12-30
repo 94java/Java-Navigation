@@ -1,0 +1,1 @@
+const e=JSON.parse('{"key":"v-59cb0bc8","path":"/md/front/outline.html","title":"大纲","lang":"zh-CN","frontmatter":{"title":"大纲","order":1,"category":["前端"]},"excerpt":"","headers":[],"git":{"createdTime":null,"updatedTime":null,"contributors":[]},"readingTime":{"minutes":0.03,"words":10},"copyright":"著作权归HelloCode.所有","filePathRelative":"md/front/outline.md"}');export{e as data};

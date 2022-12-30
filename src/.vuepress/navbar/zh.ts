@@ -37,13 +37,13 @@ export const zhNavbar = navbar([
   {
     text: "计算机基础",
     icon: "study",
-    prefix: "/common/",
+    prefix: "/md/common",
     children: [
-      { text: "计算机网络", link: "/network", activeMatch: "^/java/network" },
-      { text: "计算机组成原理", link: "/composition", activeMatch: "^/java/composition" },
-      { text: "操作系统", link: "/os", activeMatch: "^/java/os" },
-      { text: "数据结构", link: "/structure", activeMatch: "^/java/structure" },
-      { text: "算法", link: "/algorithm", activeMatch: "^/java/algorithm" },
+      { text: "计算机网络", link: "/network" },
+      { text: "计算机组成原理", link: "/composition" },
+      { text: "操作系统", link: "/os" },
+      { text: "数据结构", link: "/structure" },
+      { text: "算法", link: "/algorithm" },
     ]
   },
   {
@@ -52,16 +52,20 @@ export const zhNavbar = navbar([
     prefix: "/md/spring",
     children: [
       {
-        text: "Framework",
+        text: "Spring",
         link: "/framework",
       },
       {
-        text: "MVC",
+        text: "SpringMVC",
         link: "/mvc",
       },
       {
-        text: "Boot",
+        text: "SpringBoot",
         link: "/boot",
+      },
+      {
+        text: "SpringCloud",
+        link: "/cloud",
       },
     ],
   },
@@ -185,9 +189,16 @@ export const zhNavbar = navbar([
   {
     text: "前端",
     icon: "leaf",
-    prefix: "/zh/guide/",
+    prefix: "/md/front/",
     children: [
-      { text: "...", link: "/" },
+      { text: "HTML/CSS", link: "html" },
+      { text: "移动端开发", link: "mobile" },
+      { text: "JavaScript", link: "js" },
+      { text: "jQuery", link: "jq" },
+      { text: "Ajax", link: "ajax" },
+      { text: "ES6", link: "es6" },
+      { text: "Node.js", link: "node" },
+      { text: "Vue", link: "vue" },
     ],
   },
   {

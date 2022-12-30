@@ -7,22 +7,23 @@ category:
 
 # Dubbo
 
-### 互联网项目架构
+## 一、互联网项目架构
 
-#### 大型互联网项目架构目标
+### 1、大型互联网项目架构目标
 
 **传统项目与互联网项目**
 
-- 传统项目（用户群体：企业员工）
-  - OA系统（办公自动化系统）
-  - HR系统（人力资源系统）
-  - CRM系统（客户关系管理系统）
-  - ......
-- 互联网项目（用户群体：广大网民）
-  - 天猫
-  - 微信
-  - 百度
-  - ......
+传统项目（用户群体：企业员工）
+- OA系统（办公自动化系统）
+- HR系统（人力资源系统）
+- CRM系统（客户关系管理系统）
+- ......
+
+互联网项目（用户群体：广大网民）
+- 天猫
+- 微信
+- 百度
+- ......
 
 ![](http://images.hellocode.top/MDtzuiRL12pCbH3.png)
 
@@ -47,42 +48,45 @@ category:
 
 **大型互联网项目架构目标**
 
-- 高性能：提供快速的访问体验
+*高性能*：提供快速的访问体验
 
-  - 响应时间：指执行一个请求从开始到最后收到响应数据所花费的总体时间
+- 响应时间：指执行一个请求从开始到最后收到响应数据所花费的总体时间
 
-  - 并发数：指系统同时能处理的请求数量
+- 并发数：指系统同时能处理的请求数量
 
-    - 并发连接数：指的是客户端向服务器发起请求，并建立了TCP连接。每秒钟服务器连接的总TCP数量
-    - 请求数：也称为QPS（Query Per Second）指每秒多少请求
-    - 并发用户数：单位时间内有多少用户
+  - 并发连接数：指的是客户端向服务器发起请求，并建立了TCP连接。每秒钟服务器连接的总TCP数量
+  - 请求数：也称为QPS（Query Per Second）指每秒多少请求
+  - 并发用户数：单位时间内有多少用户
 
-  - 吞吐量：指单位时间内系统能处理的请求数量
+- 吞吐量：指单位时间内系统能处理的请求数量
 
-    - QPS：Query Per Second 每秒查询数
-    - TPS：Transactions Per Seconds 每秒事务数
-    - 一个事务是指一个客户机向服务器发送请求然后服务器做出反应的过程。客户机在发送请求时开始计时，收到服务器响应后结束计时，以此来计算使用的时间和完成的事务个数
-    - 一个页面的一次访问，只会形成一个TPS；但一次页面请求，可能产生多次对服务器的请求，就会有多个QPS
+  - QPS：Query Per Second 每秒查询数
+  - TPS：Transactions Per Seconds 每秒事务数
+  - 一个事务是指一个客户机向服务器发送请求然后服务器做出反应的过程。客户机在发送请求时开始计时，收到服务器响应后结束计时，以此来计算使用的时间和完成的事务个数
+  - 一个页面的一次访问，只会形成一个TPS；但一次页面请求，可能产生多次对服务器的请求，就会有多个QPS
 
-    *QPS >= 并发连接数 >= TPS*
+  `QPS >= 并发连接数 >= TPS`
 
-- 高可用：网站服务一直可以正常访问
-- 可伸缩：通过硬件增加/减少，提高/降低处理能力
-- 高可扩展：系统间耦合低，方便的通过新增/移除方式，增加/减少新的功能/模块
-- 安全性：提供网站安全访问和数据加密，安全存储等策略
-- 敏捷性：随需应变，快速响应
+*高可用*：网站服务一直可以正常访问
 
-#### 集群和分布式
+*可伸缩*：通过硬件增加/减少，提高/降低处理能力
+
+*高可扩展*：系统间耦合低，方便的通过新增/移除方式，增加/减少新的功能/模块
+
+*安全性*：提供网站安全访问和数据加密，安全存储等策略
+
+*敏捷性*：随需应变，快速响应
+
+### 2、集群和分布式
 
 ![](http://images.hellocode.top/upAosSkhyIdCGKz.png)
 
 - 集群：很多“人”一起，干一样的事
   - 一个业务模块，部署在多台服务器上
-
 - 分布式：很多“人”一起，干不一样的事。这些不一样的事，合起来是一件大事
   - 一个大的业务系统，拆分为小的业务模块，分别部署在不同的机器上
 
-**早期单机架构**
+**早期单体架构**
 
 ![](http://images.hellocode.top/ECunL1AbSg3Uo7t.png)
 
@@ -94,7 +98,7 @@ category:
 
 ![](http://images.hellocode.top/a8VOu7BXiYRHgpF.png)
 
-#### 架构演进
+### 3、架构演进
 
 ![](http://images.hellocode.top/P92DAWIrR4tJUQo.png)
 
@@ -118,9 +122,11 @@ category:
 
 ![](http://images.hellocode.top/ew4Rf68HXk2u3aE.png)
 
-### 快速入门
+## 二、快速入门
 
-#### 概述
+### 1、概述
+
+#### 1.1. Dubbo
 
 **概念**
 
@@ -140,9 +146,9 @@ category:
 - Registry：服务注册与发现的注册中心
 - Monitor：统计服务的调用次数和调用时间的监控中心
 
-**Zookeeper**
+#### 1.2. Zookeeper
 
-*下载安装*
+**下载安装**
 
 - Dubbo官方推荐使用Zookeeper作为注册中心（默认端口2181）
 
@@ -162,9 +168,10 @@ category:
   ```
 
 - 将tar包解压到/opt/zooKeeper目录下（建议）
+  
   `tar -zxvf apache-ZooKeeper-3.5.6-bin.tar.gz`
 
-*配置启动*
+**配置启动**
 
 - 配置zoo.cfg（初始的zoo_sample.cfg并不生效，需要改名为zoo.cfg）
 
@@ -199,7 +206,7 @@ category:
   ./zkServer.sh status
   ```
 
-#### 快速入门
+### 2、代码实现
 
 **实现步骤**
 
@@ -244,7 +251,7 @@ category:
         <version>1.7.21</version>
     </dependency>
 
-    <!--dubbo的起步依赖，版本2.7之后统一为rg.apache.dubb-->
+    <!--dubbo的起步依赖，版本2.7之后统一为org.apache.dubbo-->
     <dependency>
         <groupId>org.apache.dubbo</groupId>
         <artifactId>dubbo</artifactId>
@@ -360,10 +367,11 @@ log4j.logger.java.sql.PreparedStatement=DEBUG
 
 **服务消费者：dubbo-web**
 
-- `@Reference`：远程注入注解（可以类比本地注入@Autowired理解）
-  - 从zookeeper注册中心获取userService的访问url
-  - 进行远程调用RPC
-  - 将结果封装为一个代理对象，给变量赋值
+`@Reference`：远程注入注解（可以类比本地注入@Autowired理解）
+
+- 从zookeeper注册中心获取userService的访问url
+- 进行远程调用RPC
+- 将结果封装为一个代理对象，给变量赋值
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -421,9 +429,9 @@ log4j.logger.java.sql.PreparedStatement=DEBUG
   - 在controller中创建对应service中的接口，方法保持一致
   - 提取一个接口模块，将接口抽取出来，再通过maven依赖将接口依赖给所需要的模块（推荐）
 
-### 高级特性
+## 三、高级特性
 
-#### dubbo-admin
+### 1、dubbo-admin
 
 - dubbo-damin 管理平台，是图形化的服务管理平台
 - 从注册中心中获取到所有的提供者/消费者进行配置管理
@@ -449,13 +457,17 @@ log4j.logger.java.sql.PreparedStatement=DEBUG
    - admin.metadata-report.address 元数据中心
 
 4. 打包项目
+   
    在dubbo-admin-develop目录调出cmd窗口执行命令`mvn clean package`
+   
 5. 启动后端
    - 切换到目录`dubbo-admin-develop\dubbo-admin-distribution\target`
    - 执行命令`java -jar .\dubbo-admin-0.4.0.jar`启动dubbo-admin对应的jar文件
+
 6. 前台后端
    - 切换到目录`dubbo-admin-develop\dubbo-admin-ui`
    - 执行命令`nmp run dev`
+
 7. 访问
    - 浏览器输入`http://localhost:8081`
    - 默认用户名密码均为root
@@ -470,7 +482,7 @@ log4j.logger.java.sql.PreparedStatement=DEBUG
 >
 > 重新启动生产者，再次打开dubbo-admin，这样元数据信息就出来了
 
-#### 序列化
+### 2、序列化
 
 **两个机器传输数据，如何传输Java对象？**
 
@@ -484,7 +496,7 @@ log4j.logger.java.sql.PreparedStatement=DEBUG
 
 实现Serializable接口之后，需要传输对象时，只需要在生产者对应服务（方法）中return即可（具体序列化与反序列化过程dubbo框架内部封装了）
 
-#### 地址缓存
+### 3、地址缓存
 
 **注册中心挂了，服务是否可以正常访问？**
 
@@ -493,7 +505,7 @@ log4j.logger.java.sql.PreparedStatement=DEBUG
 
 > 也就是说，如果zookeeper因为意外故障导致服务停止的话，也不会影响旧功能的运行，对应的服务提供者地址都是有缓存的，如果不变更或新增，都不会影响使用
 
-#### 超时与重试
+### 4、超时与重试
 
 **超时**
 
@@ -517,7 +529,7 @@ log4j.logger.java.sql.PreparedStatement=DEBUG
 
 `@Service(timeout = 3000, retries = 2)`          当前服务3秒超时，重试2次，一共三次
 
-#### 多版本
+### 5、多版本
 
 ![](http://images.hellocode.top/l7i9MIDJgvV1Efu.png)
 
@@ -532,7 +544,7 @@ log4j.logger.java.sql.PreparedStatement=DEBUG
 
 ![](http://images.hellocode.top/K9O3Rsdu6BYkTZp.png)
 
-#### 负载均衡
+### 6、负载均衡
 
 > dubbo一共提供四种负载均衡的策略
 
@@ -552,15 +564,15 @@ log4j.logger.java.sql.PreparedStatement=DEBUG
 
 > 权重在服务提供者，`@Service`注解中，有一个weight属性，可对权重进行设置
 
-- 负载均衡的策略需要在消费者远程注入处指定（`@Reference`）注解中，通过loadbalance属性进行指定
+负载均衡的策略需要在消费者远程注入处指定（`@Reference`）注解中，通过loadbalance属性进行指定
 
 ![](http://images.hellocode.top/Q7Nf8twodmkbHeK.png)
 
-- 对应的策略值可以根据抽象类中的常量值查看，按两次shift搜索AbstractLoadBalance，查看对应的实现类
+对应的策略值可以根据抽象类中的常量值查看，按两次shift搜索AbstractLoadBalance，查看对应的实现类
 
 ![](http://images.hellocode.top/uvgMH2Ze57xtTzL.png)
 
-#### 集群容错
+### 7、集群容错
 
 ![](http://images.hellocode.top/9cuLBRaA76WYjbG.png)
 
@@ -586,9 +598,9 @@ log4j.logger.java.sql.PreparedStatement=DEBUG
 
 ![](http://images.hellocode.top/qpJbHuMFv1XAGIV.png)
 
-#### 服务降级
+### 8、服务降级
 
-- 可以通过服务降级功能临时屏蔽某个出错的非关键服务，并定义降级后的返回策略（如下图的广告和日志服务，属于非关键服务）
+> 可以通过服务降级功能临时屏蔽某个出错的非关键服务，并定义降级后的返回策略（如下图的广告和日志服务，属于非关键服务）
 
 ![](http://images.hellocode.top/TPnzkl3FgMLE8cH.png)
 

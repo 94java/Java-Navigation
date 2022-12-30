@@ -7,10 +7,10 @@ category:
 
 # MyBatis-Plus
 
-## 入门案例
+## 一、入门案例
 
 - MyBatisPlus（简称MP）是基于MyBatis框架基础上开发的增强型工具，旨在简化开发，提高效率
-- 官网：https://mybatis.plus    https://mp.baomidou.com
+- 官网：https://mybatis.plus、https://mp.baomidou.com
 
 **特性**
 
@@ -68,9 +68,9 @@ category:
 
 7. 测试类中注入dao接口，测试功能
 
-## 标准数据层开发
+## 二、标准数据层开发
 
-### 标准CRUD功能
+### 1、标准CRUD功能
 
 | 功能       | 自定义接口                               | MP接口                                         |
 | ---------- | ---------------------------------------- | ---------------------------------------------- |
@@ -82,7 +82,7 @@ category:
 | 分页查询   | `PageInfo<T> getAll(int page, int size)` | `IPage<T> selectPage(IPage<T> page)`           |
 | 按条件查询 | `List<T> getAll(Condition condition)`    | `Ipage<T> selectPage(Wrapper<T> queryWrapper)` |
 
-### lombok
+### 2、lombok
 
 - Lombok，是一个Java类库，提供了一组注解，简化POJO实体类开发
 
@@ -117,7 +117,7 @@ public class User {
 
 > Data注解可以代替上述除构造方法以外的所有注解
 
-### 分页功能
+### 3、分页功能
 
 1. 设置分页拦截器作为Spring管理的bean
 
@@ -158,13 +158,13 @@ public class User {
        log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
    ```
 
-## DQL编程控制
+## 三、DQL编程控制
 
-### 条件查询方式
+### 1、条件查询方式
 
-- MyBatisPlus将书写复杂的sql查询条件进行了封装，使用编程的形式完成查询条件的组合
+> MyBatisPlus将书写复杂的sql查询条件进行了封装，使用编程的形式完成查询条件的组合
 
-#### 三种查询方式
+#### 1.1. 三种查询方式
 
 **方式一：按条件查询**
 
@@ -207,7 +207,7 @@ void testGetAll3(){
 }
 ```
 
-#### 或者条件
+#### 1.2. 或者条件
 
 ```java
 @Test
@@ -223,9 +223,9 @@ void testGetAll3(){
 
 > 不加`.or()`默认为并且关系
 
-#### null值处理
+#### 1.3. null值处理
 
-- 当只设置了部分查询条件时使用
+> 当只设置了部分查询条件时使用
 
 ```java
 @Test
@@ -245,7 +245,7 @@ void testGetAll4(){
 
 > 查询操作的第一个参数为条件，为true时进行条件判断，为false则不进行条件判断
 
-### 查询投影
+### 2、查询投影
 
 ```java
 // 查询投影
@@ -278,7 +278,7 @@ void testGetAll6(){
 
 > 这里如果继续使用`selectList`查询会将结果封装到User中，而导致封装失败，所以需要使用`selectMaps`将结果封装到Map中
 
-### 查询条件设定
+### 3、查询条件设定
 
 **查询条件**
 
@@ -331,7 +331,7 @@ void testGetAll9(){
 
 > `like`会在匹配字左右都加上`%`，`likeLeft`和`likeRight`则分别在匹配字左或者you
 
-### 字段映射与表名映射
+### 4、字段映射与表名映射
 
 **问题一：表字段与编码属性设计不同步**
 
@@ -359,17 +359,17 @@ void testGetAll9(){
 
 **问题二：编码中添加了数据库中未定义的属性**
 
-- 使用`@TableField`中的`exist`属性解决该问题，设置属性在数据库表字段中是否存在
-  - false表示表字段中没有该属性
-  - true表示表字段中有该属性（默认）
-  - 此属性无法与value合并使用
+使用`@TableField`中的`exist`属性解决该问题，设置属性在数据库表字段中是否存在
+- false表示表字段中没有该属性
+- true表示表字段中有该属性（默认）
+- 此属性无法与value合并使用
 
 **问题三：采用默认查询开放了更多的字段查看权限**
 
-- 使用`@TableField`中的`select`属性解决该问题，设置属性是否参与查询
-  - 默认为true，参与查询
-  - false为不参与查询
-  - 此属性与select()映射配置不冲突
+使用`@TableField`中的`select`属性解决该问题，设置属性是否参与查询
+- 默认为true，参与查询
+- false为不参与查询
+- 此属性与select()映射配置不冲突
 
 **问题四：表名与编码开发设计不同步**
 
@@ -396,18 +396,18 @@ void testGetAll9(){
 
 > 可以在全局配置文件中配置统一的表名前缀，就能够省略该注解：`table-prefix`
 
-## DML编程控制
+## 四、DML编程控制
 
-### Insert
+### 1、Insert
 
 **id生成策略控制**
 
-- 不同的表应用不同的id生成策略
-  - 日志：自增（1，2，3，4，......）
-  - 购物订单：特殊规则（FQ23948AK3843）
-  - 外卖单：关联地区日期等信息（10 04 20200314 34 91）
-  - 关系表：可省略id
-  - ..........
+不同的表应用不同的id生成策略
+- 日志：自增（1，2，3，4，......）
+- 购物订单：特殊规则（FQ23948AK3843）
+- 外卖单：关联地区日期等信息（10 04 20200314 34 91）
+- 关系表：可省略id
+- ..........
 
 **注解**
 
@@ -444,7 +444,7 @@ void testGetAll9(){
 
 > 可以在application.xml中对所有类主键id生成策略做全局配置：`id-type`
 
-### Delete
+### 2、Delete
 
 **多记录操作**
 
@@ -492,11 +492,12 @@ void testGetAll9(){
 >
 > 如果需要查询所有数据（包括被删除数据），需要自己编写sql语句
 
-### Update
+### 3、Update
 
 **乐观锁**
 
 - 业务并发现象带来的问题：秒杀
+  
   当一个库存为100的商品被多个用户秒杀，如果降为1个库存，不加锁的情况下，多个用户操作将会导致并发问题
 
 *步骤*
@@ -521,7 +522,7 @@ void testGetAll9(){
 
 > 实现就是通过拦截器拼接对锁标记字段的操作和判断，例如：`update set abc = 1, version = version + 1 where id = 1 AND version = 1` 
 
-## 代码生成器
+## 五、代码生成器
 
 - 模板：MyBatisPlus提供
 - 数据库相关配置：读取数据库获取信息
