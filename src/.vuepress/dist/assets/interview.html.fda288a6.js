@@ -1,1 +1,0 @@
-import{_ as t}from"./_plugin-vue_export-helper.cdc0426e.js";import{o as r,c as a,a as e,b as o}from"./app.06c65d72.js";const c={},n=e("h1",{id:"面试宝典",tabindex:"-1"},[e("a",{class:"header-anchor",href:"#面试宝典","aria-hidden":"true"},"#"),o(" 面试宝典")],-1),s=[n];function i(_,d){return r(),a("div",null,s)}const f=t(c,[["render",i],["__file","interview.html.vue"]]);export{f as default};

@@ -533,6 +533,158 @@ SELECT * FROM product LIMIT 6, 3;
 > 第三页：从6索引开始，显示3个（6，7，8）
 > ...........
 
+### DCL
+
+`DCL`英文全称是`Data Control Language`(数据控制语言)，用来管理数据库用户、控制数据库的访问权限
+
+> 这类`SQL`开发人员操作的比较少，主要是`DBA`（ `Database Administrator` 数据库管理员）使用
+
+#### 管理用户
+
+**查询用户**
+
+```sql
+USE mysql;
+SELECT * FROM user;
+```
+
+**创建用户**
+
+```sql
+CREATE USER '用户名'@'主机名' IDENTIFIED BY '密码';
+```
+
+**修改用户密码**
+
+```sql
+ALERT USER '用户名'@'主机名' IDENTIFIED WITH mysql_native_password BY '新密码';
+```
+
+**删除用户**
+
+```sql
+DROP USER '用户名'@'主机名';
+```
+
+**注意**
+
+- 主机名可以使用`%`通配
+
+#### 权限控制
+
+MySQL中定义了很多种权限，但是常用的就以下几种：
+
+| 权限                | 说明               |
+| ------------------- | ------------------ |
+| all, all privileges | 所有权限           |
+| select              | 查询数据           |
+| insert              | 插入数据           |
+| update              | 修改数据           |
+| delete              | 删除数据           |
+| alter               | 修改表             |
+| drop                | 删除数据库/表/视图 |
+| create              | 创建数据库/表      |
+
+上述只是简单罗列了常见的几种权限描述，其他权限描述及含义，可以直接参考官方文档
+
+**查询权限**
+
+```sql
+SHOW GRANTS FOR '用户名'@'主机名';
+```
+
+**授予权限**
+
+```sql
+GRANT 权限列表 ON 数据库名.表名 TO '用户名'@'主机名';
+```
+
+**撤销权限**
+
+```sql
+REVOKE 权限列表 ON 数据库名.表名 FROM '用户名'@'主机名';
+```
+
+**注意**
+
+- 多个权限之间，使用逗号分隔
+- 授权时，数据库名和表名可以使用`*`进行通配，代表所有
+
+### 函数
+
+> 函数是指一段可以直接被另一端程序调用的程序或代码。聚合函数也是函数的一种
+
+**调用方法**
+
+`SELECT 函数();`
+
+#### 字符串函数
+
+MySQL中内置了很多字符串函数，常用的几个如下：
+
+![img](http://images.hellocode.top/20b85d21d32b4127a2af4d4dbb3e2ce2.png)
+
+```sql
+SELECT CONCAT('Hello ','MySQL');    -- Hello MySQL
+
+SELECT LOWER('Hello');		-- hello
+SELECT UPPER('Hello');		-- HELLO
+
+SELECT LPAD('abc',5,'.');		-- ..abc
+SELECT RPAD('abc',5,'.');		-- abc..
+
+SELECT TRIM(' Hello Mysql ');		-- Hello Mysql
+
+SELECT SUBSTRING('HelloCode',2,4);		-- ello
+
+-- 由于业务需求的变更，企业员工的工号，统一为5位数，目前不足5位数的全部在前面补0
+update emp set workno = lpad(workno, 5, '0');
+```
+
+**注意**
+
+- `TRIM`函数只去除头部和尾部空格，字符串之间的空格不会去除
+- `SUBSTRING`函数索引是从1开始的
+
+#### 数值函数
+
+![img](http://images.hellocode.top/08cdada06eee4db487766a56a16bae95.png)
+
+```sql
+SELECT CEIL(1.1);		-- 2
+SELECT FLOOR(1.9);		-- 1
+SELECT MOD(6, 4);		-- 2
+SELECT RAND();		-- 随机数（0~1）
+SELECT ROUND(2.345, 2);		-- 2.35
+
+-- 通过数据库的函数，生成一个六位数的随机验证码
+SELECT LPAD(ROUND(RAND()*1000000, 0), 6, '0');
+```
+
+#### 日期函数
+
+![img](http://images.hellocode.top/e76dd623f2674db3b01c593dfe865790.png)
+
+```sql
+SELECT CURDATE();		-- 2023-01-15
+SELECT CURTIME();		-- 21:47:16
+SELECT NOW();		-- 2023-01-15 21:48:15
+
+SELECT YEAR(NOW());		-- 2023
+SELECT MONTH(NOW());		-- 1
+SELECT DAY(NOW());		-- 15
+
+SELECT DATE_ADD(NOW(), INTERVAL 70 DAY);		-- 2023-03-26 21:51:07
+SELECT DATEDIFF('2023-1-15', '2022-10-30');		-- 77
+
+-- 查询所有员工的入职天数，并根据入职天数倒序排序
+select name, datediff(curdate(), entrydate) as 'entrydays' from emp order by entrydays desc;
+```
+
+#### 流程函数
+
+![img](http://images.hellocode.top/2618b1593f8f43f29b04704623bc20ae.png)
+
 ### 约束
 
 - 什么是约束

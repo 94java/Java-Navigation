@@ -396,6 +396,77 @@ void testGetAll9(){
 
 > 可以在全局配置文件中配置统一的表名前缀，就能够省略该注解：`table-prefix`
 
+### 5、公共字段自动填充
+
+#### 5.1. 问题分析
+
+在企业开发中，很多时候每个表都会有一些公共字段，可以在建表时指定默认值，也可以通过MP完成公共字段自动填充
+
+![image-20210801085103062](http://images.hellocode.top/image-20210801085103062.png) 
+
+
+
+#### 5.2. 思路分析
+
+Mybatis Plus公共字段自动填充，也就是在插入或者更新的时候为指定字段赋予指定的值，使用它的好处就是可以统一对这些字段进行处理，避免了重复代码。在上述的分析中，我们提到有四个公共字段，需要在新增/更新中进行赋值操作, 具体情况如下: 
+
+| 字段名     | 赋值时机                    | 说明           |
+| ---------- | --------------------------- | -------------- |
+| createTime | 插入(INSERT)                | 当前时间       |
+| updateTime | 插入(INSERT) , 更新(UPDATE) | 当前时间       |
+| createUser | 插入(INSERT)                | 当前登录用户ID |
+| updateUser | 插入(INSERT) , 更新(UPDATE) | 当前登录用户ID |
+
+实现步骤：
+
+1. 在实体类的属性上加入@TableField注解，指定自动填充的策略。
+
+2. 按照框架要求编写元数据对象处理器，在此类中统一为公共字段赋值，此类需要实现MetaObjectHandler接口。
+
+#### 5.3. 代码实现
+
+1). 实体类的属性上加入`@TableField`注解，指定自动填充的策略
+
+<img src="http://images.hellocode.top/image-20210801092157093.png" alt="image-20210801092157093" style="zoom:80%;" /> 
+
+> FieldFill.INSERT: 插入时填充该属性值
+>
+> FieldFill.INSERT_UPDATE: 插入/更新时填充该属性值
+
+2). 按照框架要求编写元数据对象处理器，在此类中统一为公共字段赋值，此类需要实现`MetaObjectHandler`接口
+
+```java
+/**
+ * 自定义元数据对象处理器
+ */
+@Component
+public class MyMetaObjecthandler implements MetaObjectHandler {
+    /**
+     * 插入操作，自动填充
+     * @param metaObject
+     */
+    @Override
+    public void insertFill(MetaObject metaObject) {
+        metaObject.setValue("createTime", LocalDateTime.now());
+        metaObject.setValue("updateTime",LocalDateTime.now());
+        // 这里id可以使用ThreadLocal动态获取
+        metaObject.setValue("createUser",new Long(1));
+        metaObject.setValue("updateUser",new Long(1));
+    }
+
+    /**
+     * 更新操作，自动填充
+     * @param metaObject
+     */
+    @Override
+    public void updateFill(MetaObject metaObject) {
+        metaObject.setValue("updateTime",LocalDateTime.now());
+        metaObject.setValue("updateUser",new Long(1));
+    }
+}
+```
+
+
 ## 四、DML编程控制
 
 ### 1、Insert

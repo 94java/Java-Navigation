@@ -1,1 +1,0 @@
-const e=JSON.parse('{"key":"v-1b4f9756","path":"/md/front/es6.html","title":"ES6","lang":"zh-CN","frontmatter":{"title":"ES6","order":9,"category":["前端"]},"excerpt":"","headers":[],"git":{"createdTime":null,"updatedTime":null,"contributors":[]},"readingTime":{"minutes":0.03,"words":8},"copyright":"著作权归HelloCode.所有","filePathRelative":"md/front/es6.md"}');export{e as data};
