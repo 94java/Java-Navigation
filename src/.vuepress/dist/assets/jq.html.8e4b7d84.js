@@ -1,1 +1,0 @@
-import{_ as r}from"./_plugin-vue_export-helper.cdc0426e.js";import{o as t,c as a,a as e,b as o}from"./app.d1f70aa1.js";const c={},s=e("h1",{id:"jquery",tabindex:"-1"},[e("a",{class:"header-anchor",href:"#jquery","aria-hidden":"true"},"#"),o(" jQuery")],-1),n=[s];function _(d,i){return t(),a("div",null,n)}const f=r(c,[["render",_],["__file","jq.html.vue"]]);export{f as default};

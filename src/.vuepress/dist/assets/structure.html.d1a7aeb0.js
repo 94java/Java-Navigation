@@ -1,1 +1,0 @@
-import{_ as t}from"./_plugin-vue_export-helper.cdc0426e.js";import{o as r,c as a,a as e,b as c}from"./app.d1f70aa1.js";const o={},s=e("h1",{id:"数据结构",tabindex:"-1"},[e("a",{class:"header-anchor",href:"#数据结构","aria-hidden":"true"},"#"),c(" 数据结构")],-1),n=[s];function _(d,i){return r(),a("div",null,n)}const u=t(o,[["render",_],["__file","structure.html.vue"]]);export{u as default};
